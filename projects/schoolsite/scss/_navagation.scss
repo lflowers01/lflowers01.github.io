@@ -1,0 +1,168 @@
+.nav {
+  width: 100%;
+  height: 80px;
+  background: $black;
+  box-shadow: 0px 4px 4px rgba(37, 36, 40, 0.2);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  a:not(.active) {
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    height: 40px;
+    color: $white;
+    border-radius: 50px;
+    transition: all 250ms ease-in-out;
+  }
+
+  .active {
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    color: $black;
+    height: 40px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    background: $white;
+    box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.15);
+    border-radius: 50px;
+  }
+
+  a:hover:not(.active) {
+    filter: drop-shadow(0px 0px 8px rgba(255, 251, 229, 0.25));
+    border-radius: 50px;
+    outline: 4px solid $white;
+    outline-offset: -4px;
+    transition: all 250ms ease-in-out;
+    scale: 1.075;
+  }
+  a:not(:hover) {
+    filter: drop-shadow(0px 0px 8px rgba(255, 251, 229, 0));
+    border-radius: 50px;
+    outline: 2px solid transparent;
+    outline-offset: -4px;
+    transition: all 100ms ease-out;
+    scale: 1;
+  }
+  a:active:not(.active) {
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    background: $white;
+    box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.15);
+    color: $black;
+    transition: all 100ms ease-in;
+    scale: 0.9975;
+  }
+}
+
+.logo {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  background: linear-gradient(103.55deg, $red 0%, $orange 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 250ms ease-in-out;
+  transform: translateY(var(--y));
+  &:hover {
+    scale: 1.075;
+    text-shadow: 0px 0px 32px $red;
+    filter: hue-rotate(-15deg);
+  }
+  &:not(:hover) {
+    scale: 1;
+    transition: all 100ms ease-out;
+    text-shadow: 0px 0px 16px $red;
+    filter: hue-rotate(0deg);
+  }
+  &:active {
+    scale: 1;
+    transition: all 100ms ease-out;
+    text-shadow: 0px 0px 16px $red;
+    filter: hue-rotate(0deg);
+    --y: 1px;
+  }
+}
+
+.button {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: $white;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(107.61deg, $red 0%, $orange 100%);
+  box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 50px;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  height: 40px;
+  transition: all 250ms ease-in-out;
+  transform: translateY(var(--y));
+
+  &:hover {
+    box-shadow: inset -2px -2px 1px rgba(0, 0, 0, 0.25);
+    text-shadow: 0px 0px 4px rgba(255, 255, 255, 0.25);
+    scale: 1.075;
+    filter: hue-rotate(-15deg);
+    --y: -2px;
+  }
+  &:not(:hover) {
+    --y: 0
+    box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.15);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    scale: 1;
+    transition: all 100ms ease-out;
+    filter: hue-rotate(0deg);
+  }
+  &:active {
+    transition: all 50ms ease-in;
+    --y: 1px;
+    scale: 0.9975;
+    box-shadow: inset 0px 4px 1px rgba(0, 0, 0, 0.15);
+    text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    opacity: 0.9;
+    border-radius: 50px;
+  }
+}

@@ -1,0 +1,44 @@
+.component1-container {
+  width: 100%;
+  height: 25px;
+  display: flex;
+  position: relative;
+  align-self: center;
+  align-items: center;
+  border-color: #ffffff;
+  border-style: ridge;
+  border-width: 4px;
+  justify-content: flex-start;
+  background-color: #277ef5;
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+}
+.component1-image {
+  width: auto;
+  height: 65%;
+  object-fit: cover;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.component1-text {
+  color: #ffffff;
+  font-size: 12px;
+  align-self: center;
+  font-style: normal;
+  text-align: left;
+  font-family: Red Hat Mono;
+  font-weight: 500;
+  margin-left: 0px;
+}
+.component1-image1 {
+  top: 2px;
+  right: 0px;
+  width: auto;
+  height: 80%;
+  position: absolute;
+  object-fit: cover;
+  margin-right: 4px;
+}
+
+
