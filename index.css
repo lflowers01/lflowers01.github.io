@@ -112,7 +112,7 @@
   font-size: 12px;
   font-style: normal;
   text-align: left;
-  transition: 0.3s;
+  transition: 0s;
   font-family: Red Hat Mono;
   font-weight: 500;
   text-decoration: none;
@@ -150,7 +150,7 @@
   font-size: 12px;
   font-style: normal;
   text-align: left;
-  transition: 0.3s;
+  transition: 0s;
   font-family: Red Hat Mono;
   font-weight: 500;
   text-decoration: none;
@@ -251,7 +251,7 @@
   color: rgb(255, 255, 255);
   font-size: 12px;
   text-align: left;
-  transition: 0.3s;
+  transition: 0s;
   font-family: Red Hat Mono;
   font-weight: 500;
   text-decoration: none;
@@ -270,13 +270,13 @@
   font-size: 12px;
   font-style: normal;
   text-align: left;
-  transition: 0.3s;
+  transition: 0s;
   font-family: Red Hat Mono;
   font-weight: 500;
   text-decoration: none;
 }
 .home-navlink1:hover {
-  opacity: 0.75;
+  opacity: 0.75
 }
 .home-navlink1:active {
   font-style: normal;
@@ -287,7 +287,7 @@
   font-size: 12px;
   font-style: normal;
   text-align: left;
-  transition: 0.3s;
+  transition: 0s;
   font-family: Red Hat Mono;
   font-weight: 500;
 }

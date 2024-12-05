@@ -13,11 +13,13 @@ b {
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
-  text-decoration: none;
-  transition: all;
-  transition-timing-function: ease-in-out;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
 }
+
+
 
 body {
   animation: fadeInAnimation ease 1s;
@@ -83,7 +85,7 @@ body {
   height: 40px;
   color: hsl(197, 0%, 97%);
   border-radius: 50px;
-  transition: all 250ms ease-in-out;
+
 }
 .links .active {
   font-family: "Nunito";
@@ -110,7 +112,6 @@ body {
   border-radius: 50px;
   outline: 4px solid hsl(197, 0%, 97%);
   outline-offset: -4px;
-  transition: all 250ms ease-in-out;
   scale: 1.075;
 }
 .links a:not(:hover) {
@@ -118,7 +119,6 @@ body {
   border-radius: 50px;
   outline: 2px solid transparent;
   outline-offset: -4px;
-  transition: all 100ms ease-out;
   scale: 1;
 }
 .links a:active:not(.active) {
@@ -126,7 +126,6 @@ body {
   background: hsl(197, 0%, 97%);
   box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.15);
   color: hsl(243, 0%, 15%);
-  transition: all 100ms ease-in;
   scale: 0.9975;
 }
 
@@ -145,7 +144,6 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  transition: all 250ms ease-in-out;
   transform: translateY(var(--y));
 }
 .logo:hover {
@@ -155,13 +153,11 @@ body {
 }
 .logo:not(:hover) {
   scale: 1;
-  transition: all 100ms ease-out;
   text-shadow: 0px 0px 16px #544de5;
   filter: hue-rotate(0deg);
 }
 .logo:active {
   scale: 1;
-  transition: all 100ms ease-out;
   text-shadow: 0px 0px 16px #544de5;
   filter: hue-rotate(0deg);
   --y: 1px;
@@ -186,7 +182,6 @@ body {
   margin-left: 1rem;
   margin-right: 1rem;
   height: 40px;
-  transition: all 250ms ease-in-out;
   transform: translateY(var(--y));
 }
 .button:hover {
@@ -201,11 +196,10 @@ body {
   box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.15);
   text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
   scale: 1;
-  transition: all 100ms ease-out;
   filter: hue-rotate(0deg);
 }
 .button:active {
-  transition: all 50ms ease-in;
+
   --y: 1px;
   scale: 0.9975;
   box-shadow: inset 0px 4px 1px rgba(0, 0, 0, 0.15);
@@ -227,7 +221,6 @@ body {
   font-size: 30px;
   text-align: center;
   text-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
-  transition: all 200ms ease-in-out;
 }
 .header:hover {
   text-shadow: 0px 0px 32px rgba(0, 0, 0, 0.5);
@@ -267,7 +260,6 @@ main ul li {
   font-size: 16px;
   margin: 10px;
   padding: 0;
-  transition: all 200ms ease-in-out;
 }
 main ul li:hover {
   scale: 1.1;
@@ -285,7 +277,6 @@ main * {
 }
 main .email {
   color: #544de5;
-  transition: all 300ms ease-in-out;
 }
 main .email:hover {
   text-shadow: 0px 0px 20px #544de5;
@@ -295,7 +286,7 @@ main .email:not(:hover) {
 }
 main .img {
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
-  transition: all 300ms ease-in-out;
+
 }
 main .img:not(.albumb-cover) {
   border-radius: 25px;
@@ -304,9 +295,7 @@ main .img:hover {
   scale: 1.1;
   box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.5);
 }
-main img:not(.pdf):not(.img) {
-  transition: all 50ms ease-in-out;
-}
+
 main img:not(.pdf):not(.img):hover:not(.img) {
   scale: 2;
   border-radius: 40px;
@@ -346,14 +335,12 @@ main p {
 .song {
   margin: 0;
   padding: 0;
-  transition: all 250ms ease-in-out;
 }
 .song:hover {
   scale: 1.05;
   filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
 }
 .song:not(:hover) {
-  transition: all 100ms ease-in-out;
   scale: 1;
   filter: drop-shadow(4px 4px 2px rgba(0, 0, 0, 0.15));
 }
