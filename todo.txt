@@ -1,0 +1,9 @@
+make mobile compatable - mostly done
+dark mode button - done, update visuals
+
+fill in projects / activities sections
+add screenshots to projects section ?
+add music player ?
+add drawings / designs portfolio section
+figure out navigation
+easter eggs ?

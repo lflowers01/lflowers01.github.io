@@ -1,0 +1,358 @@
+@import "carousel";
+
+$link-color: navy;
+$heading-color: black;
+$x-margin: 5px;
+
+.window-body {
+  overflow: auto !important;
+}
+
+@font-face {
+  font-family: "FreePixel";
+  src: url("../assets/fonts/FreePixel.ttf");
+}
+
+@font-face {
+  font-family: "pxplus";
+  src: url("../assets/fonts/pxplus.ttf");
+}
+
+h2 {
+  font-size: 18px;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+h1,
+h2 {
+  color: $heading-color;
+  font-family: "FreePixel" !important;
+  font-weight: bold;
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: $link-color;
+  text-underline-offset: 5px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+
+  body.dark-mode & {
+    text-decoration-color: darkmagenta;
+    color: white;
+  }
+}
+
+.wrapper {
+  padding-left: 5px;
+}
+
+.wrapper.layout-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; // Two columns: left (text) and right (carousel + links)
+  grid-template-rows: auto 1fr; // Two rows for the right column
+  gap: 1rem;
+  align-items: start; // Align items in the grid to the top
+}
+
+.text-body {
+  grid-column: 1 / 2; // Full left column
+  grid-row: 1 / 3; // Spans both rows
+}
+
+.carousel-container {
+  grid-column: 2 / 3; // Right column
+  grid-row: 1 / 2; // First row
+}
+
+p {
+  padding-left: 5px;
+  width: fit-content;
+  line-height: 1.6;
+  margin: 0;
+  margin-top: 0.5rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+#external-links {
+  margin-left: 5px; // Remove margin: auto
+  display: flex;
+  flex-direction: column; // Stack items vertically
+
+  * a {
+    position: relative;
+    display: inline-block;
+    padding-right: 3px;
+  }
+
+  * ul {
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: block; // Ensure items are stacked vertically
+      padding: 0.25rem 0; // Add spacing between items
+    }
+  }
+
+  grid-column: 2 / 3; // Right column
+  grid-row: 2 / 3; // Second row
+  align-self: start; // Ensure it sticks to the top of its grid section
+  justify-self: center; // Center horizontally within its grid section
+  margin: 0; // Remove all margins to ensure proper alignment
+  width: fit-content; // Adjust width to fit content
+}
+
+#active {
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a,
+    inset -2px -2px #dfdfdf, inset 2px 2px grey !important;
+  text-shadow: 1px 1px #222 !important;
+}
+
+.title-bar {
+  background: #000080;
+}
+
+body {
+  margin: auto;
+  width: fit-content;
+  background-color: #108483;
+  color: black;
+  &.dark-mode {
+    background-image: url("../assets/background.gif");
+    background-attachment: fixed;
+    color: whtie;
+  }
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  cursor: url("../assets/cursors/default.png"), auto;
+
+  button:hover,
+  a:hover {
+    cursor: url("../assets/cursors/point.png"), pointer;
+    text-decoration: none;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+fieldset {
+  width: min-content;
+}
+
+.icon {
+  width: 1.25rem;
+  vertical-align: middle;
+  padding: 0.5rem;
+}
+
+#header {
+  display: flex;
+  justify-content: center;
+  align-items: center; // Ensure vertical alignment if needed
+  width: max-content;
+  position: sticky;
+  top: 0;
+  background-color: transparent;
+
+  & .window-body button {
+    margin: 0rem 0.5rem;
+  }
+
+  @media only screen and (max-width: 670px) {
+    grid-auto-flow: row;
+    grid-auto-columns: fit-content(100%);
+
+    justify-content: center;
+  }
+
+  *#nav,
+  #external-links {
+    justify-content: center;
+
+    max-width: fit-content;
+    min-width: min-content;
+  }
+}
+
+#container {
+  max-width: 850px;
+  width: calc(100% - calc($x-margin * 3));
+  margin-top: $x-margin;
+
+  * ul {
+    padding: 0;
+    padding-right: 0.5rem;
+    list-style: none;
+
+    li {
+      padding: 0rem 0.5rem 0.5rem 0.5rem;
+    }
+  }
+  a {
+    color: $link-color;
+    body.dark-mode & {
+      color: magenta;
+    }
+  }
+}
+
+#dark-mode-toggle {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.window {
+  margin: 0 5px;
+  margin-top: 5px;
+
+  body.dark-mode & {
+    background: black;
+    color: white;
+    box-shadow: inset -1px -1px rgb(35, 35, 35), inset 1px 1px dimgray,
+      inset -2px -2px dimgray, inset 2px 2px rgb(65, 65, 65) !important;
+  }
+}
+
+.title-bar {
+  body.dark-mode & {
+    background: magenta;
+    outline: 1px solid dimgray;
+    color: white;
+  }
+}
+
+.carousel-description {
+  body.dark-mode & {
+    background: black;
+  }
+}
+
+button {
+  body.dark-mode & {
+    background: rgb(50, 50, 50);
+    color: white;
+    box-shadow: inset -1px -1px rgb(35, 35, 35), inset 1px 1px dimgray,
+      inset -2px -2px dimgray, inset 2px 2px rgb(65, 65, 65) !important;
+  }
+}
+
+a {
+  body.dark-mode & {
+    color: magenta;
+  }
+}
+
+.active-btn {
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a,
+    inset -2px -2px #dfdfdf, inset 2px 2px grey !important;
+  text-shadow: 1px 1px #222 !important;
+
+  body.dark-mode & {
+    box-shadow: inset -1px -1px rgb(65, 65, 65), inset 1px 1px dimgray,
+      inset -2px -2px gray, inset 2px 2px rgb(35, 35, 35) !important;
+    text-shadow: 1px 1px #222 !important;
+  }
+}
+
+footer {
+  color: black;
+
+  font-family: "FreePixel" !important;
+  font-size: 11px;
+  text-align: center;
+  padding: 10px;
+  padding-bottom: 1rem;
+
+  body.dark-mode & {
+    color: white !important;
+  }
+}
+
+details ul li {
+    list-style: inside;
+    margin-left: 1rem;
+    list-style-type: '– '; /* Change bullet point to '-' */
+}
+
+summary {
+    padding-bottom: 0.5rem;
+    strong {
+        color: $link-color;
+
+        body.dark-mode & {
+            color: magenta;
+        }
+    }
+}
+
+i {
+    color: dimgray;
+    body.dark-mode & {
+        color: gray;
+    }
+}
+
+ul details summary {
+    list-style: none; /* Remove default browser styles */
+    display: inline-block; /* Ensure proper alignment */
+    cursor: pointer; /* Add pointer cursor for better UX */
+}
+
+ul details[open] summary::before {
+    content: '-';
+}
+
+ul details:not([open]) > summary::before {
+    content: '+';
+    display: inline-block; /* Ensure proper alignment */
+    margin-right: 5px; /* Add spacing between icon and text */
+}
+
+ul details > summary::before {
+    background-color: transparent;
+    border: 1px solid grey;
+    content: "+";
+    display: block;
+    float: left;
+    height: 9px;
+    line-height: 8px;
+    margin-right: 5px;
+    padding-left: 1px;
+    text-align: center;
+    width: 8px;
+}
+
+@media only screen and (max-width: 660px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column; // Stack elements vertically
+    align-items: center; // Center the carousel and text
+  }
+
+  h1,
+  h2 {
+    text-align: center; // Center-align the text for better appearance
+  }
+}

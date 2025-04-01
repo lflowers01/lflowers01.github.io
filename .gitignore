@@ -1,0 +1,21 @@
+# IDE and Editor Folders
+.idea/
+.vscode/
+*.swp
+*.swo
+node_modules/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Lock Files
+package-lock.json
+
+# Optional: Exclude specific config files that should not be shared
+# .eslintrc.js
+# .prettierrc
+/node_modules

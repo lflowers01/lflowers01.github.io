@@ -1,0 +1,50 @@
+.carousel-image {
+  height: 200px;
+  display: none; /* Hide all images initially */
+  outline: 1px dotted gray;
+  cursor: url("../assets/cursors/point.png"), pointer;
+}
+
+.carousel-image.active {
+  display: block; /* Only show the active image */
+}
+
+.carousel {
+  display: flex;
+  justify-content: center;
+}
+
+button.prev {
+  left: 10px;
+}
+
+button.next {
+  right: 10px;
+}
+
+.carousel-buttons {
+  display: flex;
+  width: 200px;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.image-carousel {
+  float: right;
+  margin: 1rem;
+}
+
+.carousel-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  margin-top: 10px;
+}
+
+.carousel-counter {
+  text-align: center; /* Center the text inside the counter */
+  font-size: 10px;
+  color: gray;
+  outline: 1px dotted gray;
+  padding: 0px 5px;
+}
