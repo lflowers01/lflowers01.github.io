@@ -11,6 +11,14 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b %ERRORLEVEL%
 )
 
+:: Step 1.1: Copy CNAME file to the dist folder
+echo Copying CNAME file to the dist folder...
+copy CNAME dist\CNAME
+if %ERRORLEVEL% NEQ 0 (
+    echo Failed to copy CNAME file. Exiting deployment process.
+    exit /b %ERRORLEVEL%
+)
+
 :: Step 2: Navigate to the dist folder
 cd dist
 :: Step 3: Initialize a new Git repository in the dist folder
@@ -31,8 +39,8 @@ git push -f origin deployment
 :: Step 6: Clean up
 echo Cleaning up...
 cd ..
-:: Removed the line that deletes the dist folder
-:: rd /s /q dist
+:: Ensure the dist folder is not deleted to retain built .html files
+REM rd /s /q dist
 
 echo Deployment completed successfully!
 pause

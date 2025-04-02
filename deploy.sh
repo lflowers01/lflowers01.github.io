@@ -12,6 +12,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Step 1.1: Copy CNAME file to the dist folder
+echo "Copying CNAME file to the dist folder..."
+cp CNAME dist/CNAME
+if [ $? -ne 0 ]; then
+    echo "Failed to copy CNAME file. Exiting deployment process."
+    exit 1
+fi
+
 # Step 2: Navigate to the dist folder
 cd dist || exit 1
 
@@ -33,5 +41,6 @@ git push -f origin deployment
 # Step 6: Clean up
 echo "Cleaning up..."
 cd ..
+rm -rf dist
 
 echo "Deployment completed successfully!"
