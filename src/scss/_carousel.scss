@@ -1,3 +1,5 @@
+
+
 .carousel-image {
   height: 200px;
   display: none; /* Hide all images initially */
@@ -17,7 +19,6 @@
 button.prev {
   left: 10px;
 }
-
 button.next {
   right: 10px;
 }
@@ -30,15 +31,21 @@ button.next {
 }
 
 .image-carousel {
-  float: right;
-  margin: 1rem;
+    float:right;
+    margin: 1rem;
 }
-
 .carousel-controls {
   display: flex;
   flex-direction: column;
   align-items: center; /* Center items horizontally */
   margin-top: 10px;
+}
+
+.carousel-buttons {
+  display: flex;
+  width: 200px;
+  justify-content: space-around;
+  margin-bottom: 5px; /* Add spacing between buttons and counter */
 }
 
 .carousel-counter {
@@ -47,4 +54,21 @@ button.next {
   color: gray;
   outline: 1px dotted gray;
   padding: 0px 5px;
+}
+@media only screen and (max-width: 660px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column; // Stack elements vertically
+    align-items: center; // Center the carousel and text
+  }
+
+  .carousel {
+    margin-top: 20px; // Add spacing between the text and the carousel
+    width: 100%; // Ensure the carousel takes up the full width
+  }
+
+  h1,
+  h2 {
+    text-align: center; // Center-align the text for better appearance
+  }
 }
