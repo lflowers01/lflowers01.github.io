@@ -1,7 +1,7 @@
 
 Welcome to the repository for my personal website! This is where I showcase my projects, certifications, leadership roles, and activities. I built this site using modern web technologies and host it on GitHub Pages.
 
-## Features
+## What's here?
 
 - **Portfolio**: A collection of my projects with descriptions and images.
 - **Certifications**: A display of my professional certifications with links.
