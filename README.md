@@ -1,4 +1,3 @@
-# My Personal Website
 
 Welcome to the repository for my personal website! This is where I showcase my projects, certifications, leadership roles, and activities. I built this site using modern web technologies and host it on GitHub Pages.
 
