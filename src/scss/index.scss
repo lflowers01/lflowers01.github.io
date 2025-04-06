@@ -76,6 +76,7 @@ body {
 color: black;
   &.dark-mode {
     background-image: url("../assets/background.gif");
+    background-color: black;
     background-attachment: fixed;
     color: whtie;
   }
