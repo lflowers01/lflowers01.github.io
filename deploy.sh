@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Build and deploy script for GitHub Pages
-
+npm install
 echo "Starting deployment process..."
 
 # Step 1: Run the build.py script
