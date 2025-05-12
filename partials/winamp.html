@@ -1,0 +1,47 @@
+<script src="https://unpkg.com/webamp@1.4.0/built/webamp.bundle.min.js"></script>
+<div
+  style="
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    all: unset !important;
+  "
+>
+  <div id="winamp-container"></div>
+  <script>
+    const Winamp = window.Webamp;
+    // All configuration options are optional.
+    const webamp = new Webamp({
+      // Optional.
+      initialTracks: [
+        {
+          metaData: {
+            artist: "Artist",
+            title: "Title",
+          },
+          url: "URL TO SONG .mp3",
+        },
+        {
+          metaData: {
+            artist: "Artist",
+            title: "Title",
+          },
+          url: "URL TO SONG .mp3",
+        },
+        {
+          metaData: {
+            artist: "Artist",
+            title: "Title",
+          },
+          url: "URL TO SONG .mp3",
+        },
+      ],
+      initialSkin: {
+        url: "../assets/winampthemes/green.wsz",
+      },
+    });
+    webamp.renderWhenReady(document.getElementById("winamp-container"));
+  </script>
+</div>
