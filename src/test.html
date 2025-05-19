@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas Flowers - Resume</title>
+    <link rel="stylesheet" href="https://unpkg.com/98.css">
+    <link rel="icon" href="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" type="image/png">
+    <style>
+        body {
+            background: #008080 url('https://i.imgur.com/3QZRnNv.jpg') no-repeat center center;
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            font-family: 'MS Sans Serif', Geneva, sans-serif;
+            font-weight: normal;
+            user-select: none;
+        }
+
+        .desktop {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+            padding-top: 20px;
+        }
+
+        .window {
+            width: 600px;
+            height: 500px;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0 auto;
+            z-index: 100;
+            transition: all 0.2s ease;
+        }
+
+        .window.maximized {
+            width: calc(100% - 20px) !important;
+            height: calc(100% - 60px) !important;
+            top: 10px !important;
+            left: 10px !important;
+            transform: none !important;
+        }
+
+        .window.minimized {
+            display: none;
+        }
+
+        .window-body {
+            overflow-y: auto;
+            height: calc(100% - 60px);
+            padding: 10px;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 4px;
+            background: #c0c0c0;
+            border-top: 1px solid #dfdfdf;
+        }
+
+        h1 {
+            color: #000080;
+            border-bottom: 1px solid #000080;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: #000080;
+            margin-top: 20px;
+            border-bottom: 1px solid #000080;
+            padding-bottom: 3px;
+        }
+
+        h3 {
+            color: #000080;
+            margin-top: 15px;
+        }
+
+        a {
+            color: #000080;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* Windows 95 Style Taskbar */
+        .taskbar {
+            background: #c0c0c0;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            border-top: 2px solid #ffffff;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .taskbar-item {
+            height: 24px;
+            min-width: 100px;
+            padding: 0 8px;
+            margin: 0 2px;
+            background: #c0c0c0;
+            border: 1px solid #808080;
+            border-bottom-color: #ffffff;
+            border-right-color: #ffffff;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .taskbar-item img {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+
+        .taskbar-item.active {
+            background: #000080;
+            color: white;
+            border: 1px solid #000080;
+        }
+
+        /* Start Button */
+        .start-button {
+            width: 80px;
+            height: 24px;
+            padding: 0;
+            background: #c0c0c0;
+            border: 1px solid #808080;
+            border-bottom-color: #ffffff;
+            border-right-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .start-button:hover {
+            background: #000080;
+            color: white;
+        }
+
+        /* Windows 95 Clock */
+        .clock {
+            margin-left: auto;
+            padding: 0 10px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-family: 'MS Sans Serif', Geneva, sans-serif;
+            background: #c0c0c0;
+            border: 1px solid #808080;
+            border-bottom-color: #ffffff;
+            border-right-color: #ffffff;
+        }
+
+        /* Desktop Icons */
+        .desktop-icon {
+            position: absolute;
+            width: 80px;
+            text-align: center;
+            cursor: pointer;
+            z-index: 5;
+            padding: 2px;
+        }
+
+        .desktop-icon:hover {
+            background-color: rgba(0, 0, 128, 0.3);
+        }
+
+        .desktop-icon.selected {
+            background-color: #000080;
+        }
+
+        .desktop-icon img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 2px;
+        }
+
+        .desktop-icon span {
+            font-size: 12px;
+            color: white;
+            text-shadow: 1px 1px 1px black;
+            display: block;
+            padding: 2px;
+        }
+
+        .desktop-icon.selected span {
+            background-color: #000080;
+        }
+
+        /* Start Menu */
+        .start-menu {
+            position: fixed;
+            bottom: 30px;
+            left: 5px;
+            width: 200px;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 2000;
+        }
+
+        .start-menu-header {
+            background: #000080;
+            color: white;
+            padding: 3px 5px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .start-menu-item {
+            padding: 5px 20px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .start-menu-item:hover {
+            background: #000080;
+            color: white;
+        }
+
+        .start-menu-item img {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        .start-menu-separator {
+            height: 2px;
+            background: #808080;
+            margin: 3px 0;
+            border-top: 1px solid #ffffff;
+        }
+
+        /* Dragging styles - Using Windows 7 functionality */
+        .title-bar {
+            cursor: move;
+        }
+
+        /* Shutdown Screen */
+        .shutdown-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none;
+        }
+
+        .shutdown-message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .power-button {
+            background: #333;
+            color: white;
+            border: 2px solid #666;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .power-button:hover {
+            background: #444;
+            border-color: #888;
+        }
+
+        .power-button:active {
+            background: #222;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+                overflow-y: auto;
+            }
+
+            .window {
+                position: static;
+                width: 100%;
+                height: auto;
+                margin: 0;
+                transform: none;
+            }
+
+            .window-body {
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop" id="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icon" ondblclick="openApp('resumeWindow')" onclick="selectIcon(this)" style="top: 20px; left: 20px;">
+            <img src="https://win98icons.alexmeub.com/icons/png/notepad-4.png" alt="Resume">
+            <span>Resume</span>
+        </div>
+        <div class="desktop-icon" ondblclick="openApp('projectsWindow')" onclick="selectIcon(this)" style="top: 100px; left: 20px;">
+            <img src="https://win98icons.alexmeub.com/icons/png/folder_open_file_manager-4.png" alt="Projects">
+            <span>Projects</span>
+        </div>
+        <div class="desktop-icon" ondblclick="openApp('certificationsWindow')" onclick="selectIcon(this)" style="top: 180px; left: 20px;">
+            <img src="https://win98icons.alexmeub.com/icons/png/documents-1.png" alt="Certifications">
+            <span>Certifications</span>
+        </div>
+        <div class="desktop-icon" ondblclick="openApp('githubWindow')" onclick="selectIcon(this)" style="top: 260px; left: 20px;">
+            <img src="https://win98icons.alexmeub.com/icons/png/network_internet-4.png" alt="GitHub">
+            <span>GitHub</span>
+        </div>
+        <div class="desktop-icon" ondblclick="openApp('aboutWindow')" onclick="selectIcon(this)" style="top: 340px; left: 20px;">
+            <img src="https://win98icons.alexmeub.com/icons/png/help_book-0.png" alt="About Me">
+            <span>About Me</span>
+        </div>
+        <div class="desktop-icon" ondblclick="openApp('recycleBinWindow')" onclick="selectIcon(this)" style="top: 420px; left: 20px;">
+            <img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png" alt="Recycle Bin">
+            <span>Recycle Bin</span>
+        </div>
+
+        <!-- Resume Window -->
+        <div class="window active" id="resumeWindow">
+            <div class="title-bar">
+                <div class="title-bar-text">Resume - Lucas Flowers</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('resumeWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('resumeWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('resumeWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <h1>Lucas Flowers</h1>
+                <p>
+                    <strong>
+                        Phoenix, AZ ·
+                        <a href="mailto:contact@lucasflowers.net">contact@lucasflowers.net</a> ·
+                        <a href="https://linkedin.com/in/lucas-flowers-57109a288" target="_blank">LinkedIn</a> ·
+                        <a href="https://github.com/lflowers01" target="_blank">GitHub</a>
+                    </strong>
+                </p>
+
+                <h2>About Me</h2>
+                <p>
+                    <strong>Hi, I'm Lucas.</strong> I am a student at Bioscience High School who enjoys combining creativity and problem-solving to make my ideas real. I'm passionate about programming, design, and leadership. <strong>My goal in life is to make lots of money by having lots of fun.</strong>
+                </p>
+                <p>
+                    As the Control Systems Lead on <strong>Dragon Robotics 2375,</strong> I've honed my leadership and technical skills. I've completed <strong>Harvard's CS50</strong> course and participated in a pre-college program at <strong>Wentworth Institute of Technology.</strong> I also had the unique opportunity to experience a foreign exchange program in Japan.
+                </p>
+                <p>
+                    Outside of academics and robotics, I'm a big hiker, an avid music lover, a regular at the gym, and enjoy creating both digital and physical art.
+                </p>
+
+                <h2>Leadership</h2>
+                <ul>
+                    <li>
+                        <strong>Control Systems Subteam Lead,</strong> Dragon Robotics <i>(January 2025)</i>
+                        <ul>
+                            <li>Mentors rookies in Java WPILib programming and electrical concepts.</li>
+                            <li>Programs autonomous and teleoperated robot modes for competition.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Treasurer,</strong> Phoenix Robotics <i>(May 2023–May 2024)</i>
+                        <ul>
+                            <li>Managed purchase orders and maintained the team budget.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projects Window -->
+        <div class="window" id="projectsWindow" style="left: 150px; top: 100px; display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">Projects - Lucas Flowers</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('projectsWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('projectsWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('projectsWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <h2>My Projects</h2>
+                <ul>
+                    <li><a target="_blank" href="https://github.com/lflowers01/mc-server-wizard">Minecraft Server Wizard</a> - My final project for CS50 that streamlines creating a Minecraft server.</li>
+                    <li><a target="_blank" href="game.html">Squirrel Simulator 3.000</a> - Game I created for my freshman year final!</li>
+                    <li><a href="#">Password Tool</a> - I made this while learning JavaScript to create secure passwords.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Certifications Window -->
+        <div class="window" id="certificationsWindow" style="left: 200px; top: 150px; display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">Certifications - Lucas Flowers</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('certificationsWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('certificationsWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('certificationsWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <h2>My Certifications</h2>
+                <ul>
+                    <li><a target="_blank" href="https://www.linkedin.com/in/lucas-flowers-57109a288/details/certifications/1724803173881/single-media-viewer/?type=DOCUMENT&profileId=ACoAAEXHn6UBXiqxiCERVzmRuM5x2PE-IG02sds"><strong>ImpactLab Pre-college Program</strong></a> - Wentworth Institute of Technology <i>(July 2024)</i></li>
+                    <li><a target="_blank" href="https://www.credly.com/badges/ae6dd1cd-df0c-4fd9-9269-125325af2376/public_url"><strong>IT Specialist - HTML and CSS</strong></a> - Certiport <i>(July 2024)</i></li>
+                    <li><a target="_blank" href="https://www.credly.com/badges/1a7c9b71-e91a-4877-9ebc-a10bd2f6808f/public_url"><strong>IT Specialist - Java</strong></a> - Certiport <i>(May 2024)</i></li>
+                    <li><a target="_blank" href="https://courses.edx.org/certificates/3bdb5b4ba43440309eec218949db361d"><strong>CS50x 2023</strong></a> - Harvard University <i>(January 2024)</i></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- GitHub Window -->
+        <div class="window" id="githubWindow" style="left: 250px; top: 200px; display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">GitHub - Lucas Flowers</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('githubWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('githubWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('githubWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <h2>My GitHub Projects</h2>
+                <p>Check out my GitHub profile to see my coding projects and contributions:</p>
+                <a href="https://github.com/lflowers01" target="_blank" class="button">
+                    <img src="https://win98icons.alexmeub.com/icons/png/network_internet-4.png" alt="GitHub" style="width: 16px; height: 16px; vertical-align: middle;">
+                    Visit My GitHub
+                </a>
+                <p>Some highlights:</p>
+                <ul>
+                    <li>Minecraft Server Wizard</li>
+                    <li>Squirrel Simulator 3.000</li>
+                    <li>Password Tool</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- About Window -->
+        <div class="window" id="aboutWindow" style="left: 300px; top: 250px; display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">About - Lucas Flowers</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('aboutWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('aboutWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('aboutWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <h2>About This Computer</h2>
+                <p><strong>Windows 95</strong> - Lucas Flowers Edition</p>
+                <p>This interactive resume was created to showcase my skills and experience in a nostalgic Windows 95 interface.</p>
+                <div class="carousel-container">
+                    <div class="carousel-slide">
+                        <img src="https://i.imgur.com/placeholder1.jpg" alt="Lucas Flowers">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://i.imgur.com/placeholder2.jpg" alt="Robotics">
+                    </div>
+                    <button class="carousel-btn prev" onclick="prevSlide()">❮</button>
+                    <button class="carousel-btn next" onclick="nextSlide()">❯</button>
+                </div>
+                <p><strong>System:</strong> Web Developer, Robotics Enthusiast, Student</p>
+                <p><strong>Memory:</strong> Lots of Java, Python, JavaScript knowledge</p>
+                <p><strong>Version:</strong> 1.0 - Last updated August 2024</p>
+            </div>
+        </div>
+
+        <!-- Recycle Bin Window -->
+        <div class="window" id="recycleBinWindow" style="left: 350px; top: 300px; display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">Recycle Bin</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeWindow('recycleBinWindow')"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('recycleBinWindow')"></button>
+                    <button aria-label="Close" onclick="closeWindow('recycleBinWindow')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <h2>Recycle Bin</h2>
+                <p>Items you have deleted:</p>
+                <ul>
+                    <li><img src="https://win98icons.alexmeub.com/icons/png/document-0.png" style="width:16px;height:16px;vertical-align:middle"> BadCode.txt</li>
+                    <li><img src="https://win98icons.alexmeub.com/icons/png/document-0.png" style="width:16px;height:16px;vertical-align:middle"> OldResume.doc</li>
+                    <li><img src="https://win98icons.alexmeub.com/icons/png/document-0.png" style="width:16px;height:16px;vertical-align:middle"> FailedProject.zip</li>
+                </ul>
+                <button style="margin-top:10px">Empty Recycle Bin</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Menu -->
+    <div class="start-menu" id="startMenu">
+        <div class="start-menu-header">Lucas Flowers</div>
+        <div class="start-menu-item" onclick="openApp('resumeWindow')">
+            <img src="https://win98icons.alexmeub.com/icons/png/notepad-4.png" alt="Resume">
+            <span>View Resume</span>
+        </div>
+        <div class="start-menu-item" onclick="openApp('projectsWindow')">
+            <img src="https://win98icons.alexmeub.com/icons/png/folder_open_file_manager-4.png" alt="Projects">
+            <span>Projects</span>
+        </div>
+        <div class="start-menu-separator"></div>
+        <div class="start-menu-item" onclick="window.open('https://github.com/lflowers01', '_blank')">
+            <img src="https://win98icons.alexmeub.com/icons/png/network_internet-4.png" alt="GitHub">
+            <span>GitHub Profile</span>
+        </div>
+        <div class="start-menu-item" onclick="window.open('mailto:contact@lucasflowers.net', '_blank')">
+            <img src="https://win98icons.alexmeub.com/icons/png/mail-4.png" alt="Email">
+            <span>Send Email</span>
+        </div>
+        <div class="start-menu-separator"></div>
+        <div class="start-menu-item" onclick="openApp('aboutWindow')">
+            <img src="https://win98icons.alexmeub.com/icons/png/help_book-0.png" alt="About">
+            <span>About</span>
+        </div>
+        <div class="start-menu-separator"></div>
+        <div class="start-menu-item" onclick="shutdownComputer()">
+            <img src="https://win98icons.alexmeub.com/icons/png/shut_down_normal-4.png" alt="Shutdown">
+            <span>Shut Down...</span>
+        </div>
+    </div>
+
+    <!-- Shutdown Screen -->
+    <div class="shutdown-screen" id="shutdownScreen">
+        <div class="shutdown-message">It's now safe to turn off your computer.</div>
+        <div class="power-button" id="powerButton" onclick="powerOnComputer()">
+            ⏻
+        </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <div class="start-button" id="startButton" onclick="toggleStartMenu()">
+            Start
+        </div>
+        <div class="taskbar-item" id="resumeTaskbarBtn" onclick="focusWindow('resumeWindow')">
+            <img src="https://win98icons.alexmeub.com/icons/png/notepad-4.png" alt="Resume">
+            Resume
+        </div>
+        <div class="taskbar-item" id="projectsTaskbarBtn" onclick="focusWindow('projectsWindow')" style="display: none;">
+            <img src="https://win98icons.alexmeub.com/icons/png/folder_open_file_manager-4.png" alt="Projects">
+            Projects
+        </div>
+        <div class="taskbar-item" id="certificationsTaskbarBtn" onclick="focusWindow('certificationsWindow')" style="display: none;">
+            <img src="https://win98icons.alexmeub.com/icons/png/documents-1.png" alt="Certifications">
+            Certifications
+        </div>
+        <div class="taskbar-item" id="githubTaskbarBtn" onclick="focusWindow('githubWindow')" style="display: none;">
+            <img src="https://win98icons.alexmeub.com/icons/png/network_internet-4.png" alt="GitHub">
+            GitHub
+        </div>
+        <div class="taskbar-item" id="aboutTaskbarBtn" onclick="focusWindow('aboutWindow')" style="display: none;">
+            <img src="https://win98icons.alexmeub.com/icons/png/help_book-0.png" alt="About">
+            About
+        </div>
+        <div class="taskbar-item" id="recycleBinTaskbarBtn" onclick="focusWindow('recycleBinWindow')" style="display: none;">
+            <img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png" alt="Recycle Bin">
+            Recycle Bin
+        </div>
+        <div class="clock" id="clock">
+            <span id="time"></span>
+        </div>
+    </div>
+
+    <script>
+        // Window management
+        const windows = {
+            resumeWindow: document.getElementById('resumeWindow'),
+            projectsWindow: document.getElementById('projectsWindow'),
+            certificationsWindow: document.getElementById('certificationsWindow'),
+            githubWindow: document.getElementById('githubWindow'),
+            aboutWindow: document.getElementById('aboutWindow'),
+            recycleBinWindow: document.getElementById('recycleBinWindow')
+        };
+
+        const taskbarBtns = {
+            resumeWindow: document.getElementById('resumeTaskbarBtn'),
+            projectsWindow: document.getElementById('projectsTaskbarBtn'),
+            certificationsWindow: document.getElementById('certificationsTaskbarBtn'),
+            githubWindow: document.getElementById('githubTaskbarBtn'),
+            aboutWindow: document.getElementById('aboutTaskbarBtn'),
+            recycleBinWindow: document.getElementById('recycleBinTaskbarBtn')
+        };
+
+        const startButton = document.getElementById('startButton');
+        const startMenu = document.getElementById('startMenu');
+        const shutdownScreen = document.getElementById('shutdownScreen');
+        const powerButton = document.getElementById('powerButton');
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        let startMenuVisible = false;
+        let windowStates = {};
+
+        // Initialize window states
+        Object.keys(windows).forEach(windowId => {
+            windowStates[windowId] = {
+                isMaximized: false,
+                isMinimized: false,
+                originalPosition: {}
+            };
+        });
+
+        // Initialize carousel
+        function initCarousel() {
+            slides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${100 * index}%)`;
+            });
+        }
+
+        function updateCarousel() {
+            slides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${100 * (index - currentSlide)}%)`;
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateCarousel();
+        }
+
+        // Window functions
+        function minimizeWindow(windowId) {
+            windows[windowId].style.display = 'none';
+            taskbarBtns[windowId]?.classList.remove('active');
+            windowStates[windowId].isMinimized = true;
+        }
+
+        function toggleMaximize(windowId) {
+            const window = windows[windowId];
+            const state = windowStates[windowId];
+
+            if (state.isMaximized) {
+                window.classList.remove('maximized');
+                window.style.width = '600px';
+                window.style.height = '500px';
+                window.style.top = state.originalPosition.top;
+                window.style.left = state.originalPosition.left;
+                window.style.transform = state.originalPosition.transform;
+            } else {
+                state.originalPosition = {
+                    width: window.style.width,
+                    height: window.style.height,
+                    top: window.style.top,
+                    left: window.style.left,
+                    transform: window.style.transform
+                };
+                window.classList.add('maximized');
+            }
+            state.isMaximized = !state.isMaximized;
+        }
+
+        function closeWindow(windowId) {
+            windows[windowId].style.display = 'none';
+            if (taskbarBtns[windowId]) {
+                taskbarBtns[windowId].classList.remove('active');
+                taskbarBtns[windowId].style.display = 'none';
+            }
+            windowStates[windowId].isMinimized = true;
+        }
+
+        function focusWindow(windowId) {
+            // Hide start menu when focusing a window
+            hideStartMenu();
+
+            // Bring window to front
+            Object.keys(windows).forEach(id => {
+                windows[id].style.zIndex = '100';
+            });
+            windows[windowId].style.zIndex = '200';
+            windows[windowId].style.display = 'block';
+            windowStates[windowId].isMinimized = false;
+
+            // Update taskbar
+            if (taskbarBtns[windowId]) {
+                // Remove active from all taskbar items
+                Object.keys(taskbarBtns).forEach(id => {
+                    if (taskbarBtns[id]) taskbarBtns[id].classList.remove('active');
+                });
+
+                taskbarBtns[windowId].classList.add('active');
+                taskbarBtns[windowId].style.display = 'flex';
+            }
+        }
+
+        function openApp(windowId) {
+            focusWindow(windowId);
+        }
+
+        // Start menu functions
+        function toggleStartMenu() {
+            if (startMenuVisible) {
+                hideStartMenu();
+            } else {
+                showStartMenu();
+            }
+        }
+
+        function showStartMenu() {
+            startMenu.style.display = 'block';
+            startMenuVisible = true;
+
+            // Bring start menu to front
+            startMenu.style.zIndex = '300';
+
+            // Close when clicking elsewhere
+            document.addEventListener('click', closeStartMenuOnClickOutside);
+        }
+
+        function hideStartMenu() {
+            startMenu.style.display = 'none';
+            startMenuVisible = false;
+            document.removeEventListener('click', closeStartMenuOnClickOutside);
+        }
+
+        function closeStartMenuOnClickOutside(event) {
+            if (!startMenu.contains(event.target) && event.target !== startButton) {
+                hideStartMenu();
+            }
+        }
+
+        // Desktop icon selection
+        function selectIcon(icon) {
+            // Clear previous selection
+            document.querySelectorAll('.desktop-icon').forEach(i => {
+                i.classList.remove('selected');
+            });
+
+            // Select clicked icon
+            icon.classList.add('selected');
+        }
+
+        // Window dragging functionality (from Windows 7 version)
+        function setupWindowDragging() {
+            const titleBars = document.querySelectorAll('.title-bar');
+
+            titleBars.forEach(titleBar => {
+                titleBar.addEventListener('mousedown', (e) => {
+                    const window = titleBar.closest('.window');
+                    const windowId = Object.keys(windows).find(id => windows[id] === window);
+                    const windowState = windowStates[windowId];
+
+                    if (windowState.isMaximized) return;
+
+                    // Bring window to front
+                    Object.keys(windows).forEach(id => {
+                        windows[id].style.zIndex = '100';
+                    });
+                    window.style.zIndex = '200';
+
+                    // Check if this is a double click (within 300ms of last click)
+                    const currentTime = new Date().getTime();
+                    const lastClickTime = window.lastClickTime || 0;
+                    if (currentTime - lastClickTime < 300) {
+                        toggleMaximize(windowId);
+                        window.lastClickTime = 0;
+                        return;
+                    }
+                    window.lastClickTime = currentTime;
+
+                    // Get initial positions
+                    const rect = window.getBoundingClientRect();
+                    const offsetX = e.clientX - rect.left;
+                    const offsetY = e.clientY - rect.top;
+
+                    // Store initial positions
+                    window.dataset.dragStartX = e.clientX;
+                    window.dataset.dragStartY = e.clientY;
+                    window.dataset.windowStartX = rect.left;
+                    window.dataset.windowStartY = rect.top;
+                    window.dataset.isDragging = 'true';
+
+                    window.style.transition = 'none';
+                    document.body.style.userSelect = 'none';
+
+                    e.preventDefault();
+                });
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                const draggingWindow = Object.values(windows).find(w => w.dataset.isDragging === 'true');
+                if (!draggingWindow) return;
+
+                const windowId = Object.keys(windows).find(id => windows[id] === draggingWindow);
+                const windowState = windowStates[windowId];
+
+                if (windowState.isMaximized) return;
+
+                // Calculate new position
+                const newX = parseInt(draggingWindow.dataset.windowStartX) + (e.clientX - parseInt(draggingWindow.dataset.dragStartX));
+                const newY = parseInt(draggingWindow.dataset.windowStartY) + (e.clientY - parseInt(draggingWindow.dataset.dragStartY));
+
+                // Constrain to screen boundaries
+                const windowWidth = draggingWindow.offsetWidth;
+                const windowHeight = draggingWindow.offsetHeight;
+                const constrainedX = Math.max(0, Math.min(newX, window.innerWidth - windowWidth));
+                const constrainedY = Math.max(0, newY);
+
+                draggingWindow.style.left = `${constrainedX}px`;
+                draggingWindow.style.top = `${constrainedY}px`;
+                draggingWindow.style.transform = 'none';
+
+                e.preventDefault();
+            });
+
+            document.addEventListener('mouseup', () => {
+                const draggingWindow = Object.values(windows).find(w => w.dataset.isDragging === 'true');
+                if (draggingWindow) {
+                    draggingWindow.dataset.isDragging = 'false';
+                    draggingWindow.style.transition = 'all 0.2s ease';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+
+        // Shutdown functions
+        function shutdownComputer() {
+            // Show shutdown screen
+            shutdownScreen.style.display = 'flex';
+
+            // Hide all other elements
+            document.querySelector('.desktop').style.display = 'none';
+            document.querySelector('.taskbar').style.display = 'none';
+            hideStartMenu();
+        }
+
+        function powerOnComputer() {
+            // Hide shutdown screen
+            shutdownScreen.style.display = 'none';
+
+            // Restore elements
+            document.querySelector('.desktop').style.display = 'block';
+            document.querySelector('.taskbar').style.display = 'flex';
+        }
+
+        // Clock functionality
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            document.getElementById('time').textContent = time;
+        }
+
+        // Initialize everything
+        function init() {
+            initCarousel();
+            setupWindowDragging();
+            updateClock();
+            setInterval(updateClock, 60000);
+
+            // Focus resume window by default
+            focusWindow('resumeWindow');
+        }
+
+        // Run initialization when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
