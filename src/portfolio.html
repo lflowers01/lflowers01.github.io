@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/gif" href="./assets/favicon-export.gif" />
+    <link rel="stylesheet" href="https://unpkg.com/98.css" />
+    <link rel="stylesheet" href="./scss/index.scss" />
+    <title>[ Creations ]</title>
+    <style>
+        body {
+            max-width: 850px;
+            margin: 0 auto;
+            overflow-x: hidden;
+        }
+        #portfolio-grid {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 16px;
+            scroll-snap-type: x mandatory;
+        }
+        .portfolio-item-container {
+            flex: 0 0 calc(33.333% - 16px);
+            max-width: calc(33.333% - 16px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .portfolio-item {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .portfolio-description {
+            margin-top: 8px;
+            font-size: 0.9em;
+        }
+    </style>
+    <script type="module" src="/js/dark-mode.js"></script>
+</head>
+<body>
+    <section id="portfolio">
+        <h1>Portfolio</h1>
+        <div id="portfolio-grid"></div>
+    </section>
+    <script>
+        // Directory containing images
+        const imageDirectory = "./assets/portfolio/";
+
+        // Dictionary mapping image filenames to descriptions
+        const imageDescriptions = {
+            "drawing.png": "Description for Project 1",
+            "malcom-x.png": "Description for Project 2",
+            "locked.png": "Description for Project 3"
+        };
+
+        // Function to dynamically load images into the portfolio grid
+        const portfolioGrid = document.getElementById("portfolio-grid");
+        for (const [filename, description] of Object.entries(imageDescriptions)) {
+            const container = document.createElement("div");
+            container.classList.add("portfolio-item-container");
+
+            const imgElement = document.createElement("img");
+            imgElement.src = `${imageDirectory}${filename}`;
+            imgElement.alt = description;
+            imgElement.title = description;
+            imgElement.classList.add("portfolio-item");
+
+            const descriptionElement = document.createElement("div");
+            descriptionElement.classList.add("portfolio-description");
+            descriptionElement.innerHTML = `<strong>${filename.split('.')[0].replace(/_/g, ' ')}</strong><br>${description}`;
+
+            container.appendChild(imgElement);
+            container.appendChild(descriptionElement);
+            portfolioGrid.appendChild(container);
+        }
+    </script>
+</body>
+</html>

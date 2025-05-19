@@ -1,0 +1,157 @@
+$background: #008080;
+$body-color: #c0c0c0;
+$main-color: #7107af;
+$main-color-dk: #441261;
+$accent-1: #b5e61d;
+$accent-2: #eb53d3;
+$content-spacing: 5px;
+$background-img: url("https://sadhost.neocities.org/images/borders/bg-test-green.png");
+$banner: url("/sadgrl/assets/images/full-banner-new.png");
+$titleBars: url("/sadgrl/assets/images/tiny-bar-2.png");
+$text-color: black;
+$link-color: var($accent-1);
+$border: 1px solid black;
+$arrows: url("/sadgrl/assets/images/arrow.png");
+html {
+    background-color: red !important;
+}
+html,
+body {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "FreePixel";
+}
+
+body {
+  background-image: $background-img;
+  color: $text-color;
+  background: $background;
+  background-attachment: fixed;
+}
+.topbar {
+  background-image: $banner;
+  height: 150px;
+  margin-bottom: $content-spacing;
+  border: $border;
+}
+#container,
+.topbar img {
+  max-width: 850px;
+  margin: 0 auto;
+}
+#container a {
+  color: $link-color;
+}
+.topbar img {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+#container {
+  border-top: none;
+}
+
+#flex {
+  display: flex;
+  max-width: 850px;
+}
+
+aside {
+  width: 30%;
+  margin-left: $content-spacing;
+  border-left: $border;
+  background-color: $background;
+}
+
+.title,
+.sidebar-title {
+  background-image: $titleBars;
+  font-weight: bold;
+  border: $border;
+  font-size: 20px;
+}
+
+main {
+  width: 74%;
+  background-color: $body-color;
+}
+nav {
+  position: sticky;
+  top: 20px;
+}
+nav ul {
+  list-style-image: $arrows;
+  margin-left: 0;
+  padding-left: 30px;
+}
+nav ul li a {
+  color: $accent-1;
+}
+.content {
+  padding: 25px;
+}
+
+footer {
+  border: $border;
+  height: 25px;
+  margin-top: $content-spacing;
+  background-image: $titleBars;
+  text-align: center;
+}
+/* button styles */
+button {
+  background-image: $titleBars;
+  border: $border;
+  color: white;
+  margin-bottom: 10px;
+}
+th {
+  color: $accent-2;
+}
+#linkNum {
+  color: $accent-2;
+  font-weight: bold;
+}
+h2 {
+  color: $accent-2;
+}
+#themeDiv {
+  position: sticky;
+  top: 550px;
+}
+
+@media only screen and (max-width: 640px) {
+  nav ul {
+    list-style-image: none;
+    list-style-type: none;
+  }
+  #flex {
+    flex-wrap: wrap;
+  }
+  main {
+    width: 100%;
+    order: 2;
+  }
+  aside {
+    display: block;
+    width: 100%;
+    order: 1;
+    margin-left: 0;
+  }
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  nav ul li {
+    padding-right: 10px;
+  }
+  nav ul > ul {
+    display: none;
+  }
+}
+@media only screen and (max-height: 640px) {
+  nav ul > ul {
+    display: none;
+  }
+}
