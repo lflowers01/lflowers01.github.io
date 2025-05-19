@@ -39,8 +39,10 @@ echo "Pushing to deployment branch..."
 git push -f origin deployment
 
 # Step 6: Clean up
-echo "Cleaning up..."
-cd ..
-rm -rf dist
+# echo "Cleaning up..."
+# cd ..
+# rm -rf dist
+#
+# The dist folder is not deleted to retain built .html files
 
 echo "Deployment completed successfully!"

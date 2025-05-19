@@ -44,16 +44,17 @@ def copy_optimized_assets():
             print(f"Copied: {src_file} -> {dest_file}")
 
 def copy_src_excluding_assets():
-    """Copy everything from src to dist, excluding the assets folder, without overwriting existing files."""
+    """Copy everything from src to dist, excluding the assets, scss, and partials folders, without overwriting existing files."""
     src = "src"
     dest = "dist"
-    print("Copying files from src to dist, excluding the assets folder...")
+    print("Copying files from src to dist, excluding the assets, scss, and partials folders...")
 
     # Walk through the source directory
     for root, dirs, files in os.walk(src):
-        # Skip the assets folder
-        if "assets" in dirs:
-            dirs.remove("assets")
+        # Skip the assets, scss, and partials folders
+        for skip_dir in ["assets", "scss", "partials"]:
+            if skip_dir in dirs:
+                dirs.remove(skip_dir)
 
         for file in files:
             src_file = os.path.join(root, file)
@@ -73,6 +74,28 @@ def copy_src_excluding_assets():
             # Copy the file
             shutil.copy2(src_file, dest_file)
             print(f"Copied: {src_file} -> {dest_file}")
+
+def copy_all_html_files():
+    """Copy all .html and .htm files from the entire project (excluding dist, node_modules, src, scss, and partials) into dist/, preserving their relative paths."""
+    print("Copying all .html and .htm files from the project to dist/... (excluding dist, node_modules, src, scss, partials)")
+    project_root = os.getcwd()
+    dist_dir = os.path.join(project_root, "dist")
+    for root, dirs, files in os.walk(project_root):
+        # Skip dist, node_modules, src, scss, and partials folders
+        rel_root = os.path.relpath(root, project_root)
+        skip = any(rel_root.startswith(skip_dir) for skip_dir in ["dist", "node_modules", "src", "scss", "partials"])
+        if skip:
+            continue
+        for file in files:
+            if file.endswith(".html") or file.endswith(".htm"):
+                src_file = os.path.join(root, file)
+                rel_path = os.path.relpath(src_file, project_root)
+                dest_file = os.path.join(dist_dir, rel_path)
+                dest_folder = os.path.dirname(dest_file)
+                if not os.path.exists(dest_folder):
+                    os.makedirs(dest_folder)
+                shutil.copy2(src_file, dest_file)
+                print(f"Copied: {src_file} -> {dest_file}")
 
 if __name__ == "__main__":
     # Step 1: Optimize images
@@ -94,5 +117,8 @@ if __name__ == "__main__":
 
     # Step 4: Copy everything from src excluding assets
     copy_src_excluding_assets()
+
+    # Step 5: Copy all .html and .htm files from the project
+    copy_all_html_files()
 
     print("Build process completed successfully.")
