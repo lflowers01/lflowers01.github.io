@@ -23,6 +23,10 @@ const optimizeImages = (dir, output) => {
         fs.mkdirSync(outputFilePath, { recursive: true });
       }
       optimizeImages(filePath, outputFilePath);
+    } else if (!(/\.(png|jpg|jpeg)$/i.test(file))) {
+      // Copy non-image files without processing
+      console.log(`Copying non-image file: ${file}`);
+      fs.copyFileSync(filePath, outputFilePath);
     } else if (/\.(jpg|jpeg)$/i.test(file)) {
       // Optimize JPG images
       console.log(`Processing ${file}...`);
@@ -43,12 +47,6 @@ const optimizeImages = (dir, output) => {
         .toFile(outputFilePath)
         .then(() => console.log(`Optimized and saved: ${outputFilePath}`))
         .catch((err) => console.error(`Error optimizing ${file}:`, err));
-    } else if (/\.(gif)$/i.test(file)) {
-      // Copy GIFs without resizing
-      console.log(`Copying GIF: ${file}`);
-      fs.copyFileSync(filePath, outputFilePath);
-    } else {
-      console.log(`Skipping unsupported file: ${file}`);
     }
   });
 };

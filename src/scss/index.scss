@@ -49,7 +49,6 @@ h2 {
 }
 
 p {
-
   padding-left: 5px;
   width: fit-content;
   line-height: 1.6;
@@ -73,12 +72,13 @@ body {
   margin: auto;
   width: fit-content;
   background-color: #108483;
-color: black;
+  color: black;
+
   &.dark-mode {
     background-image: url("../assets/background.gif");
     background-color: black;
     background-attachment: fixed;
-    color: whtie;
+    color: white;
   }
 
   -webkit-touch-callout: none;
@@ -126,6 +126,7 @@ fieldset {
     padding: 0;
     padding-right: 0.5rem;
     list-style: none;
+
     li {
       float: left;
       padding: 0rem 0.25rem 0.25rem 0.25rem;
@@ -140,11 +141,12 @@ fieldset {
 }
 
 #header {
-  justify-content: center; /* Center children horizontally */
-  display: flex; /* Ensure flexbox layout */
+  justify-content: center;
+  display: flex;
   align-items: center;
   background-color: transparent;
   margin-top: $x-margin;
+
   & .window-body button {
     margin: 0rem 0.5rem;
   }
@@ -157,7 +159,7 @@ fieldset {
 
   *#nav,
   #external-links {
-    margin: auto; /* Center horizontally */
+    margin: auto;
     max-width: fit-content;
     min-width: min-content;
   }
@@ -168,7 +170,6 @@ fieldset {
   width: calc(100% - calc($x-margin * 2.75));
   margin-top: $x-margin;
   margin-left: $x-margin;
-  max-resolution: $x-margin;
 
   * ul {
     padding: 0;
@@ -179,8 +180,10 @@ fieldset {
       padding: 0rem 0.5rem 0.5rem 0.5rem;
     }
   }
+
   a {
     color: $link-color;
+
     body.dark-mode & {
       color: magenta;
     }
@@ -250,7 +253,6 @@ a {
 
 footer {
   color: black;
-
   font-family: "FreePixel" !important;
   font-size: 11px;
   text-align: center;
@@ -263,57 +265,57 @@ footer {
 }
 
 details ul li {
-    list-style: inside;
-    margin-left: 1rem;
-    list-style-type: '– '; /* Change bullet point to '-' */
+  list-style: inside;
+  margin-left: 1rem;
+  list-style-type: '– ';
 }
 
+summary {
+  padding-bottom: 0.5rem;
 
+  strong {
+    color: $link-color;
 
-summary{
-    padding-bottom: 0.5rem;
-    strong {
-        color: $link-color;
-
-        body.dark-mode & {
-            color: magenta;
-        }
+    body.dark-mode & {
+      color: magenta;
     }
+  }
 }
 
 i {
-    color: dimgray;
-    body.dark-mode & {
-        color: gray;
-    }
+  color: dimgray;
+
+  body.dark-mode & {
+    color: gray;
+  }
 }
+
 ul details summary {
-    list-style: none; /* Remove default browser styles */
-    display: inline-block; /* Ensure proper alignment */
-    cursor: pointer; /* Add pointer cursor for better UX */
+  list-style: none;
+  display: inline-block;
+  cursor: pointer;
 }
 
 ul details[open] summary::before {
-    content: '-';
+  content: '-';
 }
 
 ul details:not([open]) > summary::before {
-    content: '+';
-    display: inline-block; /* Ensure proper alignment */
-    margin-right: 5px; /* Add spacing between icon and text */
+  content: '+';
+  display: inline-block;
+  margin-right: 5px;
 }
 
 ul details > summary::before {
-    background-color: transparent;
-    border:
-  1px solid grey;
-    content: "+";
-    display: block;
-    float: left;
-    height: 9px;
-    line-height: 8px;
-    margin-right: 5px;
-    padding-left: 1px;
-    text-align: center;
-    width: 8px;
-  }
+  background-color: transparent;
+  border: 1px solid grey;
+  content: "+";
+  display: block;
+  float: left;
+  height: 9px;
+  line-height: 8px;
+  margin-right: 5px;
+  padding-left: 1px;
+  text-align: center;
+  width: 8px;
+}
