@@ -7,23 +7,7 @@ import copy from "rollup-plugin-copy";
 export default defineConfig({
   base: "./", // Ensure relative paths for assets
   root: "src",
-  build: {
-    outDir: "../dist", // Output directory for build
-    emptyOutDir: true, // Automatically purge the dist folder before building
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, "src/index.html"),
-        projectileSim: resolve(__dirname, "src/projectile-sim.html"),
-        portfolio: resolve(__dirname, "src/portfolio.html"),
-        test: resolve(__dirname, "src/test.html"),
-        passwordTool: resolve(__dirname, "src/password-tool/password.html"),
-      },
-      output: {
-        assetFileNames: "assets/[name][extname]", // Ensure assets are placed in the correct folder
-      },
-    },
-    assetsInclude: ["**/*.htm"], // Tell Vite to treat .htm files as assets
-  },
+  
   plugins: [
     handlebars({
       partialDirectory: resolve(__dirname, "src/partials"),
