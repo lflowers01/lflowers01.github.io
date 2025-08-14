@@ -19,8 +19,8 @@ export default defineConfig({
     copy({
       targets: [
         { src: "../optimized-assets/**/*", dest: "../dist/assets" }, // Copy optimized assets to dist/assets
-        { src: "resume.pdf", dest: "../dist" }, // Copy resume.pdf to the dist folder
-        { src: "src/game.html", dest: "../dist" }, // Correctly copy game.html from src to dist
+        { src: "assets/game.html", dest: "../dist/assets" }, // Copy game.html
+        { src: "assets/resume.pdf", dest: "../dist/assets" }, // Copy resume.pdf
       ],
       hook: "writeBundle", // Ensure this runs after the build
     }),
