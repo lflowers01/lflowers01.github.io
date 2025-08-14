@@ -7,6 +7,10 @@ import copy from "rollup-plugin-copy";
 export default defineConfig({
   base: "./", // Ensure relative paths for assets
   root: "src",
+  build: {
+    outDir: "../dist", // Output to project root dist directory
+    emptyOutDir: true, // Clean the output directory before building
+  },
   
   plugins: [
     handlebars({
