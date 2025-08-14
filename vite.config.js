@@ -14,7 +14,6 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "src/index.html"),
         projectileSim: resolve(__dirname, "src/projectile-sim.html"),
-        game: resolve(__dirname, "src/game.htm"),
         portfolio: resolve(__dirname, "src/portfolio.html"),
         test: resolve(__dirname, "src/test.html"),
         passwordTool: resolve(__dirname, "src/password-tool/password.html"),
@@ -32,7 +31,8 @@ export default defineConfig({
     copy({
       targets: [
         { src: "../optimized-assets/**/*", dest: "../dist/assets" }, // Copy optimized assets to dist/assets
-        { src: "src/resume.pdf", dest: "../dist" } // Copy resume.pdf to the dist folder
+        { src: "src/resume.pdf", dest: "../dist" }, // Copy resume.pdf to the dist folder
+        { src: "src/game.htm", dest: "../dist" }, // Copy game.htm as a static file
       ],
       hook: "writeBundle", // Ensure this runs after the build
     }),
