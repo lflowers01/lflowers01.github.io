@@ -32,7 +32,7 @@ export default defineConfig({
       targets: [
         { src: "../optimized-assets/**/*", dest: "../dist/assets" }, // Copy optimized assets to dist/assets
         { src: "src/resume.pdf", dest: "../dist" }, // Copy resume.pdf to the dist folder
-        { src: "src/game.htm", dest: "../dist" }, // Copy game.htm as a static file
+        { src: "src/game.html", dest: "../dist" }, // Copy game.htm as a static file
       ],
       hook: "writeBundle", // Ensure this runs after the build
     }),
