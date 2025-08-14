@@ -13,6 +13,11 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "src/index.html"),
+        projectileSim: resolve(__dirname, "src/projectile-sim.html"),
+        game: resolve(__dirname, "src/game.htm"),
+        portfolio: resolve(__dirname, "src/portfolio.html"),
+        test: resolve(__dirname, "src/test.html"),
+        passwordTool: resolve(__dirname, "src/password-tool/password.html"),
       },
       output: {
         assetFileNames: "assets/[name][extname]", // Ensure assets are placed in the correct folder
