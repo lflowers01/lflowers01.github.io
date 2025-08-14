@@ -23,6 +23,7 @@ export default defineConfig({
         assetFileNames: "assets/[name][extname]", // Ensure assets are placed in the correct folder
       },
     },
+    assetsInclude: ["**/*.htm"], // Tell Vite to treat .htm files as assets
   },
   plugins: [
     handlebars({
