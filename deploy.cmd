@@ -3,7 +3,13 @@ REM Build and deploy script for GitHub Pages
 
 echo Starting deployment process...
 
-:: Step 1: Run the build.py script
+:: Step 1: Clean any existing dist folder
+if exist dist (
+    echo Cleaning existing dist folder...
+    rmdir /s /q dist
+)
+
+:: Step 2: Run the build.py script
 echo Running build.py...
 python build.py
 if %ERRORLEVEL% NEQ 0 (
@@ -11,7 +17,7 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b %ERRORLEVEL%
 )
 
-:: Step 1.1: Copy CNAME file to the dist folder
+:: Step 2.1: Copy CNAME file to the dist folder
 echo Copying CNAME file to the dist folder...
 copy CNAME dist\CNAME
 if %ERRORLEVEL% NEQ 0 (
@@ -19,28 +25,28 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b %ERRORLEVEL%
 )
 
-:: Step 2: Navigate to the dist folder
+:: Step 3: Navigate to the dist folder
 cd dist
-:: Step 3: Initialize a new Git repository in the dist folder
+
+:: Step 4: Initialize a new Git repository in the dist folder
 echo Initializing Git repository in the dist folder...
 git init
 git remote add origin https://github.com/lflowers01/lflowers01.github.io.git
 git checkout -b deployment
 
-:: Step 4: Add and commit all files
+:: Step 5: Add and commit all files
 echo Adding and committing files...
 git add .
-git commit -m "Deploy to GitHub Pages"
+git commit -m "Deploy to GitHub Pages - %date% %time%"
 
-:: Step 5: Force push to the deployment branch
+:: Step 6: Force push to the deployment branch
 echo Pushing to deployment branch...
 git push -f origin deployment
 
-:: Step 6: Clean up
+:: Step 7: Clean up and return to root
 echo Cleaning up...
 cd ..
-:: Ensure the dist folder is not deleted to retain built .html files
-REM rd /s /q dist
 
 echo Deployment completed successfully!
+echo Your site should be available at: https://lflowers01.github.io
 pause

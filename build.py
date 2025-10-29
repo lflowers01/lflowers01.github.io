@@ -45,28 +45,40 @@ def copy_optimized_assets():
             print(f"Copied: {src_file} -> {dest_file}")
 
 def copy_src_to_dist():
-    """Copy files from the main src folder to the root of the dist folder."""
+    """Copy specific files from the src folder to the dist folder, but don't overwrite built files."""
     src = "src"
     dest = "dist"
-    print("Copying files from src to dist root...")
+    print("Copying additional files from src to dist...")
 
     # Ensure the destination folder exists
     if not os.path.exists(dest):
         os.makedirs(dest)
 
-    # Walk through the source directory
-    for root, _, files in os.walk(src):
-        # Skip subdirectories
-        if root != src:
-            continue
+    # List of files that should NOT be overwritten (these are built by Vite)
+    protected_files = ['index.html', 'portfolio.html', 'projectile-sim.html']
+    
+    # List of files we DO want to copy
+    copy_files = ['resume.pdf', 'game.htm', 'sadgrl.online.html', 'test.html']
 
-        for file in files:
-            src_file = os.path.join(root, file)
-            dest_file = os.path.join(dest, file)
-
-            # Copy the file to the destination folder
+    for file in copy_files:
+        src_file = os.path.join(src, file)
+        dest_file = os.path.join(dest, file)
+        
+        if os.path.exists(src_file):
             shutil.copy2(src_file, dest_file)
             print(f"Copied: {src_file} -> {dest_file}")
+        else:
+            print(f"Source file not found: {src_file}")
+
+    # Copy the password-tool directory
+    password_tool_src = os.path.join(src, "password-tool")
+    password_tool_dest = os.path.join(dest, "password-tool")
+    
+    if os.path.exists(password_tool_src):
+        if os.path.exists(password_tool_dest):
+            shutil.rmtree(password_tool_dest)
+        shutil.copytree(password_tool_src, password_tool_dest)
+        print(f"Copied directory: {password_tool_src} -> {password_tool_dest}")
 
 if __name__ == "__main__":
     # Step 1: Optimize images

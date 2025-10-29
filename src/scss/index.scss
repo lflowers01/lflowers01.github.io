@@ -73,6 +73,12 @@ body {
   width: fit-content;
   background-color: #108483;
   color: black;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   &.dark-mode {
     background-image: url("../assets/background.gif");
@@ -80,13 +86,6 @@ body {
     background-attachment: fixed;
     color: white;
   }
-
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 html {
