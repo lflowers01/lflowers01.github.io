@@ -4,7 +4,11 @@
   "routes": [
     { "handle": "filesystem" },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*).html", "dest": "/$1" },
-    { "src": "/(.*).htm", "dest": "/$1" }
+    { "src": "/password-tool/(.*)", "dest": "/password-tool/$1" },
+    { "src": "/(.*)\\.pdf$", "dest": "/$1.pdf" },
+    { "src": "/(.*)\\.md$", "dest": "/$1.md" },
+    { "src": "/(.*)\\.html$", "dest": "/$1.html" },
+    { "src": "/(.*)\\.htm$", "dest": "/$1.htm" },
+    { "src": "/(?!.*\\.).*", "dest": "/index.html" }
   ]
 }

@@ -1,8 +1,60 @@
-@import "carousel";
+@use "carousel" as *;
 
 $link-color: navy;
 $heading-color: black;
 $x-margin: 8px;
+
+:root {
+  --bg-primary: #108483;
+  --bg-secondary: #c0c0c0;
+  --text-color: black;
+  --text-secondary: dimgray;
+  --link-color: navy;
+  --link-hover: darkmagenta;
+  --title-bar-bg: #000080;
+  --title-bar-text: black;
+  --window-shadow-inner: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+  --window-shadow-dark: inset -1px -1px rgb(35, 35, 35), inset 1px 1px dimgray, inset -2px -2px dimgray, inset 2px 2px rgb(65, 65, 65);
+  --button-shadow-dark: inset -1px -1px rgb(35, 35, 35), inset 1px 1px dimgray, inset -2px -2px dimgray, inset 2px 2px rgb(65, 65, 65);
+  --button-bg-dark: #c0c0c0;
+  --button-text-color: black;
+  --active-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+  --active-shadow-dark: inset -1px -1px rgb(65, 65, 65), inset 1px 1px dimgray, inset -2px -2px gray, inset 2px 2px rgb(35, 35, 35);
+  --bg-image: none;
+  --bg-attachment: scroll;
+}
+
+body.dark-mode {
+  --bg-primary: black;
+  --bg-secondary: black;
+  --text-color: white;
+  --text-secondary: gray;
+  --link-color: magenta;
+  --link-hover: magenta;
+  --title-bar-bg: magenta;
+  --title-bar-text: white;
+  --button-bg-dark: rgb(50, 50, 50);
+  --button-text-color: white;
+  --window-shadow-inner: inset -1px -1px rgb(35, 35, 35), inset 1px 1px dimgray, inset -2px -2px dimgray, inset 2px 2px rgb(65, 65, 65);
+  --bg-image: url("../assets/background.gif");
+  --bg-attachment: fixed;
+}
+
+body.forest-mode {
+  --bg-primary: #1a4a31;
+  --bg-secondary: #aaaaaa;
+  --text-color: #1a1a1a;
+  --text-secondary: #5a8a63;
+  --link-color: #1c4c33;
+  --link-hover: #0f2a1b;
+  --title-bar-bg: #55aa55;
+  --title-bar-text: #ffffff;
+  --button-bg-dark: #555555;
+  --button-text-color: #ffffff;
+  --window-shadow-inner: inset -1px -1px #e8d8c8, inset 1px 1px #5a8a63, inset -2px -2px #c49a62, inset 2px 2px #8aad8a;
+  --bg-image: url("../assets/peen.png");
+  --bg-attachment: fixed;
+}
 
 .window-body {
   overflow: auto !important;
@@ -28,20 +80,15 @@ h1 {
 
 h1,
 h2 {
-  color: $heading-color;
+  color: var(--text-color);
   font-family: "FreePixel" !important;
   font-weight: bold;
   text-decoration-line: underline;
   text-decoration-style: wavy;
-  text-decoration-color: $link-color;
+  text-decoration-color: var(--link-color);
   text-underline-offset: 5px;
   margin-top: 5px;
   margin-bottom: 15px;
-
-  body.dark-mode & {
-    text-decoration-color: darkmagenta;
-    color: white;
-  }
 }
 
 .wrapper {
@@ -56,36 +103,42 @@ p {
   margin-top: 0.5rem;
   text-align: justify;
   text-justify: inter-word;
+  color: var(--text-color);
 }
 
 #active {
-  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a,
-    inset -2px -2px #dfdfdf, inset 2px 2px grey !important;
+  box-shadow: var(--active-shadow) !important;
   text-shadow: 1px 1px #222 !important;
 }
 
 .title-bar {
-  background: #000080;
+  background: var(--title-bar-bg);
+  color: var(--title-bar-text);
 }
 
 body {
   margin: auto;
   width: fit-content;
-  background-color: #108483;
-  color: black;
+  background-color: var(--bg-primary);
+  background-image: var(--bg-image);
+  background-attachment: var(--bg-attachment);
+  background-size: auto;
+  background-repeat: repeat;
+  color: var(--text-color);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
 
-  &.dark-mode {
-    background-image: url("../assets/background.gif");
-    background-color: black;
-    background-attachment: fixed;
-    color: white;
-  }
+body.forest-mode {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 html {
@@ -101,6 +154,7 @@ html {
 
   a {
     text-decoration: none;
+    color: var(--link-color);
 
     &:hover {
       text-decoration: underline;
@@ -181,112 +235,77 @@ fieldset {
   }
 
   a {
-    color: $link-color;
-
-    body.dark-mode & {
-      color: magenta;
-    }
+    color: var(--link-color);
   }
 }
 
-#dark-mode-toggle {
+#theme-toggle {
   position: fixed;
   bottom: 10px;
   left: 10px;
   padding: 10px;
   z-index: 1000;
+  background: var(--button-bg-dark);
+  color: var(--text-color);
+  border: 2px outset;
+  cursor: pointer;
+  font-family: "FreePixel" !important;
+  font-size: 12px;
+}
+
+#theme-toggle:active {
+  box-shadow: var(--active-shadow-dark) !important;
 }
 
 .window {
   margin: 0 $x-margin;
   margin-top: $x-margin;
-
-  body.dark-mode & {
-    background: black;
-    color: white;
-    box-shadow: inset -1px -1px rgb(35, 35, 35), inset 1px 1px dimgray,
-      inset -2px -2px dimgray, inset 2px 2px rgb(65, 65, 65) !important;
-  }
-}
-
-.title-bar {
-  body.dark-mode & {
-    background: magenta;
-    outline: 1px solid dimgray;
-    color: white;
-  }
+  background: var(--bg-secondary);
+  color: var(--text-color);
+  box-shadow: var(--window-shadow-inner) !important;
 }
 
 .carousel-description {
-  body.dark-mode & {
-    background: black;
-  }
+  background: var(--bg-secondary);
 }
 
 button {
-  body.dark-mode & {
-    background: rgb(50, 50, 50);
-    color: white;
-    box-shadow: inset -1px -1px rgb(35, 35, 35), inset 1px 1px dimgray,
-      inset -2px -2px dimgray, inset 2px 2px rgb(65, 65, 65) !important;
-  }
-}
-
-a {
-  body.dark-mode & {
-    color: magenta;
-  }
+  background: var(--button-bg-dark);
+  color: var(--button-text-color);
+  box-shadow: var(--button-shadow-dark) !important;
 }
 
 .active-btn {
-  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a,
-    inset -2px -2px #dfdfdf, inset 2px 2px grey !important;
+  box-shadow: var(--active-shadow-dark) !important;
   text-shadow: 1px 1px #222 !important;
-
-  body.dark-mode & {
-    box-shadow: inset -1px -1px rgb(65, 65, 65), inset 1px 1px dimgray,
-      inset -2px -2px gray, inset 2px 2px rgb(35, 35, 35) !important;
-    text-shadow: 1px 1px #222 !important;
-  }
 }
 
 footer {
-  color: black;
+  color: var(--text-color);
   font-family: "FreePixel" !important;
   font-size: 11px;
   text-align: center;
   padding: 10px;
   padding-bottom: 1rem;
-
-  body.dark-mode & {
-    color: white !important;
-  }
 }
 
 details ul li {
   list-style: inside;
   margin-left: 1rem;
   list-style-type: '– ';
+  color: var(--text-color);
 }
 
 summary {
   padding-bottom: 0.5rem;
 
   strong {
-    color: $link-color;
-
-    body.dark-mode & {
-      color: magenta;
-    }
+    color: var(--link-color);
   }
 }
 
 i {
-  color: dimgray;
-
-  body.dark-mode & {
-    color: gray;
-  }
+  color: var(--text-secondary);
 }
 
 ul details summary {
@@ -307,7 +326,7 @@ ul details:not([open]) > summary::before {
 
 ul details > summary::before {
   background-color: transparent;
-  border: 1px solid grey;
+  border: 1px solid var(--text-secondary);
   content: "+";
   display: block;
   float: left;

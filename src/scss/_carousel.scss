@@ -1,8 +1,8 @@
 .carousel-image {
-  height: 200px;
   display: none;
   outline: 1px dotted gray;
   cursor: url("../assets/cursors/point.png"), pointer;
+  aspect-ratio: 4 / 3;
 }
 
 .carousel-image.active {
@@ -33,6 +33,7 @@ button.next {
 .image-carousel {
   float: right;
   margin: 1rem;
+  width: fit-content;
 }
 
 .carousel-controls {

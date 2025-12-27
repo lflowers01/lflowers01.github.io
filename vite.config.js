@@ -16,6 +16,7 @@ export default defineConfig({
         main: resolve(__dirname, "src/index.html"),
         portfolio: resolve(__dirname, "src/portfolio.html"),
         projectile: resolve(__dirname, "src/projectile-sim.html"),
+        upload: resolve(__dirname, "src/upload.html"),
         game: resolve(__dirname, "src/game.htm"),
         sadgrl: resolve(__dirname, "src/sadgrl.online.html"),
         test: resolve(__dirname, "src/test.html")
@@ -40,7 +41,9 @@ export default defineConfig({
       targets: [
         { src: "optimized-assets/**/*", dest: "dist/assets" },
         { src: "src/resume.pdf", dest: "dist" },
-        { src: "src/password-tool/**/*", dest: "dist/password-tool" }
+        { src: "src/password-tool/**/*", dest: "dist/password-tool" },
+        { src: "src/carousel-metadata.json", dest: "dist" },
+        { src: "src/carousel-metadata.json", dest: "src" }
       ],
       hook: "writeBundle",
     }),

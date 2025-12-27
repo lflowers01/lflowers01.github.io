@@ -54,11 +54,8 @@ def copy_src_to_dist():
     if not os.path.exists(dest):
         os.makedirs(dest)
 
-    # List of files that should NOT be overwritten (these are built by Vite)
-    protected_files = ['index.html', 'portfolio.html', 'projectile-sim.html']
-    
     # List of files we DO want to copy
-    copy_files = ['resume.pdf', 'game.htm', 'sadgrl.online.html', 'test.html']
+    copy_files = ['resume.pdf', 'game.htm', 'sadgrl.online.html', 'test.html', 'carousel-metadata.json']
 
     for file in copy_files:
         src_file = os.path.join(src, file)
@@ -70,6 +67,12 @@ def copy_src_to_dist():
         else:
             print(f"Source file not found: {src_file}")
 
+    # Also copy carousel-metadata.json from root if it exists
+    root_meta = 'carousel-metadata.json'
+    if os.path.exists(root_meta):
+        shutil.copy2(root_meta, os.path.join(dest, root_meta))
+        print(f"Copied: {root_meta} -> {os.path.join(dest, root_meta)}")
+
     # Copy the password-tool directory
     password_tool_src = os.path.join(src, "password-tool")
     password_tool_dest = os.path.join(dest, "password-tool")
@@ -79,6 +82,16 @@ def copy_src_to_dist():
             shutil.rmtree(password_tool_dest)
         shutil.copytree(password_tool_src, password_tool_dest)
         print(f"Copied directory: {password_tool_src} -> {password_tool_dest}")
+
+    # Copy carousel assets to dist
+    carousel_src = os.path.join(src, "assets/carousel")
+    carousel_dest = os.path.join(dest, "assets/carousel")
+    
+    if os.path.exists(carousel_src):
+        if os.path.exists(carousel_dest):
+            shutil.rmtree(carousel_dest)
+        shutil.copytree(carousel_src, carousel_dest)
+        print(f"Copied carousel assets: {carousel_src} -> {carousel_dest}")
 
 if __name__ == "__main__":
     # Step 1: Optimize images
