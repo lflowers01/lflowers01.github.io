@@ -6,9 +6,11 @@ import threading
 def run_build():
     """Run the Vite build command."""
     print("Building the project with Vite...")
-    result = subprocess.run("npm run build", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    # Use npx vite build to use the locally installed vite
+    result = subprocess.run("npx vite build", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if result.returncode != 0:
         print("Build failed.")
+        print(result.stdout)
         print(result.stderr)
         exit(1)
     print("Build completed successfully.")
