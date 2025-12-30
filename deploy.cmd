@@ -22,10 +22,9 @@ if errorlevel 1 (
 )
 echo ✓ Dependencies installed
 
-REM Step 2: Run build.py (which handles image optimization, Vite build, and asset copying)
 echo.
 echo [2/5] Running build process (optimize images + Vite build + copy assets)...
-python build.py
+
 if errorlevel 1 (
     echo ERROR: build.py failed
     exit /b 1

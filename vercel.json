@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm install && python build.py",
+  "buildCommand": "npm install && npm run build",
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
