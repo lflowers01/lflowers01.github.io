@@ -14,8 +14,17 @@ export default {
       { src: "/portfolio", dest: "/portfolio.html" },
       { src: "/projectile", dest: "/projectile-sim.html" },
       { src: "/game", dest: "/game.htm" },
-      { src: "/sadgrl", dest: "/sadgrl.online.html" },
       { src: "/test", dest: "/test.html" }
     ]
-  };
-  
+
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/portfolio", "destination": "/portfolio.html" },
+    { "source": "/projectile", "destination": "/projectile-sim.html" },
+    { "source": "/game", "destination": "/game.htm" },
+    { "source": "/sadgrl", "destination": "/sadgrl.online.html" },
+    { "source": "/test", "destination": "/test.html" },
+    { "source": "/upload", "destination": "/upload.html" }
+  ]
+};
