@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/gif" href="/assets/favicon-export.gif" />
+    <link rel="stylesheet" href="https://unpkg.com/98.css" />
+    <title>[ Upload Carousel Images ]</title>
+    <style>
+      .upload-container {
+        max-width: 700px;
+        margin: 20px auto;
+      }
+      
+      .form-group {
+        margin-bottom: 15px;
+      }
+      
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        font-family: inherit;
+      }
+      
+      .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+      
+      .upload-button {
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      
+      .message {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        display: none;
+      }
+      
+      .message.success {
+        background-color: #90EE90;
+        color: #155724;
+        display: block;
+      }
+      
+      .message.error {
+        background-color: #FFB6C6;
+        color: #721c24;
+        display: block;
+      }
+      
+      .images-list {
+        margin-top: 30px;
+      }
+      
+      .images-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+      }
+      
+      .image-item {
+        background: #f0f0f0;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: move;
+        transition: all 0.2s;
+        border: 2px solid transparent;
+      }
+      
+      .image-item.dragging {
+        opacity: 0.5;
+        border: 2px dashed #999;
+      }
+      
+      .image-item.drag-over {
+        border: 2px solid #0066cc;
+        background: #e6f2ff;
+      }
+      
+      .image-item img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        margin-bottom: 10px;
+        border-radius: 3px;
+      }
+      
+      .image-info {
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+      
+      .image-description {
+        font-weight: bold;
+        margin-bottom: 4px;
+        word-break: break-word;
+      }
+      
+      .image-controls {
+        display: flex;
+        gap: 5px;
+      }
+      
+      .delete-btn, .edit-btn {
+        flex: 1;
+        padding: 5px;
+        cursor: pointer;
+        border: none;
+        font-size: 11px;
+        border-radius: 2px;
+      }
+      
+      .delete-btn {
+        background-color: #ff6b6b;
+        color: white;
+      }
+      
+      .edit-btn {
+        background-color: #4CAF50;
+        color: white;
+      }
+      
+      .reorder-hint {
+        font-size: 12px;
+        color: #666;
+        margin-top: 10px;
+        padding: 10px;
+        background: #f9f9f9;
+        border-radius: 3px;
+      }
+      
+      body.dark-mode .image-item {
+        background: #333;
+        color: white;
+      }
+      
+      body.dark-mode .reorder-hint {
+        background: #222;
+        color: #ccc;
+      }
+      
+      body.forest-mode .image-item {
+        background: #c4a472;
+        color: #1c4c33;
+      }
+      
+      body.forest-mode .reorder-hint {
+        background: #aaaaaa;
+        color: #1c4c33;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/upload-DQWHT9Tc.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="/assets/dark-mode-DgKG1Anf.js">
+    <link rel="stylesheet" crossorigin href="/assets/dark-mode.css">
+  </head>
+  <body>
+    <div id="header">
+      <div id="external-links" class="window">
+        <div class="title-bar">
+          <div class="title-bar-text">Links</div>
+          <div class="title-bar-controls">
+            <button aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="window-body">
+          <div>
+            <ul>
+              <li><a href="/">← Back to Home</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="container" class="window upload-container">
+      <div class="title-bar">
+        <div class="title-bar-text">Upload & Manage Carousel Images</div>
+        <div class="title-bar-controls">
+          <button aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div style="background: #e6f2ff; padding: 15px; border-radius: 4px; margin-bottom: 20px; color: #003366;">
+          <strong>ℹ️ Development Mode Only</strong>
+          <p>This upload page only works locally during development. The upload server runs on your machine and is not deployed to production.</p>
+          <p>To use this feature:</p>
+          <ol style="margin: 10px 0; padding-left: 20px;">
+            <li>Run <code style="background: #fff; padding: 2px 5px;">npm run dev</code></li>
+            <li>In another terminal, run <code style="background: #fff; padding: 2px 5px;">npm run upload-server</code></li>
+            <li>Navigate to this page at <code style="background: #fff; padding: 2px 5px;">http://localhost:5173/upload.html</code></li>
+          </ol>
+        </div>
+        
+        <form id="uploadForm">
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+
+          <div class="form-group">
+            <label for="image">Select Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description (optional):</label>
+            <textarea id="description" name="description" placeholder="Add a description for this carousel image..."></textarea>
+          </div>
+
+          <button type="submit" class="upload-button">Upload Image</button>
+        </form>
+
+        <div id="message" class="message"></div>
+
+        <div class="images-list">
+          <h3>Carousel Images (<span id="imageCount">0</span>)</h3>
+          <div class="reorder-hint">💡 Drag and drop images to reorder them in the carousel</div>
+          <div id="imagesList" class="images-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer><a href="https://github.com/lflowers01/lflowers01.github.io" target="_blank">This site is homemade!</a></footer>
+    <button id="theme-toggle" aria-label="Change Theme">Change Theme</button>
+
+  </body>
+</html>
