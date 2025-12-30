@@ -1,11 +1,14 @@
 // vercel.js
 export default {
-    build: {
-      // Run Vite build
-      command: "vite build",
-      // Output directory of Vite
-      outputDirectory: "dist"
-    },
+    builds: [
+      {
+        src: "vite.config.js", // your build config
+        use: "@vercel/static-build",
+        config: {
+          distDir: "dist" // Vite output directory
+        }
+      }
+    ],
     routes: [
       { src: "/", dest: "/index.html" },
       { src: "/portfolio", dest: "/portfolio.html" },
