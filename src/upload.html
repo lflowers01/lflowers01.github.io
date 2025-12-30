@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Upload Carousel Images</title>
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
+<title>Upload Carousel Images</title>
 <style>
   body { font-family: sans-serif; margin: 0; padding: 20px; }
   .upload-container { max-width: 700px; margin: auto; }
   .form-group { margin-bottom: 15px; }
   .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-  .form-group input, .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+  .form-group input, .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; font-family: inherit; }
   .form-group textarea { min-height: 80px; resize: vertical; }
   .upload-button { padding: 10px 20px; cursor: pointer; margin-right: 10px; }
   .message { padding: 10px; margin: 10px 0; border-radius: 4px; display: none; }
@@ -28,14 +28,18 @@
   .delete-btn { background-color: #ff6b6b; color: white; }
   .edit-btn { background-color: #4CAF50; color: white; }
   .reorder-hint { font-size: 12px; color: #666; margin-top: 10px; padding: 10px; background: #f9f9f9; border-radius: 3px; }
+  body.dark-mode .image-item { background: #333; color: white; }
+  body.dark-mode .reorder-hint { background: #222; color: #ccc; }
+  body.forest-mode .image-item { background: #c4a472; color: #1c4c33; }
+  body.forest-mode .reorder-hint { background: #aaaaaa; color: #1c4c33; }
 </style>
 </head>
 <body>
-<div class="upload-container">
+<div id="container" class="upload-container">
   <h2>Upload & Manage Carousel Images</h2>
   <div style="background: #e6f2ff; padding: 15px; border-radius: 4px; margin-bottom: 20px; color: #003366;">
     <strong>ℹ️ Development Mode Only</strong>
-    <p>This upload page only works locally during development.</p>
+    <p>This upload page only works locally during development. Make sure your upload server is running on <code>http://localhost:3001</code></p>
   </div>
 
   <form id="uploadForm">
@@ -57,25 +61,35 @@
   <div id="message" class="message"></div>
 
   <h3>Carousel Images (<span id="imageCount">0</span>)</h3>
-  <div class="reorder-hint">💡 Drag and drop images to reorder them</div>
+  <div class="reorder-hint">💡 Drag and drop images to reorder them in the carousel</div>
   <div id="imagesList" class="images-grid"></div>
 </div>
 
-<script>
-const uploadForm = document.getElementById('uploadForm');
-const message = document.getElementById('message');
-const imagesList = document.getElementById('imagesList');
-const imageCount = document.getElementById('imageCount');
+<button id="theme-toggle">Change Theme</button>
 
+<script>
 const API_URL = 'http://localhost:3001/api';
+const uploadForm = document.getElementById('uploadForm');
+const imagesList = document.getElementById('imagesList');
+const message = document.getElementById('message');
+const imageCount = document.getElementById('imageCount');
+const themeToggle = document.getElementById('theme-toggle');
 
 function showMessage(text, type='success') {
   message.textContent = text;
   message.className = 'message ' + type;
+  message.style.display = 'block';
   setTimeout(() => { message.style.display = 'none'; }, 4000);
 }
 
-// Fetch carousel images
+// Theme toggle
+themeToggle.addEventListener('click', () => {
+  if(document.body.classList.contains('dark-mode')) document.body.classList.remove('dark-mode'), document.body.classList.add('forest-mode');
+  else if(document.body.classList.contains('forest-mode')) document.body.classList.remove('forest-mode');
+  else document.body.classList.add('dark-mode');
+});
+
+// Load carousel images
 async function loadImages() {
   try {
     const res = await fetch(`${API_URL}/carousel`);
@@ -83,9 +97,7 @@ async function loadImages() {
     imagesList.innerHTML = '';
     imageCount.textContent = images.length;
     images.forEach(img => addImageItem(img));
-  } catch(e) {
-    showMessage('Failed to load images', 'error');
-  }
+  } catch(e) { showMessage('Failed to load images', 'error'); }
 }
 
 function addImageItem(img) {
@@ -97,11 +109,14 @@ function addImageItem(img) {
     <img src="/carousel/${img.filename}" alt="${img.description}" />
     <div class="image-info">
       <div class="image-description">${img.description}</div>
+      <div>Uploaded: ${new Date(img.uploadedAt).toLocaleString()}</div>
     </div>
     <div class="image-controls">
+      <button class="edit-btn">Edit</button>
       <button class="delete-btn">Delete</button>
     </div>
   `;
+
   const deleteBtn = div.querySelector('.delete-btn');
   deleteBtn.addEventListener('click', async () => {
     if(!confirm('Delete this image?')) return;
@@ -114,6 +129,22 @@ function addImageItem(img) {
     if(data.success) { showMessage('Deleted image'); loadImages(); }
     else showMessage(data.error, 'error');
   });
+
+  const editBtn = div.querySelector('.edit-btn');
+  editBtn.addEventListener('click', () => {
+    const newDesc = prompt('Edit description', img.description);
+    if(newDesc !== null) {
+      fetch(`${API_URL}/edit/${img.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: document.getElementById('password').value, description: newDesc })
+      }).then(res => res.json()).then(data => {
+        if(data.success) { showMessage('Description updated'); loadImages(); }
+        else showMessage(data.error, 'error');
+      });
+    }
+  });
+
   enableDragAndDrop(div);
   imagesList.appendChild(div);
 }
@@ -134,13 +165,8 @@ uploadForm.addEventListener('submit', async e => {
   try {
     const res = await fetch(`${API_URL}/upload`, { method: 'POST', body: formData });
     const data = await res.json();
-    if(data.success) {
-      showMessage('Upload successful');
-      uploadForm.reset();
-      loadImages();
-    } else {
-      showMessage(data.error, 'error');
-    }
+    if(data.success) { showMessage('Upload successful'); uploadForm.reset(); loadImages(); }
+    else showMessage(data.error, 'error');
   } catch(e) { showMessage('Upload failed', 'error'); }
 });
 
