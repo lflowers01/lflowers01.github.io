@@ -1,0 +1,70 @@
+.carousel-image {
+  display: none;
+  outline: 1px dotted gray;
+  cursor: url("../assets/cursors/point.png"), pointer;
+  aspect-ratio: 4 / 3;
+}
+
+.carousel-image.active {
+  display: block;
+}
+
+.carousel {
+  display: flex;
+  justify-content: center;
+}
+
+button.prev {
+  left: 10px;
+}
+
+button.next {
+  right: 10px;
+}
+
+.carousel-buttons {
+  display: flex;
+  width: 200px;
+  justify-content: space-around;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.image-carousel {
+  float: right;
+  margin: 1rem;
+  width: fit-content;
+}
+
+.carousel-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.carousel-counter {
+  text-align: center;
+  font-size: 10px;
+  color: gray;
+  outline: 1px dotted gray;
+  padding: 0px 5px;
+}
+
+@media only screen and (max-width: 660px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .carousel {
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  h1,
+  h2 {
+    text-align: center;
+  }
+}
