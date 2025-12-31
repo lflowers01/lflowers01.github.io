@@ -11,15 +11,14 @@ export default {
     ],
     routes: [
 
-      { src: "/", dest: "index.html" },
-      { src: "/portfolio", dest: "portfolio.html" },
-      { src: "/projectile", dest: "projectile-sim.html" },
-      { src: "/game", dest: "game.htm" },
-      { src: "/sadgrl", dest: "sadgrl.online.html" },
-      { src: "/test", dest: "test.html" },
-      { src: "/upload", dest: "upload.html" },
-      { src: "/projectile-sim", dest: "projectile-sim.html" },
-      { src: "/portfolio", dest: "portfolio.pdf" }
+      { src: "/", dest: "/index.html" },
+      { src: "/projectile", dest: "/projectile-sim.html" },
+      { src: "/game", dest: "/game.htm" },
+      { src: "/test", dest: "/test.html" },
+      { src: "/upload", dest: "/upload.html" },
+      { src: "/projectile-sim", dest: "/projectile-sim.html" },
+      { src: "/portfolio", dest: "/portfolio.pdf" },
+      { src: "/resume", dest: "/resume.pdf" },
     ]
   };
   
