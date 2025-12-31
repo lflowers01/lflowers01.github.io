@@ -4,25 +4,32 @@ import copy from "rollup-plugin-copy";
 import { resolve } from "path";
 import fs from "fs";
 
+const ROOT_DIR = process.cwd();
+
 /**
- * Automatically find all .html / .htm files in src/
+ * Find all .html / .htm files EXCEPT legacy folders
  */
-function getHtmlInputs(dir = "src") {
+function getHtmlInputs(dir = ROOT_DIR) {
   const inputs = {};
 
   for (const file of fs.readdirSync(dir)) {
-    const fullPath = `${dir}/${file}`;
+    if (
+      ["node_modules", "dist", ".git", "password-tool"].includes(file)
+    ) continue;
+
+    const fullPath = resolve(dir, file);
     const stat = fs.statSync(fullPath);
 
     if (stat.isDirectory()) {
       Object.assign(inputs, getHtmlInputs(fullPath));
     } else if (file.endsWith(".html") || file.endsWith(".htm")) {
       const name = fullPath
-        .replace(/^src\//, "")
+        .replace(ROOT_DIR + "\\", "")
+        .replace(ROOT_DIR + "/", "")
         .replace(/\.(html|htm)$/, "")
-        .replace(/\//g, "-");
+        .replace(/[\\/]/g, "-");
 
-      inputs[name] = resolve(__dirname, fullPath);
+      inputs[name] = fullPath;
     }
   }
 
@@ -32,11 +39,14 @@ function getHtmlInputs(dir = "src") {
 export default defineConfig({
   base: "/",
 
+  // ✅ THIS FIXES game.htm
+  assetsInclude: ["**/*.htm"],
+
   resolve: {
     alias: [
-      { find: /^\/js\/(.*)$/, replacement: "/src/js/$1" },
-      { find: /^\/scss\/(.*)$/, replacement: "/src/scss/$1" },
-      { find: /^\/assets\/(.*)$/, replacement: "/src/assets/$1" }
+      { find: /^\/js\/(.*)$/, replacement: "/js/$1" },
+      { find: /^\/scss\/(.*)$/, replacement: "/scss/$1" },
+      { find: /^\/assets\/(.*)$/, replacement: "/assets/$1" }
     ]
   },
 
@@ -50,14 +60,14 @@ export default defineConfig({
 
   plugins: [
     handlebars({
-      partialDirectory: "src/partials"
+      partialDirectory: resolve(ROOT_DIR, "partials")
     }),
 
     copy({
       targets: [
         { src: "optimized-assets/**/*", dest: "dist/assets" },
-        { src: "src/resume.pdf", dest: "dist" },
-        { src: "src/password-tool/**/*", dest: "dist/password-tool" }
+        { src: "resume.pdf", dest: "dist" },
+        { src: "password-tool/**/*", dest: "dist/password-tool" }
       ],
       hook: "writeBundle"
     })
