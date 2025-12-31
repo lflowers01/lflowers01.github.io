@@ -66,6 +66,8 @@ export default defineConfig({
     copy({
       targets: [
         { src: "optimized-assets/**/*", dest: "dist/assets" },
+        { src: "carousel-metadata.json", dest: "dist" },
+        { src: "assets/carousel/**/*", dest: "dist/assets/carousel" },
         { src: "resume.pdf", dest: "dist" },
         { src: "portfolio.pdf", dest: "dist" },
         { src: "password-tool/**/*", dest: "dist/password-tool" }
