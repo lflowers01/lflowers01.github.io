@@ -67,6 +67,7 @@ export default defineConfig({
       targets: [
         { src: "optimized-assets/**/*", dest: "dist/assets" },
         { src: "resume.pdf", dest: "dist" },
+        { src: "portfolio.pdf", dest: "dist" },
         { src: "password-tool/**/*", dest: "dist/password-tool" }
       ],
       hook: "writeBundle"
