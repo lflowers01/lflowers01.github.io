@@ -1,34 +1,24 @@
 import { defineConfig } from "vite";
 import handlebars from "vite-plugin-handlebars";
-import copy from "rollup-plugin-copy";
 import { resolve } from "path";
 import fs from "fs";
 
 const ROOT_DIR = process.cwd();
 
 /**
- * Find all .html / .htm files EXCEPT legacy folders
+ * Find all .html / .htm files in the root directory
  */
-function getHtmlInputs(dir = ROOT_DIR) {
+function getHtmlInputs() {
   const inputs = {};
+  const rootFiles = fs.readdirSync(ROOT_DIR);
 
-  for (const file of fs.readdirSync(dir)) {
-    if (
-      ["node_modules", "dist", ".git", "password-tool"].includes(file)
-    ) continue;
-
-    const fullPath = resolve(dir, file);
+  for (const file of rootFiles) {
+    const fullPath = resolve(ROOT_DIR, file);
     const stat = fs.statSync(fullPath);
 
-    if (stat.isDirectory()) {
-      Object.assign(inputs, getHtmlInputs(fullPath));
-    } else if (file.endsWith(".html") || file.endsWith(".htm")) {
-      const name = fullPath
-        .replace(ROOT_DIR + "\\", "")
-        .replace(ROOT_DIR + "/", "")
-        .replace(/\.(html|htm)$/, "")
-        .replace(/[\\/]/g, "-");
-
+    // Only process HTML files in the root directory, excluding game.htm
+    if (stat.isFile() && file.endsWith(".html")) {
+      const name = file.replace(/\.html$/, "");
       inputs[name] = fullPath;
     }
   }
@@ -36,41 +26,75 @@ function getHtmlInputs(dir = ROOT_DIR) {
   return inputs;
 }
 
+/**
+ * Plugin to copy static assets to dist
+ */
+function copyStaticAssets() {
+  return {
+    name: "copy-static-assets",
+    closeBundle: async () => {
+      const { default: fs } = await import("fs-extra");
+      
+      // Copy optimized assets (or fallback to assets)
+      const assetsSource = fs.existsSync("optimized-assets") ? "optimized-assets" : "assets";
+      await fs.copy(assetsSource, "dist/assets", { overwrite: true });
+      
+      // Copy game.htm as static file
+      if (fs.existsSync("game.htm")) {
+        await fs.copy("game.htm", "dist/game.htm");
+      }
+      
+      // Copy PDFs
+      if (fs.existsSync("resume.pdf")) {
+        await fs.copy("resume.pdf", "dist/resume.pdf");
+      }
+      if (fs.existsSync("portfolio.pdf")) {
+        await fs.copy("portfolio.pdf", "dist/portfolio.pdf");
+      }
+      
+      // Copy password-tool directory
+      if (fs.existsSync("password-tool")) {
+        await fs.copy("password-tool", "dist/password-tool", { overwrite: true });
+      }
+      
+      // Copy CNAME for custom domain
+      if (fs.existsSync("CNAME")) {
+        await fs.copy("CNAME", "dist/CNAME");
+      }
+
+      console.log("✅ Static assets copied to dist/");
+    },
+  };
+}
+
 export default defineConfig({
   base: "/",
+  
+  publicDir: "public",
 
-  // ✅ THIS FIXES game.htm
+  // Treat .htm files as static assets
   assetsInclude: ["**/*.htm"],
 
   resolve: {
-    alias: [
-      { find: /^\/js\/(.*)$/, replacement: "/js/$1" },
-      { find: /^\/scss\/(.*)$/, replacement: "/scss/$1" },
-      { find: /^\/assets\/(.*)$/, replacement: "/assets/$1" }
-    ]
+    alias: {
+      "/js": resolve(ROOT_DIR, "js"),
+      "/scss": resolve(ROOT_DIR, "scss"),
+      "/assets": resolve(ROOT_DIR, "assets"),
+    },
   },
 
   build: {
     outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {
-      input: getHtmlInputs()
-    }
+      input: getHtmlInputs(),
+    },
   },
 
   plugins: [
     handlebars({
-      partialDirectory: resolve(ROOT_DIR, "partials")
+      partialDirectory: resolve(ROOT_DIR, "partials"),
     }),
-
-    copy({
-      targets: [
-        { src: "optimized-assets/**/*", dest: "dist/assets" },
-        { src: "resume.pdf", dest: "dist" },
-        { src: "portfolio.pdf", dest: "dist" },
-        { src: "password-tool/**/*", dest: "dist/password-tool" }
-      ],
-      hook: "writeBundle"
-    })
-  ]
+    copyStaticAssets(),
+  ],
 });
