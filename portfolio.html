@@ -6,76 +6,218 @@
     <link rel="icon" type="image/gif" href="/assets/favicon-export.gif" />
     <link rel="stylesheet" href="https://unpkg.com/98.css" />
     <link rel="stylesheet" href="/scss/index.scss" />
-    <title>[ Creations ]</title>
+    <title>[ Portfolio - Lucas Flowers ]</title>
     <style>
         body {
-            max-width: 850px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 20px;
             overflow-x: hidden;
         }
+        .intro-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--surface);
+            border: 2px solid var(--button-face);
+        }
         #portfolio-grid {
-            display: flex;
-            gap: 16px;
-            overflow-x: auto;
-            padding: 16px;
-            scroll-snap-type: x mandatory;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 16px 0;
         }
         .portfolio-item-container {
-            flex: 0 0 calc(33.333% - 16px);
-            max-width: calc(33.333% - 16px);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
+            border: 2px solid var(--button-shadow);
+            padding: 15px;
+            background: var(--surface);
         }
         .portfolio-item {
             width: 100%;
-            height: auto;
-            object-fit: cover;
+            max-height: 200px;
+            object-fit: contain;
+            border: 1px solid var(--button-shadow);
+            margin-bottom: 12px;
+        }
+        .portfolio-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: var(--link-text);
+        }
+        .portfolio-date {
+            font-size: 0.85em;
+            color: var(--button-shadow);
+            margin-bottom: 8px;
         }
         .portfolio-description {
-            margin-top: 8px;
             font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: auto;
+        }
+        .tag {
+            background: var(--button-face);
+            padding: 3px 8px;
+            border: 1px solid var(--button-shadow);
+            font-size: 0.8em;
+        }
+        .project-link {
+            margin-top: 10px;
+            display: inline-block;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .contact-info {
+            text-align: center;
+            font-size: 0.9em;
+            margin-bottom: 20px;
         }
     </style>
     <script type="module" src="/js/dark-mode.js"></script>
 </head>
 <body>
     <section id="portfolio">
-        <h1>Portfolio</h1>
+        <h1>Engineering Project Portfolio</h1>
+        <div class="contact-info">
+            Lucas Flowers | Phoenix, AZ<br>
+            <a href="mailto:contact@lucasflowers.net">contact@lucasflowers.net</a> | 
+            <a href="https://linkedin.com/in/lucas-flowers-phx" target="_blank">LinkedIn</a>
+        </div>
+        
+        <div class="intro-section window">
+            <div class="title-bar">
+                <div class="title-bar-text">About Me</div>
+            </div>
+            <div class="window-body">
+                <p>
+                    Over the past four years, I have explored engineering through hands-on, interdisciplinary 
+                    experiences at the intersection of software, hardware, and systems design. My work has been 
+                    shaped most strongly by robotics, where I served as the lead programmer across multiple FIRST 
+                    Robotics Competition teams and ultimately founded my own team, Team Epsilon.
+                </p>
+                <p>
+                    This portfolio highlights selected projects that reflect how I approach engineering: learning 
+                    by building, iterating through failure, and designing systems that are both technically rigorous 
+                    and purposeful.
+                </p>
+            </div>
+        </div>
+
+        <h2>Featured Projects</h2>
         <div id="portfolio-grid"></div>
     </section>
+
     <script>
-        // Directory containing images
-        const imageDirectory = "/assets/portfolio/";
+        const projects = [
+            {
+                title: "FRC Team Epsilon",
+                date: "May 2025 - Present",
+                description: "Founded and lead a student-run FIRST Robotics Competition team. Built a full practice robot, grew to 12+ members, and raised $20,000+ in funding. Developed vision-based auto-alignment system using dual cameras and AprilTag detection. Recognized as top emerging rookie team in Arizona (Breakthrough Award).",
+                image: "/assets/portfolio/drawing.png",
+                tags: ["Robotics", "Leadership", "Java", "Computer Vision", "WPILib"],
+                link: null
+            },
+            {
+                title: "Makers of Change - Assistive Tech (State Finalist)",
+                date: "October 2025",
+                description: "Designed and built an interactive game board for a child with cerebral palsy. Led embedded systems development using Raspberry Pi, programmed accessible games, and managed hardware integration. Selected as Top 9 finalist out of 95+ teams statewide.",
+                image: "/assets/portfolio/malcom-x.png",
+                tags: ["Embedded Systems", "Python", "Raspberry Pi", "Accessibility", "Hardware"],
+                link: null
+            },
+            {
+                title: "Minecraft Server Wizard",
+                date: "December 2023",
+                description: "CS50 Final Project: Command-line tool that automates Minecraft server setup and management. Features include automated Java installation, plugin management, API integration, and backup systems. Packaged as standalone Windows executable.",
+                image: "/assets/portfolio/locked.png",
+                tags: ["Python", "Automation", "CLI", "PyInstaller"],
+                link: "https://github.com/lflowers01/minecraft-server-wizard"
+            },
+            {
+                title: "Physics Projectile Motion Simulator",
+                date: "May 2025",
+                description: "Interactive web-based simulator modeling projectile motion using kinematic equations. Features real-time trajectory visualization, velocity vectors, and adjustable parameters (force, angle, mass, height). Built for physics education with frame-rate-independent calculations.",
+                image: "/assets/portfolio/drawing.png",
+                tags: ["JavaScript", "Physics", "Simulation", "Web Development"],
+                link: "https://www.lucasflowers.net/projectile-sim"
+            },
+            {
+                title: "High-Altitude Weather Balloon Camera System",
+                date: "October 2025 - Present",
+                description: "Designing a custom camera system for high-altitude balloon payload using Raspberry Pi and dual Arducam cameras. Built Flask web interface for testing and configuration. System captures incremental images for 4-6 hour flights under 4-pound weight constraint.",
+                image: "/assets/portfolio/malcom-x.png",
+                tags: ["Raspberry Pi", "Python", "Flask", "Computer Vision", "Embedded Systems"],
+                link: null
+            },
+            {
+                title: "Smart Vision Saw Safety System",
+                date: "In Progress - AZSEF/ISEF Project",
+                description: "Developing a camera-based safety system that detects hands near saw blades and cuts power before contact. Uses computer vision with configurable danger zones adaptable to multiple tool types (table saws, miter saws, chop saws). Focus on low latency and reliability for safety-critical applications.",
+                image: "/assets/portfolio/locked.png",
+                tags: ["Computer Vision", "YOLO", "Safety Systems", "Embedded Systems", "Research"],
+                link: null
+            }
+        ];
 
-        // Dictionary mapping image filenames to descriptions
-        const imageDescriptions = {
-            "drawing.png": "Description for Project 1",
-            "malcom-x.png": "Description for Project 2",
-            "locked.png": "Description for Project 3"
-        };
-
-        // Function to dynamically load images into the portfolio grid
+        // Dynamically populate portfolio grid
         const portfolioGrid = document.getElementById("portfolio-grid");
-        for (const [filename, description] of Object.entries(imageDescriptions)) {
+        
+        projects.forEach(project => {
             const container = document.createElement("div");
             container.classList.add("portfolio-item-container");
 
             const imgElement = document.createElement("img");
-            imgElement.src = `${imageDirectory}${filename}`;
-            imgElement.alt = description;
-            imgElement.title = description;
+            imgElement.src = project.image;
+            imgElement.alt = project.title;
             imgElement.classList.add("portfolio-item");
+
+            const titleElement = document.createElement("div");
+            titleElement.classList.add("portfolio-title");
+            titleElement.textContent = project.title;
+
+            const dateElement = document.createElement("div");
+            dateElement.classList.add("portfolio-date");
+            dateElement.textContent = project.date;
 
             const descriptionElement = document.createElement("div");
             descriptionElement.classList.add("portfolio-description");
-            descriptionElement.innerHTML = `<strong>${filename.split('.')[0].replace(/_/g, ' ')}</strong><br>${description}`;
+            descriptionElement.textContent = project.description;
+
+            const tagsContainer = document.createElement("div");
+            tagsContainer.classList.add("portfolio-tags");
+            project.tags.forEach(tag => {
+                const tagElement = document.createElement("span");
+                tagElement.classList.add("tag");
+                tagElement.textContent = tag;
+                tagsContainer.appendChild(tagElement);
+            });
 
             container.appendChild(imgElement);
+            container.appendChild(titleElement);
+            container.appendChild(dateElement);
             container.appendChild(descriptionElement);
+            container.appendChild(tagsContainer);
+
+            if (project.link) {
+                const linkElement = document.createElement("a");
+                linkElement.href = project.link;
+                linkElement.target = "_blank";
+                linkElement.classList.add("project-link");
+                linkElement.textContent = "View Project →";
+                container.appendChild(linkElement);
+            }
+
             portfolioGrid.appendChild(container);
-        }
+        });
     </script>
 </body>
 </html>

@@ -4,12 +4,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   const carouselDiv = document.getElementById("carousel");
   const prevButton = document.querySelector(".prev");
   const nextButton = document.querySelector(".next");
-  const description = document.querySelector(".carousel-description");
   const counter = document.querySelector(".carousel-counter");
   const imageCarousel = document.querySelector(".image-carousel");
   
   let currentIndex = 0;
   let images = [];
+  let autoAdvanceInterval = null;
 
   // Load carousel metadata and create image elements
   const loadCarouselImages = async () => {
@@ -59,39 +59,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       images = carouselDiv.querySelectorAll(".carousel-image");
       console.log(`Loaded ${images.length} carousel images`);
-      updateCarouselSize();
       updateCarousel(currentIndex);
+      startAutoAdvance();
     } catch (error) {
       console.error('Error loading carousel metadata:', error);
       carouselDiv.innerHTML = '<p style="padding: 20px; text-align: center; color: red;">Error loading carousel images. Check console.</p>';
-    }
-  };
-
-  // Calculate dimensions based on number of images
-  const updateCarouselSize = () => {
-    const imageCount = images.length;
-    
-    if (imageCount === 0) return;
-    
-    // Base dimensions (4:3 aspect ratio)
-    const baseWidth = 200;
-    const baseHeight = 150;
-    
-    // Scale based on number of images (more images = larger carousel)
-    const scaleFactor = Math.max(0.8, Math.min(2, imageCount / 5));
-    const width = baseWidth * scaleFactor;
-    const height = baseHeight * scaleFactor;
-    
-    // Update image dimensions
-    images.forEach((img) => {
-      img.style.width = width + 'px';
-      img.style.height = height + 'px';
-      img.style.objectFit = 'cover';
-    });
-    
-    // Update carousel legend/fieldset
-    if (imageCarousel) {
-      imageCarousel.style.width = width + 'px';
     }
   };
 
@@ -102,22 +74,43 @@ document.addEventListener("DOMContentLoaded", async function () {
       img.classList.remove("active");
       if (i === index) {
         img.classList.add("active");
-        description.textContent = img.alt;
       }
     });
     counter.textContent = `${index + 1}/${images.length}`;
+  }
+
+  function startAutoAdvance() {
+    // Clear any existing interval
+    if (autoAdvanceInterval) {
+      clearInterval(autoAdvanceInterval);
+    }
+    
+    // Auto-advance every 10 seconds
+    autoAdvanceInterval = setInterval(() => {
+      if (images.length > 0) {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateCarousel(currentIndex);
+      }
+    }, 10000);
+  }
+
+  function resetAutoAdvance() {
+    // Reset the timer when user manually changes slides
+    startAutoAdvance();
   }
 
   prevButton.addEventListener("click", () => {
     if (images.length === 0) return;
     currentIndex = (currentIndex - 1 + images.length) % images.length;
     updateCarousel(currentIndex);
+    resetAutoAdvance();
   });
 
   nextButton.addEventListener("click", () => {
     if (images.length === 0) return;
     currentIndex = (currentIndex + 1) % images.length;
     updateCarousel(currentIndex);
+    resetAutoAdvance();
   });
 
   // Add click event listener to open images in full screen
