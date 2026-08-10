@@ -1,1986 +1,708 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/gif" href="/assets/favicon-export.gif" />
-  <link rel="stylesheet" href="https://unpkg.com/98.css" />
-  <title>[ Lucas Flowers ]</title>
-
-  <style>
-    @font-face {
-      font-family: "FreePixel";
-      src: url("/assets/fonts/FreePixel.ttf");
-    }
-
-    @font-face {
-      font-family: "pxplus";
-      src: url("/assets/fonts/pxplus.ttf");
-    }
-
-    :root {
-      --bg-primary: #108483;
-      --bg-secondary: #c0c0c0;
-      --text-color: black;
-      --text-secondary: dimgray;
-      --link-color: navy;
-      --title-bar-bg: #000080;
-      --title-bar-text: white;
-      --window-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a,
-        inset -2px -2px #dfdfdf, inset 2px 2px grey;
-      --button-shadow: inset -1px -1px rgb(35,35,35), inset 1px 1px dimgray,
-        inset -2px -2px dimgray, inset 2px 2px rgb(65,65,65);
-      --active-shadow: inset -1px -1px rgb(65,65,65), inset 1px 1px dimgray,
-        inset -2px -2px gray, inset 2px 2px rgb(35,35,35);
-      --button-bg: #c0c0c0;
-      --button-text: black;
-      --bg-image: none;
-      --scanline-opacity: 0.045;
-      --window-glow: 0 0 12px rgba(0,0,0,0.16);
-      --pixel-divider: repeating-linear-gradient(
-        90deg,
-        #fff 0px,
-        #fff 3px,
-        transparent 3px,
-        transparent 6px
-      );
-      --panel-border: rgba(255,255,255,0.18);
-      --accent-chip: rgba(255,255,255,0.14);
-      --glow-color: rgba(255, 255, 255, 0.25);
-      --winamp-bg: rgba(6, 16, 48, 0.85);
-      --winamp-display: rgba(2, 8, 24, 0.8);
-      --winamp-text: #cfe2ff;
-      --winamp-accent: #64a9ff;
-    }
-
-    body.dark-mode {
-      --bg-primary: black;
-      --bg-secondary: #161616;
-      --text-color: white;
-      --text-secondary: gray;
-      --link-color: magenta;
-      --title-bar-bg: magenta;
-      --title-bar-text: white;
-      --button-bg: rgb(50,50,50);
-      --button-text: white;
-      --bg-image: url("/assets/background.gif");
-      --scanline-opacity: 0.065;
-      --accent-chip: rgba(255,255,255,0.08);
-      --glow-color: rgba(255, 0, 255, 0.25);
-      --winamp-bg: rgba(20, 0, 25, 0.75);
-      --winamp-display: rgba(10, 0, 15, 0.8);
-      --winamp-text: #ffb3ff;
-      --winamp-accent: #ff5bff;
-    }
-
-    body.forest-mode {
-      --bg-primary: #1b3f2f;
-      --bg-secondary: #bdb7a8;
-      --text-color: #101010;
-      --text-secondary: #476851;
-      --link-color: #214f39;
-      --title-bar-bg: #4e8f60;
-      --title-bar-text: white;
-      --bg-image: url("/assets/peen.png");
-      --accent-chip: rgba(0,0,0,0.08);
-      --glow-color: rgba(33, 79, 57, 0.3);
-      --winamp-bg: rgba(12, 28, 20, 0.8);
-      --winamp-display: rgba(5, 16, 10, 0.75);
-      --winamp-text: #b8ffd2;
-      --winamp-accent: #6dffb1;
-    }
-
-    html {
-      width: 100%;
-      min-height: 100%;
-      cursor: url("/assets/cursors/default.png"), auto;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      width: 100%;
-      background-color: var(--bg-primary);
-      background-image: var(--bg-image);
-      background-attachment: fixed;
-      background-repeat: repeat;
-      color: var(--text-color);
-      image-rendering: pixelated;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(
-        rgba(255,255,255,var(--scanline-opacity)) 50%,
-        transparent 50%
-      );
-      background-size: 100% 4px;
-      pointer-events: none;
-      z-index: 9998;
-      mix-blend-mode: soft-light;
-      animation: flicker 6s infinite ease-in-out;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(circle at center,
-        transparent 56%,
-        rgba(0,0,0,0.20) 100%
-      );
-      z-index: 9997;
-    }
-
-    @keyframes flicker {
-      0%, 100% { opacity: 0.85; }
-      40% { opacity: 0.7; }
-      60% { opacity: 0.9; }
-    }
-
-    a {
-      color: var(--link-color);
-      text-decoration: none;
-      transition: text-shadow 0.12s ease, transform 0.12s ease;
-      position: relative;
-    }
-
-    a:hover {
-      text-decoration: underline;
-      cursor: url("/assets/cursors/point.png"), pointer;
-    }
-    #external-links a {
-      text-shadow: none;
-    }
-
-    #external-links a::after {
-      display: none;
-    }
-
-    #external-links a:hover {
-      text-shadow: none;
-    }
-
-    a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -2px;
-      height: 2px;
-      width: 100%;
-      background: currentColor;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.2s ease;
-      opacity: 0.7;
-    }
-
-    a:hover::after {
-      transform: scaleX(1);
-    }
-
-    ::selection {
-      background: var(--title-bar-bg);
-      color: white;
-    }
-
-    #site {
-      width: min(1120px, calc(100% - 24px));
-      margin: 8px auto 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .center-banner {
-      min-height: 240px;
-      overflow: hidden;
-      position: relative;
-      background:
-        linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)),
-        url("https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop") center/cover;
-      image-rendering: auto;
-      animation: bannerGlow 8s ease-in-out infinite;
-    }
-
-    @keyframes bannerGlow {
-      0%, 100% { filter: saturate(1); }
-      50% { filter: saturate(1.2); }
-    }
-
-    .center-banner::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          rgba(255,255,255,0.04) 0px,
-          rgba(255,255,255,0.04) 2px,
-          transparent 2px,
-          transparent 4px
-        );
-      pointer-events: none;
-    }
-
-    .banner-content {
-      position: absolute;
-      left: 24px;
-      bottom: 16px;
-      z-index: 2;
-      color: white;
-      text-shadow: 2px 2px 0 black;
-    }
-
-    .banner-title {
-      font-family: "FreePixel", monospace;
-      font-size: clamp(20px, 3vw, 34px);
-      margin-bottom: 8px;
-      letter-spacing: 1px;
-      text-shadow: 0 0 8px var(--glow-color);
-    }
-
-    .banner-subtitle {
-      font-family: "FreePixel", monospace;
-      font-size: 10px;
-      line-height: 1.5;
-      max-width: 380px;
-    }
-
-    .marquee {
-      width: 100%;
-      margin-bottom: 10px;
-      font-family: "FreePixel", monospace;
-      font-size: 11px;
-      padding: 6px;
-      background: rgba(0,0,0,0.1);
-      border: 2px inset;
-      color: var(--text-color);
-      overflow: hidden;
-    }
-
-    .marquee-track {
-      display: inline-flex;
-      gap: 16px;
-      white-space: nowrap;
-      animation: marqueeRight 18s linear infinite;
-    }
-
-    @keyframes marqueeRight {
-      from { transform: translateX(-100%); }
-      to { transform: translateX(100%); }
-    }
-
-    #top-row {
-      display: grid;
-      grid-template-columns: 240px 1fr 320px;
-      gap: 12px;
-      align-items: stretch;
-    }
-
-    .center-banner {
-      align-self: stretch;
-      min-height: 260px;
-    }
-
-    @media (max-width: 900px) {
-      #top-row {
-        grid-template-columns: 1fr;
-      }
-
-      .center-banner {
-        min-height: 220px;
-      }
-
-      .banner-content {
-        left: 16px;
-        bottom: 12px;
-      }
-    }
-
-    #left-stack {
-      display: grid;
-      gap: 12px;
-      align-content: start;
-    }
-
-    #right-stack {
-      display: grid;
-      gap: 12px;
-      align-content: start;
-    }
-
-    .window {
-      background: var(--bg-secondary);
-      color: var(--text-color);
-      box-shadow: var(--window-shadow), var(--window-glow) !important;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .window:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--window-shadow), 0 0 16px var(--glow-color) !important;
-    }
-
-    .window::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(rgba(255,255,255,0.04), transparent);
-      pointer-events: none;
-    }
-
-    .title-bar {
-      background: var(--title-bar-bg) !important;
-    }
-
-    .title-bar-text {
-      color: var(--title-bar-text) !important;
-      font-family: "FreePixel", monospace;
-      letter-spacing: 0.4px;
-    }
-
-    button {
-      background: var(--button-bg) !important;
-      color: var(--button-text) !important;
-      box-shadow: var(--button-shadow) !important;
-    }
-
-    button:active {
-      box-shadow: var(--active-shadow) !important;
-    }
-
-    .title-bar-controls button {
-      min-width: 16px;
-      min-height: 14px;
-      border: 1px solid #1a1a1a;
-      background: var(--button-bg) !important;
-      box-shadow: var(--button-shadow) !important;
-      position: relative;
-    }
-
-    .title-bar-controls button::after {
-      content: "";
-      position: absolute;
-      inset: 3px;
-      border: 1px solid rgba(0,0,0,0.75);
-    }
-
-    .title-bar-controls button[aria-label="Minimize"]::after {
-      border-top: none;
-      border-left: none;
-      border-right: none;
-      border-bottom: 2px solid rgba(0,0,0,0.8);
-      inset: auto 3px 3px 3px;
-      height: 0;
-    }
-
-    .title-bar-controls button[aria-label="Maximize"]::after {
-      border: 1px solid rgba(0,0,0,0.85);
-    }
-
-    .title-bar-controls button[aria-label="Close"]::after {
-      content: "x";
-      font-family: "FreePixel", monospace;
-      font-size: 10px;
-      line-height: 1;
-      color: rgba(0,0,0,0.85);
-      border: none;
-      inset: 2px 0 0 0;
-      text-align: center;
-    }
-
-    #external-links,
-    #status-widget,
-    #now-widget {
-      width: 100%;
-      max-width: 240px;
-    }
-
-    #now-widget {
-      max-width: 320px;
-    }
-
-    #external-links ul,
-    #container ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    #external-links li {
-      padding: 3px 0;
-    }
-
-    .nav-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 2px 6px;
-      border-radius: 2px;
-    }
-
-    .nav-link:hover {
-      background: var(--accent-chip);
-      text-decoration: none;
-    }
-
-    .mini-icon {
-      display: inline-flex;
-      width: 1.2rem;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      flex: 0 0 1.2rem;
-      opacity: 0.9;
-    }
-
-    .mini-icon.email {
-      font-size: 13px;
-    }
-
-    .mini-icon.in {
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: -0.5px;
-    }
-
-    .now-label,
-    .now-updated,
-    .section-kicker {
-      font-family: "FreePixel", monospace;
-      font-size: 10px;
-      color: var(--text-secondary);
-    }
-
-    .now-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .now-list li {
-      display: flex;
-      gap: 6px;
-      padding: 3px 0;
-      font-size: 11px;
-      align-items: flex-start;
-      line-height: 1.4;
-    }
-
-    .status-lines {
-      background: #000;
-      color: #00ff9d;
-      font-family: "pxplus", monospace;
-      font-size: 12px;
-      line-height: 1.5;
-      padding: 8px 10px;
-      text-shadow: 0 0 6px rgba(0, 255, 157, 0.5);
-    }
-    
-      /* linux-style terminal output for status widget */
-      .linux-log {
-        background: linear-gradient(180deg, #07090b 0%, #0b0f12 100%);
-        color: #7CFF7C;
-        font-family: "pxplus", ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Liberation Mono", monospace;
-        font-size: 12px;
-        line-height: 1.35;
-        padding: 10px 12px;
-        border-radius: 4px;
-        border: 1px solid rgba(255,255,255,0.04);
-        box-shadow: inset 0 0 24px rgba(0,255,128,0.02), 0 6px 18px rgba(2,6,10,0.6);
-        white-space: pre-wrap;
-        box-sizing: border-box;
-        height: 120px; /* fixed height so it doesn't expand */
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
-
-      /* hide scrollbar but keep scrolling functionality */
-      .linux-log::-webkit-scrollbar { width: 0; height: 0; }
-      .linux-log { -ms-overflow-style: none; scrollbar-width: none; }
-    
-      .linux-log .muted { color: rgba(124,255,124,0.45); }
-      .linux-log .ok { color: #b6ffb6; font-weight: 700; }
-      .linux-log .path { color: #9adfff; }
-
-      /* typing cursor overlay */
-      .linux-log.cursor::after {
-        content: "_";
-        display: inline-block;
-        margin-left: 4px;
-        animation: blink-caret 700ms steps(1) infinite;
-        color: #7CFF7C;
-        opacity: 0.95;
-      }
-
-      @keyframes blink-caret {
-        50% { opacity: 0; }
-      }
-
-    .status-lines p {
-      margin: 0;
-    }
-    
-      .blink {
-        animation: blink 1s steps(1) infinite;
-      }
-
-    .blink {
-      animation: blink 1s steps(1) infinite;
-    }
-
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-
-    #container {
-      margin-top: 12px;
-    }
-
-    .main-body {
-      padding: 12px 14px 14px;
-    }
-
-    .intro-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
-      gap: 14px;
-    }
-
-    @media (max-width: 900px) {
-      .intro-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .carousel-panel .window-body {
-      padding: 10px;
-    }
-
-    .carousel-container {
-      width: 100%;
-    }
-
-    .carousel {
-      position: relative;
-      min-height: 200px;
-      border: 1px solid rgba(0,0,0,0.3);
-      background: rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
-
-    .carousel-image {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .carousel-image.active {
-      opacity: 1;
-    }
-
-    .image-carousel {
-      border: none;
-      padding: 0;
-    }
-
-    .carousel-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-top: 8px;
-      font-family: "FreePixel", monospace;
-      font-size: 10px;
-    }
-
-    .carousel-buttons button {
-      font-size: 10px;
-      padding: 2px 8px;
-    }
-
-    h1, h2 {
-      font-family: "FreePixel", monospace !important;
-      text-decoration: underline wavy var(--link-color);
-      text-underline-offset: 5px;
-      margin: 8px 0 12px;
-    }
-
-    h2 { font-size: 18px; }
-
-    p {
-      line-height: 1.7;
-      margin: 0.75rem 0 0;
-      text-align: left;
-      max-width: 72ch;
-      overflow-wrap: anywhere;
-    }
-
-    .pixel-divider {
-      height: 10px;
-      background-image: var(--pixel-divider);
-      opacity: 0.45;
-      margin: 18px 0;
-    }
-
-    .featured-projects {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .featured-projects .window {
-      margin-bottom: 0;
-    }
-
-    @media (max-width: 900px) {
-      .featured-projects {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    details ul li {
-      list-style: inside;
-      list-style-type: '– ';
-      margin-left: 1rem;
-    }
-
-    summary {
-      cursor: pointer;
-      display: inline-block;
-      padding-bottom: 4px;
-    }
-
-    summary strong {
-      color: var(--link-color);
-    }
-
-    details > summary::before {
-      background-color: transparent;
-      border: 1px solid var(--text-secondary);
-      content: "+";
-      display: block;
-      float: left;
-      height: 9px;
-      line-height: 8px;
-      margin-right: 5px;
-      padding-left: 1px;
-      text-align: center;
-      width: 8px;
-    }
-
-    details[open] > summary::before { content: '-'; }
-
-    .music-player {
-      margin: 18px 0 2px;
-      max-width: 520px;
-    }
-
-    .winamp-window .window-body {
-      padding: 8px 10px;
-      background: linear-gradient(135deg, var(--winamp-bg), rgba(0,0,0,0.2));
-      color: var(--winamp-text);
-      font-family: "pxplus", monospace;
-    }
-
-    /* SoundCloud player inside Winamp (hidden visual iframe, active audio)
-       iframe kept off-canvas so widget postMessage still works */
-    .sc-player-wrapper { position: relative; height: 0; overflow: hidden; }
-    .sc-player-wrapper iframe {
-      position: absolute;
-      left: -9999px;
-      width: 1px; height: 1px; opacity: 0; pointer-events: none;
-    }
-
-    body:not(.dark-mode):not(.forest-mode) .winamp-window .window-body {
-      background: linear-gradient(135deg, rgba(6, 16, 48, 0.9), rgba(0, 8, 24, 0.6));
-    }
-
-    .winamp-display {
-      border: 1px solid rgba(255,255,255,0.2);
-      background: var(--winamp-display);
-      padding: 6px 8px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .winamp-scrub-row {
-      margin-bottom: 6px;
-      position: relative;
-    }
-
-    .winamp-scrub {
-      width: 100%;
-      height: 6px;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      accent-color: transparent;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 2px;
-    }
-
-    .winamp-scrub::-webkit-slider-runnable-track {
-      height: 6px;
-      background: rgba(0, 0, 0, 0.35);
-      border-radius: 2px;
-    }
-
-    .winamp-scrub::-webkit-slider-thumb {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 0;
-      height: 0;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      cursor: pointer;
-      margin-top: 0;
-      outline: none;
-    }
-
-    .winamp-scrub::-webkit-slider-thumb:focus {
-      outline: none;
-    }
-
-    .winamp-scrub::-moz-range-thumb {
-      width: 0;
-      height: 0;
-      background: transparent;
-      border: none;
-      border-radius: 50%;
-      box-shadow: none;
-      cursor: pointer;
-    }
-
-    .winamp-scrub::-moz-range-track {
-      height: 6px;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 2px;
-    }
-
-    .winamp-scrub::-ms-track {
-      width: 100%;
-      height: 6px;
-      background: transparent;
-      border-color: transparent;
-      color: transparent;
-    }
-
-    .winamp-scrub::-ms-fill-lower,
-    .winamp-scrub::-ms-fill-upper {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 2px;
-    }
-
-    .winamp-scrub::-ms-thumb {
-      width: 0;
-      height: 0;
-      background: transparent;
-      border: none;
-      border-radius: 50%;
-      box-shadow: none;
-      cursor: pointer;
-    }
-
-    .winamp-scrub-dot {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 7px;
-      height: 7px;
-      margin-top: -3px;
-      background: linear-gradient(180deg, #f4f4f4, #bfc7d2);
-      border: 1px solid rgba(0, 0, 0, 0.45);
-      border-radius: 50%;
-      box-shadow: inset 0 0 2px rgba(255,255,255,0.7), 0 0 4px rgba(90,180,255,0.35);
-      pointer-events: none;
-      transform: translateX(0);
-    }
-
-    .winamp-title {
-      line-height: 1.2;
-      white-space: pre-line;
-    }
-
-    .winamp-cover {
-      width: 64px;
-      height: 64px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.12));
-      border: 1px solid rgba(255,255,255,0.06);
-      image-rendering: pixelated;
-      display: block;
-      flex: 0 0 64px;
-    }
-
-    .winamp-controls {
-      display: flex;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .winamp-btn {
-      width: 20px;
-      height: 16px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.08);
-      color: var(--winamp-text);
-      font-size: 10px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .winamp-controls button.winamp-btn {
-      width: 36px;
-      height: 28px;
-      font-size: 14px;
-      padding: 0 6px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.15));
-      border-radius: 3px;
-      cursor: pointer;
-    }
-
-  .winamp-controls { display: flex; gap: 8px; align-items: center; justify-content: center; width: 100%; }
-  .winamp-vol-row { margin-top: 8px; display: flex; justify-content: center; width: 100%; }
-
-  .winamp-vol-wrap { display: inline-flex; align-items: center; }
-  .winamp-vol { width: 160px; height: 8px; }
-
-    .vol-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      margin-right: 8px;
-      font-size: 16px;
-      color: var(--winamp-text);
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.12));
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 3px;
-    }
-
-    .vol-icon svg { width: 16px; height: 16px; display: block; color: var(--winamp-text); }
-
-    .vol-icon.muted { opacity: 0.4; }
-
-    .winamp-btn.toggled { background: linear-gradient(180deg, rgba(50,120,255,0.12), rgba(0,0,0,0.2)); }
-
-    .winamp-eq {
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 3px;
-      margin-top: 8px;
-    }
-
-    .winamp-bar {
-      height: 18px;
-      background: linear-gradient(to top, var(--winamp-accent), rgba(255,255,255,0.3));
-      box-shadow: 0 0 4px rgba(100,169,255,0.5);
-      transform-origin: bottom center;
-      transform: scaleY(0.6);
-      transition: transform 120ms linear, opacity 120ms linear;
-    }
-
-    .track-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .disc {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 50%, #ffffff 0 6px, #111 6px 10px, transparent 10px),
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.9) 0 18%, rgba(255,255,255,0.12) 18% 19%, transparent 19% 100%),
-        conic-gradient(from 0deg, #d0d0d0, #f7f7f7, #c8c8c8, #efefef, #d0d0d0);
-      box-shadow: inset 0 0 0 2px rgba(0,0,0,0.15);
-      animation: spin 4s linear infinite;
-      flex: 0 0 auto;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 2px 8px;
-      border: 1px solid rgba(0,0,0,0.35);
-      background: var(--accent-chip);
-      font-family: "FreePixel", monospace;
-      font-size: 10px;
-      letter-spacing: 0.3px;
-      text-transform: lowercase;
-      white-space: nowrap;
-    }
-
-    .counter {
-      font-family: "FreePixel", monospace;
-      font-size: 11px;
-      margin-top: 10px;
-    }
-
-    .meta-chip {
-      display: inline-block;
-      padding: 2px 6px;
-      margin-left: 6px;
-      background: var(--accent-chip);
-      border: 1px solid rgba(0,0,0,0.25);
-      font-size: 10px;
-      font-family: "FreePixel", monospace;
-      vertical-align: middle;
-    }
-
-    .music-note {
-      font-size: 16px;
-      margin-right: 3px;
-    }
-
-    .button-wall {
-      margin-top: 18px;
-    }
-
-    .project-body {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 12px;
-      align-items: start;
-    }
-
-    .project-thumb {
-      width: 100%;
-      height: 90px;
-      border: 1px solid rgba(0,0,0,0.35);
-      background: linear-gradient(135deg, rgba(255,255,255,0.35), rgba(0,0,0,0.1));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "FreePixel", monospace;
-      font-size: 9px;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-
-    @media (max-width: 900px) {
-      .project-body {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .school-logo {
-      display: inline-block;
-      margin: 10px 0;
-      position: relative;
-      text-decoration: none;
-    }
-
-    .school-logo::after {
-      display: none;
-    }
-
-    .school-logo::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(255,255,255,0.08) 0px,
-        rgba(255,255,255,0.08) 2px,
-        transparent 2px,
-        transparent 4px
-      );
-      pointer-events: none;
-      opacity: 0.35;
-    }
-
-    .school-logo img {
-      width: 100%;
-      max-width: 240px;
-      height: 60px;
-      object-fit: cover;
-      border: none;
-      background: transparent;
-      image-rendering: pixelated;
-      display: block;
-    }
-
-    .site-badge-slot {
-      margin-top: 8px;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    .site-badge-placeholder {
-      width: 88px;
-      height: 31px;
-      border: 1px solid rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "FreePixel", monospace;
-      font-size: 8px;
-      text-transform: uppercase;
-      background: rgba(255,255,255,0.6);
-      color: var(--text-secondary);
-    }
-
-    .fall-item {
-      position: fixed;
-      top: -20px;
-      font-size: 16px;
-      pointer-events: none;
-      z-index: 9999;
-      animation: fall 1.6s linear forwards;
-      text-shadow: 0 0 6px rgba(255,255,255,0.6);
-      color: var(--text-color);
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(110vh) rotate(180deg);
-        opacity: 0;
-      }
-    }
-
-    .button-wall .window-body {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .small-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 22px;
-      padding: 0 8px;
-      border: 2px outset;
-      background: var(--button-bg);
-      color: var(--button-text);
-      font-family: "FreePixel", monospace;
-      font-size: 11px;
-      box-shadow: var(--button-shadow);
-      text-transform: lowercase;
-    }
-
-    .small-button:active {
-      box-shadow: var(--active-shadow);
-      border-style: inset;
-    }
-
-    footer {
-      font-family: "FreePixel", monospace;
-      text-align: center;
-      padding: 12px;
-      font-size: 11px;
-    }
-
-    #theme-toggle {
-      position: fixed;
-      bottom: 12px;
-      left: 12px;
-      z-index: 1000;
-      font-family: "FreePixel", monospace;
-      font-size: 12px;
-    }
-
-    .sticker {
-      image-rendering: pixelated;
-      vertical-align: middle;
-      margin-left: 5px;
-    }
-
-    .subtle-frame {
-      outline: 1px solid var(--panel-border);
-      outline-offset: -2px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lucas Flowers</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="description" content="Lucas Flowers — Robotics Engineering Technology student at Purdue University.">
+
+    <style>
+        :root {
+            /* =====================================================
+               EARTH + CREAM PALETTE
+               ===================================================== */
+
+            --cream: #f3efe4;
+            --paper: #ebe5d8;
+            --parchment: #ded7c8;
+
+            --brown: #29251f;
+            --muted: #6f675b;
+
+            --green: #53665a;
+            --green-dark: #3f5046;
+
+            --clay: #a2674b;
+
+            --white: #fffdf7;
+            --shadow: #8d877b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--green);
+            color: var(--brown);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        a {
+            color: inherit;
+        }
+
+
+        /* =========================================================
+           PAGE FRAME
+           ========================================================= */
+
+        .page {
+            width: min(920px, calc(100% - 28px));
+            margin: 34px auto;
+        }
+
+        .window {
+            background: var(--parchment);
+            padding: 4px;
+
+            border-top: 2px solid var(--white);
+            border-left: 2px solid var(--white);
+            border-right: 2px solid var(--brown);
+            border-bottom: 2px solid var(--brown);
+
+            box-shadow:
+                6px 6px 0 rgba(41, 37, 31, 0.28);
+        }
+
+
+        /* =========================================================
+           TITLE BAR
+           ========================================================= */
+
+        .titlebar {
+            height: 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7px;
+
+            background: var(--green);
+            color: var(--white);
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .title-icon {
+            width: 16px;
+            height: 16px;
+
+            object-fit: contain;
+
+            display: block;
+        }
+
+        .controls {
+            display: flex;
+            gap: 3px;
+        }
+
+        .control {
+            width: 18px;
+            height: 16px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--parchment);
+            color: var(--brown);
+
+            font-size: 10px;
+
+            border-top: 1px solid var(--white);
+            border-left: 1px solid var(--white);
+            border-right: 1px solid var(--brown);
+            border-bottom: 1px solid var(--brown);
+        }
+
+
+        /* =========================================================
+           CONTENT
+           ========================================================= */
+
+        .content {
+            background: var(--cream);
+
+            border-top: 2px solid var(--shadow);
+            border-left: 2px solid var(--shadow);
+            border-right: 2px solid var(--white);
+            border-bottom: 2px solid var(--white);
+        }
+
+
+        /* =========================================================
+           NAVIGATION
+           ========================================================= */
+
+        .nav {
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 24px;
+
+            background: var(--paper);
+
+            border-bottom: 1px solid #c7c0b3;
+        }
+
+        .brand {
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--brown);
+
+            font-size: 12px;
+
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: var(--green-dark);
+            text-decoration: underline;
+        }
+
+
+        /* =========================================================
+           HERO
+           ========================================================= */
+
+        .hero {
+            display: grid;
+
+            grid-template-columns: 190px 1fr;
+
+            gap: 48px;
+
+            padding: 72px 64px 78px;
+
+            border-bottom: 1px solid #c7c0b3;
+        }
+
+
+        /* =========================================================
+           HEADSHOT
+           ========================================================= */
+
+        .headshot {
+            width: 190px;
+            height: 235px;
+            overflow: hidden;
+
+            background: var(--parchment);
+
+            border-top: 2px solid var(--shadow);
+            border-left: 2px solid var(--shadow);
+            border-right: 2px solid var(--white);
+            border-bottom: 2px solid var(--white);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--muted);
+
+            font-size: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .headshot img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+
+            transform: scale(1.325);
+        }
+
+
+        /* =========================================================
+           HERO TEXT
+           ========================================================= */
+
+        .hero-text {
+            align-self: center;
+        }
+
+        .eyebrow {
+            margin-bottom: 14px;
+
+            color: var(--green-dark);
+
+            font-size: 11px;
+            font-weight: bold;
+
+            letter-spacing: 0.8px;
+        }
+
+        .eyebrow::before {
+            content: "— ";
+            color: var(--clay);
+        }
+
+        h1 {
+            margin: 0;
+
+            font-size: clamp(52px, 8vw, 78px);
+
+            line-height: 0.92;
+
+            letter-spacing: -4px;
+
+            font-weight: 700;
+        }
+
+        .description {
+            max-width: 520px;
+
+            margin: 25px 0 0;
+
+            color: var(--muted);
+
+            font-size: 16px;
+
+            line-height: 1.55;
+        }
+
+        .description strong {
+            color: var(--brown);
+        }
+
+
+        /* =========================================================
+           SITE MESSAGE
+           ========================================================= */
+
+        .info {
+            padding: 18px 24px;
+
+            background: var(--paper);
+
+            border-bottom: 1px solid #c7c0b3;
+        }
+
+        .info-message {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            text-align: center;
+        }
+
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 10px 14px;
+
+            background: var(--parchment);
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 700px) {
+
+            .page {
+                width: calc(100% - 10px);
+                margin: 10px auto;
+            }
+
+            .nav {
+                padding: 0 14px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+
+                gap: 30px;
+
+                padding: 48px 26px 55px;
+            }
+
+            .headshot {
+                width: 150px;
+                height: 185px;
+            }
+
+            h1 {
+                font-size: 58px;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 38px 20px 45px;
+            }
+
+            .headshot {
+                width: 135px;
+                height: 165px;
+            }
+
+            h1 {
+                font-size: 50px;
+                letter-spacing: -3px;
+            }
+
+            .description {
+                font-size: 14px;
+            }
+
+            .info {
+                padding: 16px 18px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+
+        /* =========================================================
+   CLICK CHARACTER EFFECT
+   ========================================================= */
+
+        .click-character {
+            position: fixed;
+            z-index: 9999;
+
+            pointer-events: none;
+
+            color: var(--green-dark);
+
+            font-family:
+                "Courier New",
+                Courier,
+                monospace;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            user-select: none;
+
+            animation: character-fall 900ms ease-out forwards;
+        }
+
+        @keyframes character-fall {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) scale(0.7);
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform:
+                    translate(var(--fall-x),
+                        var(--fall-y)) rotate(var(--rotation)) scale(1);
+            }
+        }
+    </style>
 </head>
-
-<body>
-  <div id="site">
-    <div class="marquee window subtle-frame">
-      <div class="marquee-track" aria-hidden="true">
-  <span>welcome to lucasflowers.net · robotics · engineering · diy internet · phoenix arizona · hand-coded and intentionally weird</span>
-  <span>welcome to lucasflowers.net · robotics · engineering · diy internet · phoenix arizona · hand-coded and intentionally weird</span>
-      </div>
-    </div>
-
-    <div id="top-row">
-      <div id="left-stack">
-        <div id="external-links" class="window subtle-frame">
-          <div class="title-bar">
-            <div class="title-bar-text">Links</div>
-            <div class="title-bar-controls">
-              <button aria-label="Close"></button>
-            </div>
-          </div>
-
-          <div class="window-body">
-            <ul>
-              <li><a class="nav-link" href="resume.pdf" target="_blank"><span class="mini-icon">▣</span><span>Resume</span></a></li>
-              <li><a class="nav-link" href="portfolio.pdf" target="_blank"><span class="mini-icon">▤</span><span>Portfolio</span></a></li>
-              <li><a class="nav-link" href="https://github.com/lflowers01" target="_blank"><span class="mini-icon">⌘</span><span>GitHub</span></a></li>
-              <li><a class="nav-link" href="mailto:contact@lucasflowers.net"><span class="mini-icon email">✉</span><span>Email</span></a></li>
-              <li><a class="nav-link" href="https://www.linkedin.com/in/lucas-flowers-57109a288/" target="_blank"><span class="mini-icon in">in</span><span>LinkedIn</span></a></li>
-            </ul>
-            <div class="site-badge-slot">
-              <a class="site-badge-link" href="#">
-                <span class="site-badge-placeholder">88x31 badge</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div id="status-widget" class="window subtle-frame">
-          <div class="title-bar">
-            <div class="title-bar-text">status.log</div>
-            <div class="title-bar-controls">
-              <button aria-label="Close"></button>
-            </div>
-          </div>
-
-          <div class="window-body status-lines">
-            <pre class="linux-log" aria-label="system log">
-[    0.000000] Linux version 6.8.0-generic (gcc version 13.2.0 (GCC))
-[    0.000123] Command line: BOOT_IMAGE=/vmlinuz-6.8.0-generic root=/dev/nvme0n1p2 ro quiet splash
-[    0.015432] printk: bootconsole [earlycon0] enabled
-[    0.041823] smp: Bringing up secondary CPUs: 1 of 4 online  <span class="ok">[  OK  ]</span>
-[    0.072901] ACPI: ACPI BIOS Error (bug): Unexpected return length, AE_BAD_DATA
-[    0.230482] pci 0000:01:00.0: nvme0: enabling device
-[    0.853192] nvme nvme0: pci function 0000:01:00.0, 1/0/0 allocated queues
-[    1.012345] usb 1-2: new high-speed USB device number 4 using xhci_hcd
-[    1.204551] <span class="path">EXT4-fs (nvme0n1p2):</span> mounted filesystem with ordered data mode
-[    1.305678] systemd[1]: Started Journal Service.
-[    1.410000] systemd[1]: Reached target Local File Systems.
-[    1.512345] random: rngd: uninitialized urandom read returned
-[    2.000000] NetworkManager[1023]: <info>  [kernel] link ready
-            </pre>
-          </div>
-        </div>
-      </div>
-
-      <div class="center-banner window subtle-frame">
-        <div class="banner-content">
-          <div class="banner-title">LUCASFLOWERS.NET</div>
-          <div class="banner-subtitle">
-            robotics · embedded systems · autonomous technology · engineering portfolio
-          </div>
-        </div>
-      </div>
-
-      <div id="right-stack">
-        <div id="now-widget" class="window subtle-frame">
-          <div class="title-bar">
-            <div class="title-bar-text">now.exe</div>
-            <div class="title-bar-controls">
-              <button aria-label="Minimize"></button>
-              <button aria-label="Close"></button>
-            </div>
-          </div>
-
-          <div class="window-body">
-            <p class="now-label">// current objectives</p>
-
-            <ul class="now-list">
-              <li><span>Building Team Epsilon</span></li>
-              <li><span>Studying calculus before Purdue</span></li>
-              <li><span>Working toward SolidWorks certification</span></li>
-              <li><span>Listening to way too much Boards of Canada</span></li>
-              <li><span>Looking for a summer engineering job</span></li>
-            </ul>
-
-            <p class="now-updated">Last updated: May 2026</p>
-          </div>
-        </div>
-
-        <div class="window subtle-frame winamp-window">
-          <div class="title-bar">
-            <div class="title-bar-text">winamp.exe</div>
-            <div class="title-bar-controls">
-              <button aria-label="Minimize"></button>
-              <button aria-label="Close"></button>
-            </div>
-          </div>
-          <div class="window-body">
-            <div class="winamp-scrub-row">
-              <input class="winamp-scrub" type="range" min="0" max="1000" value="0" aria-label="Seek" />
-              <span class="winamp-scrub-dot" aria-hidden="true"></span>
-            </div>
-            <div class="winamp-display">
-              <div class="winamp-title">...</div>
-              <img class="winamp-cover" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><rect width='64' height='64' fill='%23000000'/></svg>" alt="cover" />
-            </div>
-            <div class="winamp-controls">
-              <button class="winamp-btn" data-action="prev" aria-label="Previous">⏮</button>
-              <button class="winamp-btn" data-action="play" aria-label="Play">▶</button>
-              <button class="winamp-btn" data-action="next" aria-label="Next">⏭</button>
-            </div>
-            <div class="winamp-vol-row">
-              <div class="winamp-vol-wrap">
-                <span class="vol-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                    <path d="M3 9v6h4l5 4V5L7 9H3z" fill="currentColor" />
-                    <path d="M16.5 8.5a3.5 3.5 0 0 1 0 7" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-                    <path d="M18.5 6.5a6.5 6.5 0 0 1 0 11" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/>
-                  </svg>
-                </span>
-                <input class="winamp-vol" type="range" min="0" max="100" value="100" aria-label="Volume" />
-              </div>
-            </div>
-            <div class="winamp-eq" aria-hidden="true">
-              <span class="winamp-bar"></span>
-              <span class="winamp-bar"></span>
-              <span class="winamp-bar"></span>
-              <span class="winamp-bar"></span>
-              <span class="winamp-bar"></span>
-              <span class="winamp-bar"></span>
-              <span class="winamp-bar"></span>
-              <span class="winamp-bar"></span>
-              <span class="winamp-bar"></span>
-              <span class="winamp-bar"></span>
-            </div>
-            <div class="sc-player-wrapper" aria-hidden="false">
-                <!-- Demo embed: public track (replace with your playlist or track URL) -->
-                <iframe id="sc-player" scrolling="no" frameborder="no"
-                  allow="autoplay"
-                  src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Ffornowchat%2Fsets%2F2-53&auto_play=false&show_artwork=true">
-                </iframe>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="container" class="window subtle-frame">
-      <div class="title-bar">
-        <div class="title-bar-text">Home</div>
-        <div class="title-bar-controls">
-          <button aria-label="Minimize"></button>
-          <button aria-label="Maximize"></button>
-          <button aria-label="Close"></button>
-        </div>
-      </div>
-
-      <div class="window-body main-body">
-        <div class="intro-grid">
-          <section>
-            <h2>Welcome <span class="meta-chip">hand-made</span></h2>
-
-            <p><strong>Hi, I'm Lucas.</strong></p>
-
-            <p>
-              I'm a maker, programmer, and robotics kid from Phoenix, Arizona — heading to Purdue University in the fall to study Engineering Technology with a robotics focus.
-            </p>
-
-            <p>
-              I've been building things my whole life. It started with Legos and Snap Circuits, then PC building, then soldering, then staying awake at 2am debugging robots in competition pits.
-            </p>
-
-            <p>
-              My long-term goal is to found Epsilon Automation and build systems that actually feel alive. Basically: I want to build WALL-E.
-            </p>
-
-            <p>
-              Outside engineering I backpack, hike, draw, DJ, lift weights, and go to live shows downtown. I spent a month in Japan and came back obsessed with urban design, transit systems, vending machines, and tiny details.
-            </p>
-          </section>
-
-          <div class="window subtle-frame carousel-panel">
-            <div class="title-bar">
-              <div class="title-bar-text">carousel.exe</div>
-              <div class="title-bar-controls">
-                <button aria-label="Minimize"></button>
-                <button aria-label="Close"></button>
-              </div>
-            </div>
-            <div class="window-body">
-              {{> carousel}}
-            </div>
-          </div>
-        </div>
-
-        <div class="pixel-divider"></div>
-
-        <h2>Featured Projects</h2>
-
-        <div class="featured-projects">
-          <div class="window subtle-frame">
-          <div class="title-bar">
-            <div class="title-bar-text">FRC Team Epsilon</div>
-          </div>
-          <div class="window-body">
-              <div class="project-body">
-                <div class="project-thumb">image soon</div>
-                <div class="project-content">
-                  <p><strong>Founder, President & Lead Programmer</strong></p>
-                  <p>
-                    Student-founded FIRST Robotics Competition team built from the ground up in Phoenix, Arizona. I led fundraising, branding, systems planning, programming, and operations while helping grow the team into a competitive rookie organization.
-                  </p>
-                  <p>
-                    Developed a vision-based autonomous alignment system using dual cameras, fiducial marker tracking, and real-time pose estimation running on a coprocessor. The team raised over $20,000, built a full off-season robot, competed in the Arizona Robotics League, and earned the Breakthrough Award as Arizona’s top emerging rookie team.
-                  </p>
-                  <div class="badge-row">
-                    <span class="badge">robotics</span>
-                    <span class="badge">computer vision</span>
-                    <span class="badge">leadership</span>
-                    <span class="badge">systems engineering</span>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-
-          <div class="window subtle-frame">
-          <div class="title-bar">
-            <div class="title-bar-text">Smart Vision Saw Safety System</div>
-          </div>
-          <div class="window-body">
-              <div class="project-body">
-                <div class="project-thumb">image soon</div>
-                <div class="project-content">
-                  <p><strong>AZSEF / ISEF Research Project — In Progress</strong></p>
-                  <p>
-                    Developing a low-cost computer vision safety system capable of detecting hands near dangerous workshop tools and rapidly cutting power before contact occurs.
-                  </p>
-                  <p>
-                    The system combines embedded AI vision models, configurable danger-zone detection, and real-time relay control on an Orange Pi 5 Pro. Designed to adapt across multiple saw types rather than a single fixed machine.
-                  </p>
-                  <div class="badge-row">
-                    <span class="badge">embedded ai</span>
-                    <span class="badge">computer vision</span>
-                    <span class="badge">safety systems</span>
-                    <span class="badge">research</span>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-
-          <div class="window subtle-frame">
-          <div class="title-bar">
-            <div class="title-bar-text">High-Altitude Weather Balloon Camera System</div>
-          </div>
-          <div class="window-body">
-              <div class="project-body">
-                <div class="project-thumb">image soon</div>
-                <div class="project-content">
-                  <p><strong>Engineering III-IV / E-Tech Club Project</strong></p>
-                  <p>
-                    Designing a lightweight Raspberry Pi-based near-space camera payload for high-altitude weather balloon launches.
-                  </p>
-                  <p>
-                    Built around reliability-first engineering principles with Flask-based monitoring tools, autonomous startup behavior, long-duration runtime constraints, and optimized low-power image capture.
-                  </p>
-                  <div class="badge-row">
-                    <span class="badge">raspberry pi</span>
-                    <span class="badge">embedded systems</span>
-                    <span class="badge">python</span>
-                    <span class="badge">near-space</span>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-
-          <div class="window subtle-frame">
-          <div class="title-bar">
-            <div class="title-bar-text">Makers of Change — Bluey Jamboard</div>
-          </div>
-          <div class="window-body">
-              <div class="project-body">
-                <div class="project-thumb">image soon</div>
-                <div class="project-content">
-                  <p><strong>State Finalist — Top 9 of 95+ Teams</strong></p>
-                  <p>
-                    Assistive technology game system designed for a child with cerebral palsy and motor-control challenges.
-                  </p>
-                  <p>
-                    I programmed the Raspberry Pi game system, integrated GPIO-based controls, configured the display system, and helped develop an accessible multiplayer experience focused on inclusive interaction and engagement.
-                  </p>
-                  <div class="badge-row">
-                    <span class="badge">assistive tech</span>
-                    <span class="badge">human-centered design</span>
-                    <span class="badge">raspberry pi</span>
-                    <span class="badge">embedded systems</span>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-
-          <div class="window subtle-frame">
-          <div class="title-bar">
-            <div class="title-bar-text">Physics Projectile Motion Simulator</div>
-          </div>
-          <div class="window-body">
-              <div class="project-body">
-                <div class="project-thumb">image soon</div>
-                <div class="project-content">
-                  <p><strong>Interactive Physics Visualization Tool</strong></p>
-                  <p>
-                    Web-based projectile motion simulator developed to visualize kinematics and real-time physics behavior.
-                  </p>
-                  <p>
-                    Built with frame-rate-independent calculations, object-oriented projectile systems, interactive aiming controls, vector visualization, and live trajectory rendering.
-                  </p>
-                  <p>
-                    <a target="_blank" href="https://github.com/lflowers01/projectile-sim">GitHub</a>
-                    <a target="_blank" href="https://www.lucasflowers.net/projectile-sim">Live Demo</a>
-                  </p>
-                  <div class="badge-row">
-                    <span class="badge">physics simulation</span>
-                    <span class="badge">javascript</span>
-                    <span class="badge">visualization</span>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-
-          <div class="window subtle-frame">
-          <div class="title-bar">
-            <div class="title-bar-text">Minecraft Server Wizard</div>
-          </div>
-          <div class="window-body">
-              <div class="project-body">
-                <div class="project-thumb">image soon</div>
-                <div class="project-content">
-                  <p><strong>CS50 Final Project</strong></p>
-                  <p>
-                    Python-based automation tool that simplifies Minecraft server installation, configuration, plugin management, and backups on Windows.
-                  </p>
-                  <p>
-                    Features automated Java setup, plugin updating, server build retrieval through APIs, backup management, and standalone packaging through PyInstaller.
-                  </p>
-                  <div class="badge-row">
-                    <span class="badge">python</span>
-                    <span class="badge">automation</span>
-                    <span class="badge">systems tools</span>
-                    <span class="badge">cs50</span>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-        </div>
-
-        <div class="pixel-divider"></div>
-
-        <h2>Education</h2>
-        <ul>
-          <li>
-            <details>
-              <summary><strong>Phoenix Union Bioscience High School</strong> <i>(2026)</i></summary>
-              <a class="school-logo" href="https://www.pxu.org/bioscience" target="_blank">
-                <img alt="Phoenix Union Bioscience HS logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='60'><rect width='240' height='60' fill='%23ffffff'/><rect x='4' y='4' width='232' height='52' fill='%23c0c0c0'/><text x='120' y='36' font-size='12' text-anchor='middle' fill='%23000'>LOGO</text></svg>" />
-              </a>
-              <ul>
-                <li>Engineering-focused curriculum</li>
-                <li>3.9 GPA</li>
-                <li>Honors Engineering & Physics I-IV</li>
-              </ul>
-            </details>
-          </li>
-          <li>
-            <details>
-              <summary><strong>Phoenix Coding Academy</strong> <i>(2022–2024)</i></summary>
-              <a class="school-logo" href="https://phoenixcodingacademy.org/" target="_blank">
-                <img alt="Phoenix Coding Academy logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='60'><rect width='240' height='60' fill='%23ffffff'/><rect x='4' y='4' width='232' height='52' fill='%23c0c0c0'/><text x='120' y='36' font-size='12' text-anchor='middle' fill='%23000'>LOGO</text></svg>" />
-              </a>
-              <ul>
-                <li>Computer science coursework</li>
-                <li>3.9 GPA</li>
-              </ul>
-            </details>
-          </li>
-          <li>
-            <details>
-              <summary><strong>Harvard CS50x</strong> <i>(2024)</i></summary>
-              <a class="school-logo" href="https://cs50.harvard.edu/x/" target="_blank">
-                <img alt="Harvard CS50 logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='60'><rect width='240' height='60' fill='%23ffffff'/><rect x='4' y='4' width='232' height='52' fill='%23c0c0c0'/><text x='120' y='36' font-size='12' text-anchor='middle' fill='%23000'>LOGO</text></svg>" />
-              </a>
-              <ul>
-                <li>Introduction to Computer Science</li>
-              </ul>
-            </details>
-          </li>
-        </ul>
-
-        <div class="pixel-divider"></div>
-
-     
-
-        <div class="window button-wall subtle-frame">
-          <div class="title-bar">
-            <div class="title-bar-text">skills.exe</div>
-          </div>
-
-          <div class="window-body">
-            <span class="small-button">java</span>
-            <span class="small-button">python</span>
-            <span class="small-button">javascript</span>
-            <span class="small-button">c</span>
-            <span class="small-button">sql</span>
-            <span class="small-button">html/css</span>
-            <span class="small-button">wpilib</span>
-            <span class="small-button">fusion 360</span>
-            <span class="small-button">embedded systems</span>
-            <span class="small-button">robotics controls</span>
-          </div>
-        </div>
-
-        <p class="counter">visitor count: <span id="visitor-count">000000</span></p>
-      </div>
-    </div>
-
-    <footer>
-      <a href="https://github.com/lflowers01/lflowers01.github.io" target="_blank">
-  this site is homemade · no templates · hand-coded
-      </a>
-    </footer>
-  </div>
-
-  <button id="theme-toggle">Theme</button>
-
-  <script>
-    (() => {
-      const themes = ["default", "dark-mode", "forest-mode"];
-      const labels = {
-        "default": "Default",
-        "dark-mode": "Dark",
-        "forest-mode": "Forest"
-      };
-
-      const btn = document.getElementById("theme-toggle");
-      const saved = localStorage.getItem("theme") || "default";
-      let idx = Math.max(themes.indexOf(saved), 0);
-
-      applyTheme(themes[idx]);
-
-      btn.addEventListener("click", () => {
-        idx = (idx + 1) % themes.length;
-        applyTheme(themes[idx]);
-      });
-
-      function applyTheme(theme) {
-        document.body.classList.remove("dark-mode", "forest-mode");
-        if (theme !== "default") document.body.classList.add(theme);
-        btn.textContent = labels[theme];
-        localStorage.setItem("theme", theme);
-      }
-    })();
-
-    const titles = [
-      '[ Lucas Flowers ]',
-      '[ robotics kid ]',
-      '[ building something ]',
-      '[ epsilon automation ]'
+<script>
+    const characters = [
+        "0", "1",
+        "+", "-", "*",
+        "/", "=", "<", ">",
+        "{", "}", "[", "]",
+        ":", ";",
+        "#", "$",
+        ">", "_",
+        "λ", "π"
     ];
 
-    let titleIndex = 0;
-    setInterval(() => {
-      titleIndex = (titleIndex + 1) % titles.length;
-      document.title = titles[titleIndex];
-    }, 4000);
+    document.addEventListener("click", function (event) {
 
-    const fallItems = ["*", "+", "-", ".", "x"];
-    document.addEventListener("click", (event) => {
-      const total = 12;
-      for (let i = 0; i < total; i += 1) {
-        const sparkle = document.createElement("span");
-        sparkle.className = "fall-item";
-        sparkle.textContent = fallItems[Math.floor(Math.random() * fallItems.length)];
-        const x = (event.clientX || Math.random() * window.innerWidth) + (Math.random() * 80 - 40);
-        sparkle.style.left = `${x}px`;
-        sparkle.style.animationDelay = `${Math.random() * 0.4}s`;
-        document.body.appendChild(sparkle);
-        sparkle.addEventListener("animationend", () => sparkle.remove());
-      }
+        // Don't trigger on clicks that open links/buttons
+        // if you want those to remain completely normal.
+        createCharacterRain(event.clientX, event.clientY);
+
     });
 
-    const visitorCountEl = document.getElementById("visitor-count");
-    if (visitorCountEl) {
-      const key = "visitorCount";
-      const current = Number(localStorage.getItem(key) || 0) + 1;
-      localStorage.setItem(key, current);
-      visitorCountEl.textContent = String(current).padStart(6, "0");
+    function createCharacterRain(x, y) {
+
+        const amount = 14;
+
+        for (let i = 0; i < amount; i++) {
+
+            const character = document.createElement("span");
+
+            character.className = "click-character";
+
+            character.textContent =
+                characters[
+                    Math.floor(
+                        Math.random() * characters.length
+                    )
+                ];
+
+            /*
+             * Start exactly where the mouse was clicked.
+             */
+
+            character.style.left = `${x}px`;
+            character.style.top = `${y}px`;
+
+            /*
+             * Random horizontal movement.
+             */
+
+            const fallX =
+                (Math.random() - 0.5) * 100;
+
+            /*
+             * Mostly downward movement.
+             */
+
+            const fallY =
+                40 + Math.random() * 100;
+
+            const rotation =
+                (Math.random() - 0.5) * 90;
+
+            character.style.setProperty(
+                "--fall-x",
+                `${fallX}px`
+            );
+
+            character.style.setProperty(
+                "--fall-y",
+                `${fallY}px`
+            );
+
+            character.style.setProperty(
+                "--rotation",
+                `${rotation}deg`
+            );
+
+            /*
+             * Slightly randomized animation timing.
+             */
+
+            character.style.animationDuration =
+                `${650 + Math.random() * 500}ms`;
+
+            document.body.appendChild(character);
+
+            /*
+             * Remove it after the animation.
+             */
+
+            character.addEventListener(
+                "animationend",
+                () => character.remove()
+            );
+        }
     }
+</script>
+<body>
 
-    // Terminal typing animation for .linux-log
-    (function animateLinuxLog() {
-      const pre = document.querySelector('.linux-log');
-      if (!pre) return;
+    <div class="page">
 
-      const raw = pre.textContent.trim().split('\n');
-      pre.textContent = '';
-      pre.classList.add('cursor');
+        <div class="window">
 
-      let line = 0;
-      function typeLine() {
-        if (line >= raw.length) {
-          pre.classList.remove('cursor');
-          return;
-        }
+            <!-- =====================================================
+             WINDOW TITLE
+             ====================================================== -->
 
-        const text = raw[line];
-        const span = document.createElement('span');
-        pre.appendChild(span);
+            <div class="titlebar">
 
-        let i = 0;
-        const charDelay = 8 + Math.floor(Math.random() * 18); // variable typing speed
-        function typeChar() {
-          if (i <= text.length) {
-            span.textContent = text.slice(0, i);
-            // ensure the latest text is visible
-            pre.scrollTop = pre.scrollHeight;
-            i += 1;
-            setTimeout(typeChar, charDelay);
-          } else {
-            pre.appendChild(document.createElement('br'));
-            pre.scrollTop = pre.scrollHeight;
-            // small pause before next line
-            line += 1;
-            setTimeout(typeLine, 120 + Math.random() * 300);
-          }
-        }
-        typeChar();
-      }
+                <div class="title">
 
-      // start after a brief simulated POST
-      setTimeout(typeLine, 400);
-    })();
+                    <img class="title-icon" src="favicon.png" alt="">
 
-    // SoundCloud Widget: load API and wire Winamp buttons
-    (function setupSoundCloud() {
-      const iframe = document.getElementById('sc-player');
-      if (!iframe) return;
+                    <span>
 
-      // load Widget API if not present
-      function loadAPI(cb) {
-        if (window.SC && window.SC.Widget) return cb();
-        const s = document.createElement('script');
-        s.src = 'https://w.soundcloud.com/player/api.js';
-        s.onload = cb;
-        document.head.appendChild(s);
-      }
+                    </span>
 
-      loadAPI(() => {
-        const widget = window.SC.Widget(iframe);
+                </div>
 
-        // wait until widget is ready before attaching controls
-        widget.bind(window.SC.Widget.Events.READY, () => {
-          const prevBtn = document.querySelector('.winamp-window .winamp-btn[data-action="prev"]');
-          const playBtn = document.querySelector('.winamp-window .winamp-btn[data-action="play"]');
-          const nextBtn = document.querySelector('.winamp-window .winamp-btn[data-action="next"]');
-          const volInput = document.querySelector('.winamp-window .winamp-vol');
+                <div class="controls">
+                    <div class="control">_</div>
+                    <div class="control">□</div>
+                    <div class="control">×</div>
+                </div>
 
-          // toggle play/pause with icon swap
-          playBtn && playBtn.addEventListener('click', () => {
-            widget.isPaused(paused => {
-              if (paused) {
-                // if we have a playlist and no history yet, start with a shuffled track
-                if (playlistTracks.length && history.length === 0) {
-                  buildQueue();
-                  const startIdx = Math.floor(Math.random() * queue.length);
-                  loadByQueueIndex(startIdx, true);
-                } else {
-                  widget.play();
-                }
-                playBtn.textContent = '⏸';
-                playBtn.classList.add('toggled');
-              } else {
-                widget.pause();
-                playBtn.textContent = '▶';
-                playBtn.classList.remove('toggled');
-              }
-            });
-          });
+            </div>
 
-          prevBtn && prevBtn.addEventListener('click', () => {
-            try { widget.previous(); } catch (e) { widget.seekTo(0); }
-          });
-          nextBtn && nextBtn.addEventListener('click', () => {
-            try { widget.next(); } catch (e) { widget.seekTo(0); widget.play(); }
-          });
 
-          // volume slider
-          if (volInput) {
-            volInput.addEventListener('input', (e) => {
-              const v = Number(e.target.value || 100);
-              widget.setVolume(v);
-              setEQIntensity(v / 100);
-            });
-            // initialize volume on widget
-            widget.getVolume(v => { if (volInput) volInput.value = v; setEQIntensity(v / 100); });
-          }
+            <div class="content">
 
-          // update winamp display with track title and cover on play
-          // update title as 'Track title :: artist' and set cover
-          widget.bind(window.SC.Widget.Events.PLAY, () => {
-            widget.getCurrentSound(info => {
-              const coverEl = document.querySelector('.winamp-cover');
-              if (info && info.title && titleEl) {
-                const artist = info.user && info.user.username ? info.user.username : 'unknown';
-                titleEl.textContent = `${info.title} :: ${artist}`;
-                loadingActive = false;
-              } else if (!hasStarted && titleEl) {
-                titleEl.textContent = '...';
-              }
-              if (info && info.artwork_url && coverEl) {
-                const url = info.artwork_url.replace('-large', '-t300x300');
-                coverEl.src = url;
-              }
-            });
 
-            // keep history in sync with widget track index
-            widget.getCurrentSoundIndex(idx => {
-              if (typeof idx === 'number' && queue.length) {
-                const qPos = queue.indexOf(idx);
-                if (qPos !== -1) queuePos = qPos;
-              }
-            });
-          });
+                <!-- =================================================
+                 NAVIGATION
+                 ================================================== -->
 
-          // animate EQ bars while playing using requestAnimationFrame
-          let eqAnimating = false;
-          function setEQIntensity(intensity) {
-            const bars = document.querySelectorAll('.winamp-bar');
-            bars.forEach((b, i) => {
-              const factor = 0.35 + intensity * (0.7 + Math.sin(i) * 0.15);
-              b.style.transform = `scaleY(${factor})`;
-              b.style.opacity = 0.8 + intensity * 0.2;
-            });
-          }
+                <nav class="nav">
 
-          function animateEQ() {
-            if (!eqAnimating) return;
-            widget.getVolume(vol => {
-              const bars = document.querySelectorAll('.winamp-bar');
-              bars.forEach((b, i) => {
-                const t = Date.now() / 200 + i;
-                const wave = (Math.sin(t) + 1) / 2;
-                const intensity = (vol / 100) * (0.3 + 0.7 * wave);
-                b.style.transform = `scaleY(${0.3 + intensity})`;
-                b.style.opacity = 0.7 + intensity * 0.4;
-              });
-            });
-            requestAnimationFrame(animateEQ);
-          }
+                    <div class="brand">
+                        LUCASFLOWERS.NET
+                    </div>
 
-          // start/stop anim when playback state changes
-          widget.bind(window.SC.Widget.Events.PLAY, () => {
-            eqAnimating = true;
-            animateEQ();
-            if (playBtn) {
-              playBtn.textContent = '⏸';
-              playBtn.classList.add('toggled');
-            }
-          });
-          widget.bind(window.SC.Widget.Events.PAUSE, () => {
-            eqAnimating = false;
-            setEQIntensity(0);
-            if (playBtn) {
-              playBtn.textContent = '▶';
-              playBtn.classList.remove('toggled');
-            }
-            loadingActive = false;
-          });
+                    <div class="nav-links">
 
-          // client-side shuffle using a stable queue for the session
-          let shuffle = true; // on by default
-          let sounds = [];
-          let soundsReady = false;
-          let queue = [];
-          let queuePos = -1;
-          let hasStarted = false;
-          let pendingPlay = false;
-          let loadingActive = false;
-          const titleEl = document.querySelector('.winamp-title');
+                        <a href="Resume.pdf">
+                            Resume
+                        </a>
 
-          function setTitleLoading() {
-            if (titleEl) {
-              titleEl.innerHTML = 'loading...<br>please wait';
-              loadingActive = true;
-            }
-          }
+                        <a href="https://github.com/lflowers01" target="_blank" rel="noopener">
+                            GitHub
+                        </a>
 
-          function buildQueue() {
-            queue = sounds.map((_, i) => i);
-            // Fisher-Yates shuffle (one-time per session)
-            for (let i = queue.length - 1; i > 0; i--) {
-              const j = Math.floor(Math.random() * (i + 1));
-              [queue[i], queue[j]] = [queue[j], queue[i]];
-            }
-          }
+                        <a href="https://linkedin.com/in/lucas-flowers-phx" target="_blank" rel="noopener">
+                            LinkedIn
+                        </a>
 
-          function playQueuePos(pos, autoplay = true) {
-            if (!queue.length) return;
-            queuePos = ((pos % queue.length) + queue.length) % queue.length;
-            const idx = queue[queuePos];
-            widget.skip(idx);
-            if (autoplay) {
-              // small delay ensures skip has taken effect before play
-              setTimeout(() => widget.play(), 120);
-            } else {
-              setTimeout(() => widget.pause(), 60);
-            }
-          }
+                        <a href="mailto:lucas@lucasflowers.net">
+                            Email
+                        </a>
 
-          // load sounds list for playlist widgets
-          try {
-            widget.getSounds(list => {
-              sounds = list || [];
-              soundsReady = true;
-              if (sounds.length) buildQueue();
-              // preload first track silently so play works immediately
-              if (sounds.length && queue.length && queuePos === -1) {
-                playQueuePos(0, false);
-              }
-              if (pendingPlay && sounds.length && queue.length && queuePos === -1) {
-                pendingPlay = false;
-                playQueuePos(0, true);
-              }
-            });
-          } catch (e) {
-            sounds = [];
-          }
+                    </div>
 
-          // override play to start from stable queue if none played yet
-          playBtn && playBtn.addEventListener('click', () => {
-            if (!hasStarted) {
-              setTitleLoading();
-              hasStarted = true;
-            }
-            if (!soundsReady) {
-              pendingPlay = true;
-              widget.play();
-              return;
-            }
-            if (sounds.length && queue.length && queuePos === -1) {
-              playQueuePos(0, true);
-              return;
-            }
-            widget.toggle();
-          });
+                </nav>
 
-          prevBtn && prevBtn.addEventListener('click', () => {
-            if (queue.length) {
-              playQueuePos(queuePos - 1, true);
-            } else {
-              widget.seekTo(0);
-            }
-          });
 
-          nextBtn && nextBtn.addEventListener('click', () => {
-            if (queue.length) {
-              playQueuePos(queuePos + 1, true);
-            } else {
-              try { widget.next(); } catch (e) { widget.seekTo(0); }
-            }
-          });
+                <!-- =================================================
+                 HERO
+                 ================================================== -->
 
-          // scrubber support
-          const scrub = document.querySelector('.winamp-scrub');
-          const scrubDot = document.querySelector('.winamp-scrub-dot');
-          let isScrubbing = false;
-          function updateScrubDot(value) {
-            if (!scrub || !scrubDot) return;
-            const min = Number(scrub.min || 0);
-            const max = Number(scrub.max || 1000);
-            const pct = (value - min) / (max - min);
-            const trackWidth = scrub.offsetWidth;
-            scrubDot.style.transform = `translateX(${Math.max(0, Math.min(trackWidth - 6, trackWidth * pct))}px)`;
-          }
-          if (scrub) {
-            scrub.addEventListener('input', () => { isScrubbing = true; });
-            scrub.addEventListener('change', (e) => {
-              const value = Number(e.target.value || 0) / 1000;
-              widget.getDuration(duration => {
-                if (duration) widget.seekTo(duration * value);
-                isScrubbing = false;
-              });
-              updateScrubDot(Number(e.target.value || 0));
-            });
-            updateScrubDot(Number(scrub.value || 0));
-          }
+                <section class="hero">
 
-          widget.bind(window.SC.Widget.Events.PLAY_PROGRESS, (e) => {
-            if (!scrub || isScrubbing) return;
-            scrub.value = Math.round((e.relativePosition || 0) * 1000);
-            updateScrubDot(Number(scrub.value || 0));
-          });
+                    <!--
+                    Replace this placeholder with your headshot:
 
-          widget.bind(window.SC.Widget.Events.FINISH, () => {
-            const playBtn = document.querySelector('.winamp-window .winamp-btn[data-action="play"]');
-            if (playBtn) { playBtn.textContent = '▶'; playBtn.classList.remove('toggled'); }
-            if (queue.length) {
-              playQueuePos(queuePos + 1, true);
-            } else {
-              try { widget.next(); } catch (e) { widget.seekTo(0); }
-            }
-          });
+                    <img
+                        src="/headshot.jpg"
+                        alt="Lucas Flowers"
+                    >
+                -->
 
-          // mute toggle on volume icon
-          const volIcon = document.querySelector('.vol-icon');
-          let previousVolume = 100;
-          if (volIcon) {
-            volIcon.addEventListener('click', () => {
-              widget.getVolume(v => {
-                if (v > 0) {
-                  previousVolume = v;
-                  widget.setVolume(0);
-                  volIcon.classList.add('muted');
-                  // swap svg to muted (use simple path change)
-                  volIcon.querySelector('svg').innerHTML = "<path d='M3 9v6h4l5 4V5L7 9H3z' fill='currentColor'/><path d='M19 5l-2 2M21 7l-2 2M17 9l4 4' stroke='currentColor' stroke-width='1.2' fill='none' stroke-linecap='round'/>";
-                } else {
-                  widget.setVolume(previousVolume);
-                  volIcon.classList.remove('muted');
-                  volIcon.querySelector('svg').innerHTML = "<path d='M3 9v6h4l5 4V5L7 9H3z' fill='currentColor' /><path d='M16.5 8.5a3.5 3.5 0 0 1 0 7' stroke='currentColor' stroke-width='1.2' fill='none' stroke-linecap='round'/><path d='M18.5 6.5a6.5 6.5 0 0 1 0 11' stroke='currentColor' stroke-width='1' fill='none' stroke-linecap='round'/>";
-                }
-                // sync slider UI
-                const volInputEl = document.querySelector('.winamp-vol');
-                if (volInputEl) widget.getVolume(vv => volInputEl.value = vv);
-              });
-            });
-          }
-        });
-      });
-    })();
-  </script>
+                    <div class="headshot">
+                        <img src="headshot.png" alt="Lucas Flowers">
+                    </div>
+
+
+                    <div class="hero-text">
+
+                        <div class="eyebrow">
+                            Student Engineer
+                        </div>
+
+                        <h1>
+                            Lucas<br>
+                            Flowers
+                        </h1>
+
+                        <p class="description">
+                            I study Robotics Engineering Technology at
+                            <strong>Purdue University</strong> as a member
+                            of the <strong>John Martinson Honors College.</strong>
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                 SITE MESSAGE
+                 ================================================== -->
+
+                <div class="info">
+
+                    <div class="info-message">
+                        This site is currently in progress.
+                        Come back soon to see the projects I've been working on.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+             FOOTER
+             ====================================================== -->
+
+            <div class="footer">
+
+                <span>
+                    lucasflowers.net
+                </span>
+
+                <span>
+                    © 2026 Lucas Flowers
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </body>
+
 </html>
