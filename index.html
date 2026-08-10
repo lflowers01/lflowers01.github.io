@@ -78,6 +78,12 @@
 
             box-shadow:
                 6px 6px 0 rgba(41, 37, 31, 0.28);
+            
+            transition: all 0.3s ease;
+        }
+
+        .window:hover {
+            box-shadow: 8px 8px 0 rgba(41, 37, 31, 0.35);
         }
 
 
@@ -138,6 +144,18 @@
             border-left: 1px solid var(--white);
             border-right: 1px solid var(--brown);
             border-bottom: 1px solid var(--brown);
+            
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control:hover {
+            background: var(--brown);
+            color: var(--parchment);
+            border-top: 1px solid var(--brown);
+            border-left: 1px solid var(--brown);
+            border-right: 1px solid var(--white);
+            border-bottom: 1px solid var(--white);
         }
 
 
@@ -195,6 +213,12 @@
         .nav-links a:hover {
             color: var(--green-dark);
             text-decoration: underline;
+            transform: translateY(-2px);
+            transition: all 0.2s ease;
+        }
+        
+        .nav-links a {
+            transition: all 0.2s ease;
         }
 
 
@@ -239,6 +263,17 @@
 
             font-size: 10px;
             letter-spacing: 0.5px;
+            
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .headshot:hover {
+            border-top: 2px solid var(--white);
+            border-left: 2px solid var(--white);
+            border-right: 2px solid var(--brown);
+            border-bottom: 2px solid var(--brown);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .headshot img {
@@ -604,7 +639,7 @@
 
                     <div class="nav-links">
 
-                        <a href="Resume.pdf" target="_blank" rel="noopener">
+                        <a href="/Resume.pdf" target="_blank" rel="noopener">
                             Resume
                         </a>
 
