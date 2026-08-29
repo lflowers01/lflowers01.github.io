@@ -360,6 +360,46 @@
             text-align: center;
         }
 
+                .archive-link-wrap {
+            display: flex;
+            justify-content: center;
+ 
+            margin-top: 12px;
+        }
+ 
+        .archive-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+ 
+            padding: 6px 12px;
+ 
+            background: var(--parchment);
+            color: var(--brown);
+ 
+            font-size: 11px;
+            font-weight: bold;
+            text-decoration: none;
+ 
+            border-top: 1px solid var(--white);
+            border-left: 1px solid var(--white);
+            border-right: 1px solid var(--brown);
+            border-bottom: 1px solid var(--brown);
+ 
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+ 
+        .archive-link:hover {
+            background: var(--brown);
+            color: var(--parchment);
+ 
+            border-top: 1px solid var(--brown);
+            border-left: 1px solid var(--brown);
+            border-right: 1px solid var(--white);
+            border-bottom: 1px solid var(--white);
+        }
+
 
         /* =========================================================
            FOOTER
@@ -717,7 +757,7 @@
  
                     <div class="archive-link-wrap">
                         <a href="archive.html" class="archive-link">
-                            &lt; High School Archive &gt;
+                            &lt; Old projects & experiences &gt;
                         </a>
                     </div>
  
