@@ -1,0 +1,492 @@
+{
+  "record_kind": "analyst-selected evidence extract, not complete REA Evidence",
+  "evidence_id": "ev_00955b9f7adae248f58e03f1bdf8226757de25d04579a65d2f38c4d8a153e667",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://www.windows93.net/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 5000
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url"
+      ],
+      "events": [
+        "page-errors",
+        "network"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "a1c0fb57ad43ae93f503fb5c360c6c931dce55924a8c2dc6eef0a112f7be37e4"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "incomplete",
+    "equality_eligible": false,
+    "missing_sections": [
+      "events"
+    ],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://www.windows93.net/",
+        "origin": "https://www.windows93.net",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_identity": null,
+      "accessibility": {
+        "state": "not_requested"
+      }
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://www.windows93.net/",
+        "origin": "https://www.windows93.net",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_identity": {
+        "sha256": "ba697dda19dbf01f14b4872200f30750fb87a31e3edb80fad720663354b0b715",
+        "bytes": 3610
+      },
+      "accessibility": {
+        "state": "captured",
+        "value": {
+          "sha256": "cd40b5d572437345e69aa8a28b2c760c639f2f5359c11533e3eac2b3b753fb99",
+          "bytes": 35,
+          "text": "- document:\n  - status \"Loading\": _"
+        }
+      }
+    }
+  ],
+  "selected_dom_tags": [],
+  "selected_response_requests": [
+    {
+      "url": "https://www.windows93.net/",
+      "status": 200,
+      "resource_type": "document"
+    },
+    {
+      "url": "https://www.windows93.net/42/themes/tribute/windows9x/fonts/tomo/Tomo.woff2",
+      "status": 200,
+      "resource_type": "font"
+    },
+    {
+      "url": "https://www.windows93.net/bios/bios.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/bios/boot.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/trap.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/os/network/client.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/core.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/error/normalizeError.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/error/ErrnoError.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/any/isInstanceOf.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/timestamps.json",
+      "status": 200,
+      "resource_type": "fetch"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/fileIndex.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/os/ConfigFile.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/env/realm/inDesktopRealm.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/promise/defer.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/fs/FileIndex.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/load/loadCBOR.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/system.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/configure.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/persist.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/event/dispatch.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/class/error/TimeoutError.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/fs/FileLocator.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/http.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/formats/data/CBOR.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/class/Emitter.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/env/realm/getDesktopRealm.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/object/merge.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42.system.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/syntax/path/getExtname.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/any/isHashmapLike.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/env/polyfill/globalThis.requestIdleCallback.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/fs.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/class/mixin/Emittable.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/fs/FileSystemError.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/class/Storable.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/object/exists.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/class/Locator.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/syntax/path/sortPath.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/fs/isDirDescriptor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/object/flatten.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/syntax/glob.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/syntax/glob/isGlob.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/object/locate.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/any/arrify.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/function/noop.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/browser/updateCache.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/os/ensureURL.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/encodePath.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/syntax/path/assertPath.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/formats/data/CBOR/encodeCBOR.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/fs/getDriverLazy.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/formats/data/CBOR/decodeCBOR.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/formats/data/JSON5.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/string/segmentize.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/object/allocate.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/db/Database.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/object/deallocate.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/array/uniq.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/string/escapeRegExp.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/array/difference.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/array/union.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/any/isPrimitive.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/db/DatabaseError.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/api/db/ObjectStore.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/string/capitalize.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/string/transform.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/class/error/AbortError.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/string/isHyphenCase.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/string/isLodashCase.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/string/isUpperCase.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.windows93.net/42/lib/type/string/isCamelCase.js",
+      "status": 200,
+      "resource_type": "script"
+    }
+  ],
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Some network requests had not completed when capture ended; later activity is unknown.",
+    "Browser host platform and architecture were not observed."
+  ]
+}

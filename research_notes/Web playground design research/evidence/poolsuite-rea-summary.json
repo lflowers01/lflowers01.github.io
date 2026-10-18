@@ -1,0 +1,339 @@
+{
+  "record_kind": "analyst-selected evidence extract, not complete REA Evidence",
+  "evidence_id": "ev_feade6f2444d3b4a66387650fac17b52eb1719a11c325fca673ecc7389a40499",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://poolsuite.net/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 4000
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url"
+      ],
+      "events": [
+        "page-errors",
+        "network"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "e2e262a1a2bf1cf1b9221b7fa55cd4a0204542e523236ee36d574d2e891ea9f7"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "incomplete",
+    "equality_eligible": false,
+    "missing_sections": [
+      "events"
+    ],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://poolsuite.net/",
+        "origin": "https://poolsuite.net",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_identity": null,
+      "accessibility": {
+        "state": "not_requested"
+      }
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://poolsuite.net/",
+        "origin": "https://poolsuite.net",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_identity": {
+        "sha256": "b2c07bdf4c031193629a0fe7b80a7e886c6747faa33a24c30615df7f5d36a21d",
+        "bytes": 203638
+      },
+      "accessibility": {
+        "state": "captured",
+        "value": {
+          "sha256": "47ac63869f6e5459b7c7ff672314f94b7ceb63face85b05572bab2dbe5206381",
+          "bytes": 2771,
+          "text": "- document:\n  - banner:\n    - list:\n      - listitem:\n        - button \"Poolsuite palm tree\":\n          - img \"Poolsuite palm tree\"\n      - listitem:\n        - button \"Become a member / Log in\"\n    - complementary:\n      - text: Sun 18 Oct 1997\n      - img \"Clock icon\"\n      - text: 22:17\n  - button \"Close icon\":\n    - img \"Close icon\"\n  - button \"Toggle TV icon\":\n    - img \"Toggle TV icon\"\n  - button \"Contract icon\":\n    - img \"Contract icon\"\n  - heading \"Poolsuite\" [level=2]\n  - img \"Pool TV icon\"\n  - button \"Previous video icon\" [disabled]:\n    - img \"Previous video icon\"\n  - button \"Next video icon\":\n    - img \"Next video icon\"\n  - text: Beautiful_Beginnings.mp4 591x455\n  - button \"Fullscreen icon\":\n    - img \"Fullscreen icon\"\n  - 'heading \"Poolsuite: ON AIR\" [level=3]'\n  - heading \"The Emperor Machine - Bloody Hell\" [level=2]\n  - button \"Share icon\" [disabled]:\n    - img \"Share icon\"\n  - button \"Favourite icon\" [disabled]:\n    - img \"Favourite icon\"\n  - img \"Play icon\"\n  - text: Stopped\n  - button \"Play icon\":\n    - img \"Play icon\"\n  - button \"Stop icon\" [disabled]:\n    - img \"Stop icon\"\n  - button \"Previous track icon\" [disabled]:\n    - img \"Previous track icon\"\n  - button \"Next track icon\" [disabled]:\n    - img \"Next track icon\"\n  - button \"Submit track icon\":\n    - img \"Submit track icon\"\n  - text: \"Channel: Poolsuite ON AIR Live\"\n  - img \"Toggle channel list\"\n  - list:\n    - listitem:\n      - button \"Player icon Player\":\n        - img \"Player icon\"\n        - text: Player\n    - listitem:\n      - button \"Newsroom icon Newsroom\":\n        - img \"Newsroom icon\"\n        - text: Newsroom\n    - listitem:\n      - button \"Mixtapes icon Mixtapes\":\n        - img \"Mixtapes icon\"\n        - text: Mixtapes\n    - listitem:\n      - button \"Members icon Members\":\n        - img \"Members icon\"\n        - text: Members\n    - listitem:\n      - button \"Events icon Events\":\n        - img \"Events icon\"\n        - text: Events\n    - listitem:\n      - button \"Instagram icon Instagram\":\n        - img \"Instagram icon\"\n        - text: Instagram\n    - listitem:\n      - button \"Vacation icon Vacation\":\n        - img \"Vacation icon\"\n        - text: Vacation\n    - listitem:\n      - button \"Guestbook icon Guestbook\":\n        - img \"Guestbook icon\"\n        - text: Guestbook\n    - listitem:\n      - button \"Apps icon Apps\":\n        - img \"Apps icon\"\n        - text: Apps\n  - img \"Preload icon for Player\"\n  - img \"Preload icon for Newsroom\"\n  - img \"Preload icon for Mixtapes\"\n  - img \"Preload icon for Members\"\n  - img \"Preload icon for Events\"\n  - img \"Preload icon for Instagram\"\n  - img \"Preload icon for Vacation\"\n  - img \"Preload icon for Guestbook\"\n  - img \"Preload icon for Apps\"\n  - img \"Preload icon for Settings\"\n  - img \"Preload for boot background\""
+        }
+      }
+    }
+  ],
+  "selected_dom_tags": [
+    "<video data-v-b3e2d450=\"\" class=\"video-element\" autoplay=\"\" playsinline=\"\" src=\"blob:https://poolsuite.net/ac67c5a6-1632-4a45-a71a-0945bb4eb8e4\">"
+  ],
+  "selected_response_requests": [
+    {
+      "url": "https://poolsuite.net/",
+      "status": 200,
+      "resource_type": "document"
+    },
+    {
+      "url": "https://plausible.io/js/script.tagged-events.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/lib/psapi.min.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/index.5497143f.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/chunk-vendors.324363d8.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/6488.a95bb2c8.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/7200.20d5f0fa.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/1671765563059003",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/view-DefaultPage-vue.3b34ce18.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/876.3cce68b3.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://cdn.contentful.com/spaces/hsst7dmi6ghe/environments/master/entries",
+      "status": 200,
+      "resource_type": "xhr"
+    },
+    {
+      "url": "https://poolsuite.net/js/7490.e7f5384f.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/1963.c5e7f5da.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/3099.2ed6c467.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/",
+      "status": 200,
+      "resource_type": "fetch"
+    },
+    {
+      "url": "https://api.web3modal.org/appkit/v1/config",
+      "status": 200,
+      "resource_type": "fetch"
+    },
+    {
+      "url": "https://api.web3modal.org/appkit/v1/project-limits",
+      "status": 200,
+      "resource_type": "fetch"
+    },
+    {
+      "url": "https://poolsuite.net/js/6989.e5df0741.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/3886.8a70a897.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/7842.50957476.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/8138.6f145ef9.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/4124.5f2e0c94.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/5223.c3c27ed3.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/4360.40dacd20.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/2550.e35d8d3c.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/1760.a8654d22.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://poolsuite.net/js/4098.3704c20f.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://api.poolsuite.net/playlists",
+      "status": 200,
+      "resource_type": "fetch"
+    },
+    {
+      "url": "https://public.radio.co/stations/sc9cb59935/status",
+      "status": 200,
+      "resource_type": "fetch"
+    },
+    {
+      "url": "https://poolsuite.net/fonts/ChiKareGo2.939bb935.woff",
+      "status": 200,
+      "resource_type": "font"
+    },
+    {
+      "url": "https://poolsuite.net/fonts/Ishmeria.7b6f3786.woff2",
+      "status": 200,
+      "resource_type": "font"
+    },
+    {
+      "url": "https://ps-cdn.tv/videos/Beautiful_Beginnings.mp4/index.m3u8",
+      "status": 200,
+      "resource_type": "xhr"
+    },
+    {
+      "url": "https://ps-cdn.tv/videos/Beautiful_Beginnings.mp4/index0.ts",
+      "status": 200,
+      "resource_type": "xhr"
+    },
+    {
+      "url": "https://ps-cdn.tv/videos/Beautiful_Beginnings.mp4/index1.ts",
+      "status": 200,
+      "resource_type": "xhr"
+    },
+    {
+      "url": "https://ps-cdn.tv/videos/Beautiful_Beginnings.mp4/index2.ts",
+      "status": 200,
+      "resource_type": "xhr"
+    },
+    {
+      "url": "https://ps-cdn.tv/videos/Beautiful_Beginnings.mp4/index3.ts",
+      "status": 200,
+      "resource_type": "xhr"
+    },
+    {
+      "url": "https://ps-cdn.tv/videos/Beautiful_Beginnings.mp4/index4.ts",
+      "status": 200,
+      "resource_type": "xhr"
+    },
+    {
+      "url": "https://ps-cdn.tv/videos/Beautiful_Beginnings.mp4/index5.ts",
+      "status": 200,
+      "resource_type": "xhr"
+    },
+    {
+      "url": "https://ps-cdn.tv/videos/Beautiful_Beginnings.mp4/index6.ts",
+      "status": 200,
+      "resource_type": "xhr"
+    },
+    {
+      "url": "https://ps-cdn.tv/videos/Beautiful_Beginnings.mp4/index7.ts",
+      "status": 200,
+      "resource_type": "xhr"
+    }
+  ],
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Some network requests had not completed when capture ended; later activity is unknown.",
+    "Browser host platform and architecture were not observed."
+  ]
+}

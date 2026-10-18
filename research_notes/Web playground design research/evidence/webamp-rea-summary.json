@@ -1,0 +1,172 @@
+{
+  "record_kind": "analyst-selected evidence extract, not complete REA Evidence",
+  "evidence_id": "ev_98f798eb06cb7c017042aaa8faaff4f2322dc5d7ca653ae05f824d6a27d23052",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://webamp.org/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 4000
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url"
+      ],
+      "events": [
+        "page-errors",
+        "network"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "0382aab4b247af895fb17238c3bef3b6ad4cda493550fbde66654008a7bdb371"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://webamp.org/",
+        "origin": "https://webamp.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_identity": null,
+      "accessibility": {
+        "state": "not_requested"
+      }
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://webamp.org/",
+        "origin": "https://webamp.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_identity": {
+        "sha256": "b7418f0424a607a097e6906df7a785b2fef004077592a83a32c42b8654b01239",
+        "bytes": 346202
+      },
+      "accessibility": {
+        "state": "captured",
+        "value": {
+          "sha256": "322e30eae9352f821a333b0636db353b2f5a9cc9dcbef19f32a2d26ce55a087e",
+          "bytes": 2205,
+          "text": "- document:\n  - img\n  - text: Webamp\n  - img\n  - text: Green Dimension V2.wsz\n  - img\n  - text: Internet Archive.wsz\n  - img\n  - text: Mac OSX v1.5 (Aqua).wsz\n  - img\n  - text: TopazAmp.wsz\n  - img\n  - text: Vizor.wsz\n  - img\n  - text: XMMS Turquoise .wsz\n  - img\n  - text: Zaxon Remake.wsz\n  - link \"Winamp Skin Musuem\":\n    - /url: https://skins.webamp.org\n    - img\n    - text: Winamp Skin Musuem\n  - paragraph:\n    - link:\n      - /url: https://github.com/jberg/butterchurn\n      - img\n    - link:\n      - /url: https://github.com/captbaritone/webamp/blob/master/packages/webamp-demo/docs/music-credits.md\n      - img\n    - link \"GitHub icon\":\n      - /url: https://github.com/captbaritone/webamp\n      - img \"GitHub icon\"\n  - application:\n    - button \"Minimize\"\n    - button \"Toggle Windowshade Mode\"\n    - button \"Close\"\n    - text: \"1 . D J M i k e L l a m a - L l a m a W h i p p i n ' I n t r o ( 0 : 0 5 ) * * * 1 . D J M i k e L l a m a - L l a m a W h i p p i n ' I n t r o ( 0 : 0 5 )\"\n    - slider \"Volume Bar\": \"78\"\n    - slider \"Balance\": \"0\"\n    - button \"Toggle Graphical Equalizer\" [pressed]\n    - button \"Toggle Playlist Editor\" [pressed]\n    - slider \"Seeking Bar\": \"0\"\n    - button \"Previous Track\"\n    - button \"Play\"\n    - button \"Pause\"\n    - button \"Stop\"\n    - button \"Next Track\"\n    - button \"Open File(s)\"\n    - button \"Toggle Shuffle\"\n    - button \"Toggle Repeat\"\n    - link \"About\":\n      - /url: https://webamp.org/about\n    - button \"Toggle Windowshade Mode\"\n    - button \"Close\"\n    - text: \"1. DJ Mike Llama - Llama Whippin' Intro 2. Diablo Swing Orchestra - Heroines 3. Eclectek - We Are Going To Eclecfunk Your Ass 4. Auto-Pilot - Seventeen 5. Muha - Microphone 6. Just Plain Ant - Stumble 7. Sleaze - God Damn 8. Juanitos - Hola Hola Bossa Nova 9. Entertainment for the Braindead - Resolutions (Chris Summer Remix) 10. Nobara Hayakawa - Trail 11. Paper Navy - Tongue Tied 12. 60 Tigres - Garage 13. CM aka Creative - The Cycle (Featuring Mista Mista) 0:05 5:22 3:10 3:34 3:01 1:26 3:46 3:27 5:14 3:24 3:21 4:05 3:41 0 : 0 0 / 4 3 : 4 0\"\n    - button \"Toggle Windowshade Mode\"\n    - button \"Close\"\n    - button \"On\" [pressed]\n    - button \"Auto\"\n    - button \"Close\""
+        }
+      }
+    }
+  ],
+  "selected_dom_tags": [
+    "<canvas id=\"eqGraph\" width=\"113\" height=\"19\">",
+    "<canvas height=\"430\" width=\"431\" style=\"height: 100%; width: 100%; display: block;\">"
+  ],
+  "selected_response_requests": [
+    {
+      "url": "https://webamp.org/",
+      "status": 200,
+      "resource_type": "document"
+    },
+    {
+      "url": "https://webamp.org/assets/index-B1rU0ZgL.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://webamp.org/assets/base-C9eGptWO.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://webamp.org/assets/butterchurn-jQmFj2sG.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.google-analytics.com/j/collect",
+      "status": 200,
+      "resource_type": "xhr"
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.google-analytics.com/g/collect",
+      "status": 204,
+      "resource_type": "fetch"
+    }
+  ],
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ]
+}
