@@ -81,6 +81,7 @@ class ArtField {
     };
     canvas.addEventListener('pointerup', finish); canvas.addEventListener('pointercancel', finish);
     canvas.addEventListener('lostpointercapture', finish);
+    canvas.addEventListener('focus', wake); canvas.addEventListener('blur', wake);
     canvas.addEventListener('pointerleave', () => { this.pointer = null; this.activeUntil = Math.max(this.activeUntil, performance.now() + 100); wake(); });
     canvas.addEventListener('keydown', event => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.pulse(this.width * .65, this.height * .48); }
@@ -117,7 +118,7 @@ class ArtField {
     const width = this.width, height = this.height, cols = Math.ceil(width / cell), rows = Math.ceil(height / cell);
     const light = new Float32Array(cols * rows), depth = new Float32Array(cols * rows).fill(-10);
     const narrow = width < 600 && !this.pad;
-    const cx = width * (this.pad ? .54 : narrow ? .55 : .75);
+    const cx = this.pad ? width * .54 : narrow ? width * .55 : width / 2 + Math.min(width, 1500) * .25;
     const navigationHeight = this.spins ? document.querySelector('.site-header').offsetHeight : 0;
     const artHeight = height - navigationHeight;
     const cy = navigationHeight + artHeight * (narrow ? .68 : .46);
@@ -186,6 +187,7 @@ class ArtField {
     const object = this.footer ? null : this.objectField(now, cell);
     if (object) this.objectGeometry = object;
     const walleColumn = Math.floor((width / cell - Math.max(0, ...this.walleLines.map(line => line.length))) / 2);
+    const footerPointer = this.footer ? this.pointer || (document.activeElement === this.canvas ? { x: width / 2, y: 140 } : null) : null;
     const navigationHeight = this.spins ? document.querySelector('.site-header').offsetHeight : 0;
     if (this.spins) {
       const elapsed = Math.min(100, now - (this.lastPointerFrame || now)); this.lastPointerFrame = now;
@@ -207,8 +209,10 @@ class ArtField {
       }
       if (this.footer) value = .12 + .05 * Math.sin(x * .013) + .045 * Math.sin(y * .018 + x * .004);
       const literal = this.footer ? this.walleLines[row - 2]?.[col - walleColumn] : null;
-      const characterPart = literal && literal !== ' ';
-      if (characterPart) value = .88;
+      const revealDistance = footerPointer ? Math.hypot(x + cell / 2 - footerPointer.x, y + rowHeight / 2 - footerPointer.y) : Infinity;
+      const reveal = Math.max(0, Math.min(1, (105 - revealDistance) / 20));
+      const characterPart = literal && literal !== ' ' && reveal > .015;
+      if (characterPart) value += (.88 - value) * reveal;
       for (const event of this.events) {
         if (event.type !== 'wave') continue;
         const age = (now - event.time) / 1000, distance = Math.hypot(x - event.x, y - event.y);
@@ -219,10 +223,10 @@ class ArtField {
       }
       const threshold = (bayer[(row % 4) * 4 + col % 4] + .5) / 16;
       const lens = this.pointer && Math.hypot(x - this.pointer.x, y - this.pointer.y) < 105;
-      const characters = renderMode === 'ascii' || (renderMode === 'hybrid' && !lens);
+      const characters = characterPart || renderMode === 'ascii' || (renderMode === 'hybrid' && !lens);
       ctx.fillStyle = characterPart ? '#ffffff' : ink; ctx.strokeStyle = ctx.fillStyle;
       const quietBackground = this.spins && objectValue < .08 && value < .18;
-      ctx.globalAlpha = this.footer ? (characterPart ? .95 : .30) : quietBackground ? .055 : .88;
+      ctx.globalAlpha = this.footer ? (characterPart ? .30 + .65 * reveal : .30) : quietBackground ? .055 : .88;
       const breathe = .035 * Math.sin(x * .013 + y * .017 + now / 1800);
       value += breathe * Math.min(1, value * 4);
       if (characters && value > .08) ctx.fillText(characterPart && value > .4 ? literal : glyphs[Math.min(glyphs.length - 1, Math.floor(Math.min(1, value) * glyphs.length))], x + cell / 2, y + rowHeight / 2);

@@ -152,20 +152,41 @@ async def main():
         assert await page.evaluate("document.documentElement.classList.contains('theme-switching') || document.body.classList.contains('theme-flash')")
         await page.wait_for_function("!document.documentElement.classList.contains('theme-switching') && !document.body.classList.contains('theme-flash')")
 
-        # WALL-E is drawn into the same character grid, rather than overlaid.
+        # Only cells inside the pointer circle reveal the hidden character.
         await page.locator("#end").scroll_into_view_if_needed()
-        assert await page.locator(".walle-art").evaluate("e=>e.getBoundingClientRect().width") == 1
-        assert await page.evaluate("""()=>{
+        await page.mouse.move(2, 2)
+        await page.wait_for_timeout(800)
+        capture = """()=>{
           const f=fields.find(f=>f.footer),ctx=f.ctx,draw=ctx.fillText,calls=[];
-          ctx.fillText=function(text,x,y){if(this.fillStyle==='#ffffff')calls.push(text);return draw.call(this,text,x,y)};
-          try{f.pointer=null;f.draw(1000)}finally{ctx.fillText=draw}
-          return calls.includes('H')&&calls.includes('E')&&calls.includes('0');
-        }""")
+          ctx.fillText=function(text,x,y){if(this.fillStyle==='#ffffff')calls.push({text,x,y});return draw.call(this,text,x,y)};
+          try{f.draw(performance.now())}finally{ctx.fillText=draw}
+          return calls;
+        }"""
+        assert not await page.evaluate(capture)
+        footer = page.locator("#footer-art")
+        box = await footer.bounding_box()
+        px, py = box["width"] / 2, 140
+        await page.screenshot(path=".git/secret-footer-hidden.png")
+        await page.mouse.move(box["x"] + px, box["y"] + py)
+        await page.wait_for_timeout(180)
+        calls = await page.evaluate(capture)
+        assert calls and all((c["x"]-px)**2+(c["y"]-py)**2 < 105**2 for c in calls), calls
+        await page.screenshot(path=".git/secret-footer-lens.png")
+        await page.mouse.move(2, 2)
+        await page.wait_for_timeout(180)
+        assert not await page.evaluate(capture)
+        await footer.focus()
+        await page.wait_for_timeout(180)
+        calls = await page.evaluate(capture)
+        assert calls and all((c["x"]-px)**2+(c["y"]-py)**2 < 105**2 for c in calls)
+        await page.emulate_media(reduced_motion="no-preference")
+        assert await page.evaluate("getComputedStyle(document.documentElement).scrollBehavior") == "smooth"
 
-        for width in [1440, 768, 390, 320]:
+        for width in [2559, 1920, 1440, 768, 390, 320]:
             await page.set_viewport_size({"width": width, "height": 900})
             await page.wait_for_timeout(100)
             assert not await page.evaluate("document.documentElement.scrollWidth>innerWidth"), width
+            assert await hero.evaluate("e=>{const r=e.getBoundingClientRect();return Math.abs(r.left)<1 && Math.abs(r.right-innerWidth)<1}"), width
         assert not errors, errors
         print("PASS: two-axis torus rotation without translation, reversed pointer lens, breathing background, complete navigation fade and pointer fade-out, outward fixed-grid ripple, stable heading hover, progressive 2px portrait reveal/hide and repeat-click stability, completed flower playback after pointer exit, pixel theme icon and whole-page transition, integrated WALL-E, responsive widths; no JS errors.")
         await browser.close()

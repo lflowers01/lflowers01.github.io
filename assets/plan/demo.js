@@ -130,3 +130,18 @@ document.getElementById('maker-mark').addEventListener('click', () => {
   markClicks++;
   if (markClicks >= 3) { document.getElementById('hidden-sketch').hidden = false; document.getElementById('maker-mark').setAttribute('aria-label', 'Robot sketch revealed'); }
 });
+
+const sectionLinks = [...document.querySelectorAll('.site-header nav a[href^="#"]')];
+const visibleSections = new Map();
+const sectionObserver = new IntersectionObserver(entries => {
+  for (const entry of entries) visibleSections.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
+  const active = [...visibleSections].filter(([, ratio]) => ratio > 0).sort((a, b) => b[1] - a[1])[0]?.[0];
+  for (const link of sectionLinks) {
+    if (link.hash === `#${active}`) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  }
+}, { rootMargin: '-10% 0px -25% 0px', threshold: [0, .15, .4, .7] });
+for (const link of sectionLinks) {
+  const section = document.getElementById(link.hash.slice(1));
+  if (section) sectionObserver.observe(section);
+}

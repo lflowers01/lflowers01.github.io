@@ -17,7 +17,7 @@ dialog{background:#e9e1c9;color:#25281f;border:1px solid #a9a183;max-width:min(5
 .hero-caption span{background:var(--bg);padding:2px 5px;width:fit-content}
 .flower-icon{display:block;width:37px;height:47px;image-rendering:pixelated;object-fit:contain}.flower-trigger{display:inline-block;line-height:0}.maker-mark.flower-trigger{border:0;padding:0;background:none}
 @media(max-width:520px){.hero{min-height:700px}}
-@media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*{transition:none!important}}
+
 
 /* The sixth study keeps the drawing separate from readable foreground text. */
 body{isolation:isolate}.ambient-art{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none}
@@ -65,7 +65,17 @@ body{isolation:isolate}.ambient-art{position:fixed;inset:0;width:100vw;height:10
 @keyframes pixel-uncover{from{--theme-angle:0deg}to{--theme-angle:360deg}}
 body{--navigation-height:94px}.site-header{z-index:2;pointer-events:none}.site-header a,.site-header button{pointer-events:auto}
 .hero{overflow:visible}.hero>.art-field{top:calc(-1 * var(--navigation-height));height:calc(100% + var(--navigation-height));bottom:auto}
+body{overflow-x:clip}.hero>#hero-art{left:calc(50% - 50vw);right:auto;width:100vw}
 .theme-icon{width:40px;height:40px;padding:7px}.theme-icon svg{width:24px;height:24px;min-width:24px;min-height:24px}
 ::view-transition-new(root){mask-image:none;animation:theme-button-ripple .9s cubic-bezier(.15,.65,.25,1) both}
 @keyframes theme-button-ripple{from{clip-path:circle(0 at var(--switch-x) var(--switch-y));filter:brightness(1.12)}to{clip-path:circle(150vmax at var(--switch-x) var(--switch-y));filter:brightness(1)}}
 @media(max-width:520px){body{--navigation-height:90px}.theme-icon{width:32px;height:32px;padding:3px}}
+:root{scroll-behavior:smooth;scroll-padding-top:24px}
+.site-header nav a{position:relative;text-decoration:none;padding:5px 0}
+.site-header nav a:after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.2,.7,.2,1)}
+.site-header nav a:hover{text-decoration:none}.site-header nav a:hover:after,.site-header nav a[aria-current=location]:after{transform:scaleX(1)}
+.sticky{transition:box-shadow .2s ease,transform .24s cubic-bezier(.2,.8,.2,1)}
+.sticky[data-dragging=true]{transition:box-shadow .2s ease}
+.outline-button,.quiet-button,.profile-links a,.footer-content a{transition:color .2s ease,border-color .2s ease,opacity .2s ease}
+.outline-button:active,.site-stamp:active{transform:translateY(1px)}
+@media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}.sticky,.site-header nav a:after,.outline-button,.quiet-button,.profile-links a,.footer-content a{transition:none}}

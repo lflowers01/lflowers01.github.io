@@ -32,7 +32,7 @@ The Purdue Hackers source study is documented in [the research note](../../resea
 
 ## Content references
 
-The footer WALL-E is manually transcribed from the image supplied by the user during the sixth review. White characters render as part of the footer canvas's grid, participating in its lens and ripples. The preformatted source remains accessible to assistive technology and is visually hidden; no overlaid text layer or yellow styling is used.
+The footer WALL-E is manually transcribed from the image supplied by the user during the sixth review. White characters render inside the footer canvas only within the 105px pointer circle, with a soft edge; the rest stays hidden. Keyboard focus supplies a bounded discovery circle. The preformatted source is hidden from rendering and accessibility; the canvas has a discovery label. No separate visual layer or yellow styling is used.
 
 `Resume.pdf` is an unmodified copy of `main:public/Resume.pdf` at `8b8de307a3bc8cf8e89e295f1edb59fd88a0a762`. LinkedIn, GitHub, and the email address are copied from that commit's `index.html`. The résumé is historical existing content, not a newly verified résumé. `project-template.html` is a report layout example, not a claim that a project exists.
 
