@@ -1,4 +1,5 @@
 ---
+draft: true
 title: Website redesign
 date: '2026-10-18'
 x: 0.08

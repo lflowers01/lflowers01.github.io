@@ -31,6 +31,20 @@ async def main():
                 assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth'),(width,route)
         await page.set_viewport_size({'width':390,'height':844})
         await page.goto('http://127.0.0.1:49280/',wait_until='networkidle')
+        assert await page.locator('.sticky').count()==1
+        assert await page.locator('.note-open strong').inner_text()=='More ideas soon'
+        assert await page.locator('.note-open').evaluate('e=>getComputedStyle(e).filter')=='none'
+        assert 'Kalam' in await page.locator('.note-open strong').evaluate('e=>getComputedStyle(e).fontFamily')
+        assert await page.locator('.handwriting-bitmap').count()==1
+        assert await page.locator('.handwriting-bitmap').evaluate('e=>e.width<=e.clientWidth/1.5+1&&getComputedStyle(e).imageRendering==="pixelated"')
+        assert await page.locator('.handwriting-bitmap').evaluate('''e=>{
+          const d=e.getContext('2d').getImageData(0,0,e.width,e.height).data, scale=e.clientHeight/e.height;
+          let ink=false;
+          for(let y=0;y<e.height;y++)for(let x=0;x<e.width;x++)if(d[(y*e.width+x)*4+3]){
+            ink=true;if(y*scale<1||(y+1)*scale>27)return false;
+          }
+          return ink;
+        }'''), 'Handwriting must stay between the first pair of paper rules'
         cdp=await page.context.new_cdp_session(page)
         await page.evaluate("scrollTo({top:document.getElementById('note-board').getBoundingClientRect().top+scrollY+300,behavior:'instant'})")
         await page.wait_for_timeout(100)
@@ -40,13 +54,26 @@ async def main():
         await page.wait_for_timeout(200)
         assert await page.evaluate('scrollY') > before+50, 'Desk must allow normal finger scrolling'
         assert await page.evaluate("localStorage.getItem('desk.lf.notes.ink.v1')") is None
-        await page.locator('#touch-drawing').tap()
+        assert await page.locator('#draw-mode').get_attribute('aria-pressed') == 'false'
+        await page.locator('#draw-mode').tap()
+        assert await page.locator('#touch-drawing span').inner_text() == 'Done'
+        assert await page.locator('#draw-mode').get_attribute('aria-pressed') == 'true'
         await page.evaluate("scrollTo({top:document.getElementById('note-board').getBoundingClientRect().top+scrollY+300,behavior:'instant'})")
         await page.wait_for_timeout(100)
         before=await page.evaluate('scrollY')
         await swipe(cdp,x,500,50,-100)
         assert abs(await page.evaluate('scrollY')-before)<2
         assert await page.evaluate("JSON.parse(localStorage.getItem('desk.lf.notes.ink.v1'))[0].length>2")
+        await page.locator('#touch-drawing').tap()
+        await page.wait_for_function("document.querySelector('#touch-drawing span').textContent==='Draw'")
+        assert await page.locator('#touch-drawing span').inner_text() == 'Draw'
+        assert await page.locator('#draw-mode').get_attribute('aria-pressed') == 'false'
+        for mode in ['sand-toggle','life-mode']:
+            await page.locator('#'+mode).tap()
+            assert await page.locator('#touch-drawing').get_attribute('aria-pressed') == 'true'
+            assert await page.locator('#'+mode).get_attribute('aria-pressed') == 'true'
+            await page.locator('#touch-drawing').tap()
+        await page.locator('#draw-mode').tap()
         for selector in ['.note-handle','[data-desk-handle]']:
             handle=page.locator(selector).first
             await handle.scroll_into_view_if_needed()

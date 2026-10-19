@@ -74,10 +74,10 @@ async def main():
           const rest=Math.max(...alphas);f.ctx.stroke=stroke;f.pointer=null;
           return hover>.20 && rest<.04 && hover>rest*5;
         }""")
-        assert await page.locator(".sticky").count() == 3
+        assert await page.locator(".sticky").count() == 1
         await page.evaluate('document.fonts.ready')
         assert await page.evaluate("document.fonts.check('18px Kalam')")
-        assert await page.locator('.note-open span').first.evaluate("e=>getComputedStyle(e).lineHeight") == '28px'
+        assert await page.locator('.note-open strong').first.evaluate("e=>getComputedStyle(e).lineHeight") == '28px'
         assert 'Kalam' in await page.locator('.note-open strong').first.evaluate("e=>getComputedStyle(e).fontFamily")
         assert await page.locator('main > section').evaluate_all("es=>es.filter(e=>e.id).map(e=>e.id)") == ['about','projects','board-section']
         await page.locator('.note-open').first.hover()
@@ -93,13 +93,11 @@ async def main():
         await page.mouse.move(box["x"]+30, box["y"]+15)
         await page.mouse.down(); await page.mouse.move(box["x"]+100, box["y"]+45, steps=6); await page.mouse.up()
         saved = await page.evaluate("localStorage.getItem('desk.lf.board.positions.v1')")
-        assert saved and "a-place-to-leave-things" in saved
+        assert saved and "more-ideas-soon" in saved
         await page.reload(wait_until="networkidle")
         assert await page.evaluate("localStorage.getItem('desk.lf.board.positions.v1')") == saved
-        await page.locator(".note-open").first.click()
-        assert "/notes/a-place-to-leave-things.html" in page.url
-        assert "at Purdue" in await page.locator(".prose").inner_text()
-        await page.go_back(wait_until="networkidle")
+        assert await page.locator(".note-open strong").inner_text() == "More ideas soon"
+        assert not await page.locator(".note-open[href]").count()
 
         # Pixel ink survives reload; clearing erases ink only. Visitors cannot add notes.
         assert await page.locator('#add-note, #visitor-note-form').count() == 0
@@ -120,7 +118,7 @@ async def main():
         assert await page.evaluate("JSON.parse(localStorage.getItem('desk.lf.notes.ink.v1')).length") == 0
         # The ink dissolves away and the canvas is empty within a second and a half.
         await page.wait_for_function("!(e=>e.getContext('2d').getImageData(0,0,e.width,e.height).data.some((v,i)=>i%4===3&&v>0))(document.getElementById('note-drawing'))", timeout=1500)
-        assert await page.locator('.sticky').count() == 3
+        assert await page.locator('.sticky').count() == 1
         assert await page.evaluate("localStorage.getItem('desk.lf.board.positions.v1')") == position_before_clear
 
         # Theme survives reading-page navigation and reload, without losing its button label.
@@ -197,10 +195,9 @@ async def main():
         # The published notebook remains readable with JavaScript disabled.
         plain = await browser.new_page(java_script_enabled=False, viewport={"width":390,"height":900})
         await plain.goto(BASE+"/")
-        assert await plain.locator(".note-open").count() == 3
+        assert await plain.locator(".note-open").count() == 1
         assert await plain.locator("#note-board").is_visible()
-        await plain.locator(".note-open").first.click()
-        assert await plain.locator(".prose p").count() > 0
+        assert await plain.locator(".note-open strong").inner_text() == "More ideas soon"
         await plain.close()
 
         # Adapter check, not a claim of real SoundCloud playback.

@@ -96,6 +96,8 @@ def build():
     for i, note in enumerate(site["notes"][:3]):
         colors = ["#f7edba", "#f7edba", "#f7edba"]
         notes_html += f'''<article class="sticky" data-id="{note['id']}" data-x="{note['x']}" data-y="{note['y']}" style="--angle:{[-4,3,-2][i%3]}deg;--note-color:{colors[note['color']]}"><button class="note-handle" type="button" aria-label="Move {escape(note['title'],quote=True)}. Use arrow keys." hidden>{note['date']}</button><a class="note-open" href="/notes/{note['id']}.html"><strong>{escape(note['title'])}</strong><span>{escape(note['excerpt'])}</span><time datetime="{note['date']}">{note['date']}</time></a></article>'''
+    if not site["notes"]:
+        notes_html = '<article class="sticky" data-id="more-ideas-soon" data-x=".5" data-y=".15"><button class="note-handle" type="button" aria-label="Move note. Use arrow keys." hidden></button><div class="note-open"><strong>More ideas soon</strong></div></article>'
     index = "".join(f'<li><a href="/notes/{n["id"]}.html"><time datetime="{n["date"]}">{n["date"]}</time><h2>{escape(n["title"])}</h2><p>{escape(n["excerpt"])}</p><span class="row-arrow" aria-hidden="true">→</span></a></li>' for n in site["notes"])
     music = fill(read("templates/music.html"), {
         "track-count": f"{len(site['tracks']):02}", "track-title": escape(site["tracks"][0]["title"]),
@@ -116,7 +118,7 @@ def build():
     def reading(title, intro, content, back="/", back_label="Home"):
         return f'<main id="main" class="project-report reading-page"><a class="back-link" href="{back}">← {back_label}</a><h1>{escape(title)}</h1><p class="report-summary">{intro}</p><div class="prose">{content}</div></main>'
 
-    page("notes/index.html", "Notebook — Lucas Flowers", "Notes on projects, design, and engineering.", reading("Notebook", "Notes on projects, design, and engineering.", f'<ol class="entry-list">{index}</ol>'))
+    page("notes/index.html", "Notebook — Lucas Flowers", "Notes on projects, design, and engineering.", reading("Notebook", "Notes on projects, design, and engineering.", f'<ol class="entry-list">{index}</ol>' if index else '<p>More ideas soon.</p>'))
     for note in site["notes"]:
         body = reading(note["title"], f'<time datetime="{note["date"]}">{note["date"]}</time>', markdown(note["body"]), "/notes/", "All notes")
         page(f"notes/{note['id']}.html", note["title"] + " — Lucas Flowers", note["excerpt"], body)

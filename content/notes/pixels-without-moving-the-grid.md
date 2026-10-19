@@ -1,4 +1,5 @@
 ---
+draft: true
 title: Rendering on a fixed grid
 date: '2026-10-18'
 x: 0.85

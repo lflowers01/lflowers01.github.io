@@ -5,15 +5,18 @@ if (noteBoard) {
   const canvas = document.getElementById('note-drawing'), ctx = canvas.getContext('2d');
   const clear = document.getElementById('clear-drawing');
   const touchDrawing = document.getElementById('touch-drawing');
+  function setTouchDrawing(enabled) {
+    if (!touchDrawing) return;
+    touchDrawing.setAttribute('aria-pressed', String(enabled));
+    touchDrawing.setAttribute('aria-label', enabled ? 'Done drawing; allow scrolling' : 'Enable touch drawing');
+    touchDrawing.title = enabled ? 'Done drawing' : 'Touch drawing';
+    touchDrawing.querySelector('span').textContent = enabled ? 'Done' : 'Draw';
+    canvas.dataset.touchDrawing = String(enabled);
+    updateSandButton();
+  }
   if (touchDrawing) {
     touchDrawing.hidden = false;
-    touchDrawing.addEventListener('click', () => {
-      const enabled = touchDrawing.getAttribute('aria-pressed') !== 'true';
-      touchDrawing.setAttribute('aria-pressed', String(enabled));
-      touchDrawing.setAttribute('aria-label', enabled ? 'Disable touch drawing to scroll' : 'Enable touch drawing');
-      touchDrawing.title = enabled ? 'Scroll instead of drawing' : 'Touch drawing';
-      canvas.dataset.touchDrawing = String(enabled);
-    });
+    touchDrawing.addEventListener('click', () => setTouchDrawing(canvas.dataset.touchDrawing !== 'true'));
   }
   let positions = {}, strokes = [], layer = 1, activeStroke = null;
   let cards = [...noteBoard.querySelectorAll('.sticky')];
@@ -33,14 +36,25 @@ if (noteBoard) {
   const sandButton = document.getElementById('sand-toggle');
   const sand = sandButton ? new FallingSand(canvas, paintInk, data => persist('lf.notes.sand.v1', data)) : null;
   const modeButtons = [...noteBoard.parentElement.querySelectorAll('[data-desk-mode]')];
+  for (const button of [...modeButtons, touchDrawing, clear].filter(Boolean)) {
+    let tap = null;
+    button.addEventListener('touchstart', event => { tap = event.touches.length === 1 ? event.touches[0] : null; }, {passive:true});
+    button.addEventListener('touchmove', event => { const point=event.touches[0]; if (tap && (!point || Math.hypot(point.clientX-tap.clientX,point.clientY-tap.clientY)>10)) tap=null; }, {passive:true});
+    button.addEventListener('touchcancel', () => { tap=null; });
+    button.addEventListener('touchend', event => {
+      if (!tap) return;
+      tap=null; event.preventDefault(); button.click();
+    }, {passive:false});
+  }
   function updateSandButton() {
     if (!sand) return;
     const mode = sand.life ? 'life' : sand.enabled ? 'sand' : 'draw';
-    modeButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.deskMode === mode)));
+    modeButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.deskMode === mode && (!matchMedia('(pointer:coarse)').matches || canvas.dataset.touchDrawing === 'true'))));
     canvas.dataset.mode = mode; canvas.dataset.sand = String(mode === 'sand');
   }
   for (const button of modeButtons) button.addEventListener('click', () => {
     const mode = button.dataset.deskMode;
+    setTouchDrawing(true);
     if (mode === canvas.dataset.mode) return;
     activeStroke = null;
     if (mode !== 'draw') {
@@ -50,6 +64,36 @@ if (noteBoard) {
     }
     sand.setMode(mode); updateSandButton();
   });
+  function pixelHandwriting() {
+    for (const card of cards) {
+      const text = card.querySelector('.note-open');
+      if (!matchMedia('(pointer:coarse)').matches) { text.classList.remove('pixel-handwriting'); text.querySelector('.handwriting-bitmap')?.remove(); continue; }
+      let bitmap = text.querySelector('.handwriting-bitmap');
+      if (!bitmap) { bitmap = document.createElement('canvas'); bitmap.className = 'handwriting-bitmap'; bitmap.setAttribute('aria-hidden','true'); text.append(bitmap); }
+      const pixel = 1.5, width = text.clientWidth, height = text.clientHeight;
+      bitmap.width = Math.ceil(width/pixel); bitmap.height = Math.ceil(height/pixel);
+      const brush = bitmap.getContext('2d'), origin = text.getBoundingClientRect();
+      brush.scale(1/pixel,1/pixel); brush.fillStyle = getComputedStyle(card).color;
+      for (const part of text.querySelectorAll('strong,span,time')) {
+        if (!part.getClientRects().length || !part.firstChild) continue;
+        const style = getComputedStyle(part), lineHeight = parseFloat(style.lineHeight), lines = new Map(), range = document.createRange();
+        brush.font = style.font;
+        const metrics = brush.measureText('Mg'), baseline = (lineHeight+metrics.actualBoundingBoxAscent-metrics.actualBoundingBoxDescent)/2;
+        const content = part.firstChild;
+        // Read browser line breaks, then rasterize whole glyphs instead of punching a grid through them.
+        for (let i=0; i<content.length; i++) {
+          range.setStart(content,i); range.setEnd(content,i+1);
+          const rect = range.getBoundingClientRect(), row = Math.round((rect.top-origin.top)/lineHeight);
+          if (!lines.has(row)) lines.set(row,{x:rect.left-origin.left,value:''});
+          lines.get(row).value += content.textContent[i];
+        }
+        for (const [row,line] of lines) brush.fillText(line.value,line.x,row*lineHeight+baseline);
+      }
+      const pixels = brush.getImageData(0,0,bitmap.width,bitmap.height);
+      for (let i=3;i<pixels.data.length;i+=4) pixels.data[i] = pixels.data[i]>=65 ? 255 : 0;
+      brush.putImageData(pixels,0,0); text.classList.add('pixel-handwriting');
+    }
+  }
   function place(card) {
     const point = positions[card.dataset.id] || { x: Number(card.dataset.x), y: Number(card.dataset.y) };
     card.style.left = `${12 + Math.max(0, noteBoard.clientWidth - card.offsetWidth - 24) * point.x}px`;
@@ -128,6 +172,8 @@ if (noteBoard) {
   noteBoard.addEventListener('noteslayout', () => cards.forEach(place));
   if (sand) { modeButtons.forEach(button => button.hidden = false); sand.restore(saved('lf.notes.sand.v1')); updateSandButton(); }
   noteBoard.classList.add('is-interactive'); canvas.hidden = clear.hidden = false; cards.forEach(enhance);
-  new ResizeObserver(() => { const ratio = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(noteBoard.clientWidth * ratio); canvas.height = Math.round(noteBoard.clientHeight * ratio); ctx.setTransform(ratio, 0, 0, ratio, 0, 0); cards.forEach(place); sand?.resize(); drawInk(); }).observe(noteBoard);
+  new ResizeObserver(() => { const ratio = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(noteBoard.clientWidth * ratio); canvas.height = Math.round(noteBoard.clientHeight * ratio); ctx.setTransform(ratio, 0, 0, ratio, 0, 0); cards.forEach(place); sand?.resize(); drawInk(); pixelHandwriting(); }).observe(noteBoard);
+  document.fonts.ready.then(pixelHandwriting);
+  matchMedia('(pointer:coarse)').addEventListener('change',pixelHandwriting);
   new MutationObserver(drawInk).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
 }

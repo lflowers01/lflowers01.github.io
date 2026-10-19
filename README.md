@@ -149,8 +149,10 @@ No website, database, service account, deployment or ring submission was created
 
 ## Mobile and Vercel
 
-On touchscreens, the desk scrolls normally. The pencil button enables finger drawing (including Sand and Life); tap it again to scroll. The three mode buttons stay separate. Note handles and the iPod grip remain draggable. Controls have larger touch targets; phone portrait and landscape routes are checked in `tests/mobile_browser.py`.
+On touchscreens, the desk scrolls normally. Tap Draw, Sand, or Life to enable finger input directly. The labeled Draw/Done button also enables input or returns to normal scrolling. The three mode buttons stay separate. Note handles and the iPod grip remain draggable. Controls have larger touch targets; phone portrait and landscape routes are checked in `tests/mobile_browser.py`.
 
 Vercel uses `vercel.json`: no framework preset, `python scripts/build.py`, output `dist/`. The production branch is `codex/webring-research`; GitHub `main` stays unchanged. Python dependencies are in `requirements.txt`. The SQLite counter in `scripts/serve.py` is for a persistent server, not ephemeral Vercel functions: connect a durable database/API before expecting a public visit total. Until then its unavailable state is intentional.
 
 The music adapter polls the widget’s actual position as a fallback when progress events stop. It ignores events tagged for a different track, retains the last positive position through an end reset, and checks whether audio still advances before treating an error as a failure. An interrupted track gets at most one automatic reload at the last known position; manual Pause prevents automatic recovery. `tests/music_recovery_browser.py` uses a controlled widget fixture, not audible playback.
+
+The existing notes are currently `draft: true`. With no published notes, the desk shows one draggable “More ideas soon” placeholder; it is not a blog post or RSS item. Publishing a Markdown note replaces the placeholder automatically. On touchscreens, Kalam handwriting is rasterized as whole glyphs onto a small pixel grid, following browser line wraps and the paper’s 28px rows. This keeps the pixel handwriting style without the old filter punching gaps through the letters.

@@ -158,3 +158,5 @@ a:not(.project-card,.note-open,.name-mark,.skip,.entry-list a,.dap a,.ipod-link 
   .ipod input[type=range]{min-height:24px}
   .ipod-link input{font-size:16px}
 }
+
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}

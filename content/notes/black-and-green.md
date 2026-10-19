@@ -1,4 +1,5 @@
 ---
+draft: true
 title: Color and typography
 date: '2026-10-18'
 x: 0.42
