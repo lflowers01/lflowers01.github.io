@@ -21,20 +21,23 @@ if (noteBoard) {
   if (Array.isArray(storedInk) && storedInk.length <= 200 && storedInk.every(s => Array.isArray(s) && s.length && s.every(validPoint)) && storedInk.reduce((sum, s) => sum + s.length, 0) <= 6000) strokes = storedInk;
   const sandButton = document.getElementById('sand-toggle');
   const sand = sandButton ? new FallingSand(canvas, paintInk, data => persist('lf.notes.sand.v1', data)) : null;
+  const modeButtons = [...noteBoard.parentElement.querySelectorAll('[data-desk-mode]')];
   function updateSandButton() {
-    if (!sandButton) return;
-    sandButton.setAttribute('aria-pressed', String(sand.enabled));
-    sandButton.setAttribute('aria-label', sand.enabled ? 'Return to drawing; let sand fall away' : 'Switch drawings to falling sand');
-    canvas.dataset.sand = String(sand.enabled);
+    if (!sand) return;
+    const mode = sand.life ? 'life' : sand.enabled ? 'sand' : 'draw';
+    modeButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.deskMode === mode)));
+    canvas.dataset.mode = mode; canvas.dataset.sand = String(mode === 'sand');
   }
-  sandButton?.addEventListener('click', () => {
+  for (const button of modeButtons) button.addEventListener('click', () => {
+    const mode = button.dataset.deskMode;
+    if (mode === canvas.dataset.mode) return;
     activeStroke = null;
-    if (!sand.enabled) {
+    if (mode !== 'draw') {
       if (dissolving) { cancelAnimationFrame(dissolving); dissolving = 0; }
       for (const stroke of strokes) stroke.forEach((point, i) => segment(stroke[Math.max(0, i-1)], point, (x,y) => sand.grain(x,y)));
       strokes = []; persist('lf.notes.ink.v1', strokes);
     }
-    sand.toggle(); updateSandButton();
+    sand.setMode(mode); updateSandButton();
   });
   function place(card) {
     const point = positions[card.dataset.id] || { x: Number(card.dataset.x), y: Number(card.dataset.y) };
@@ -73,10 +76,14 @@ if (noteBoard) {
     ctx.clearRect(0, 0, noteBoard.clientWidth, noteBoard.clientHeight); ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim();
     for (const stroke of strokes) stroke.forEach((point, index) => segment(stroke[Math.max(0, index - 1)], point));
   }
-  function drawInk() { if (sand && (sand.enabled || sand.draining)) sand.render(); else paintInk(); }
+  function drawInk() { if (sand && (sand.enabled || sand.draining || sand.frozen)) sand.render(); else paintInk(); }
   function addInk(event) {
     if (sand?.enabled) {
-      if (sand.pour) { const rect = canvas.getBoundingClientRect(); sand.pour = {x:event.clientX-rect.left,y:event.clientY-rect.top}; sand.start(); }
+      if (sand.pour) {
+        const rect = canvas.getBoundingClientRect(), next = {x:event.clientX-rect.left,y:event.clientY-rect.top};
+        if (sand.life) segment({x:sand.pour.x/rect.width,y:sand.pour.y/rect.height}, {x:next.x/rect.width,y:next.y/rect.height}, (x,y) => sand.grain(x,y));
+        sand.pour = next; sand.render(); sand.start();
+      }
       return;
     }
     if (!activeStroke || strokes.reduce((sum, s) => sum + s.length, 0) >= 6000) return;
@@ -84,7 +91,7 @@ if (noteBoard) {
     if (previous && Math.hypot((point.x - previous.x) * rect.width, (point.y - previous.y) * rect.height) < 3) return;
     activeStroke.push(point); ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim(); segment(previous || point, point);
   }
-  canvas.addEventListener('pointerdown', event => { if (event.button !== 0) return; if (sand?.enabled) { event.preventDefault(); canvas.setPointerCapture(event.pointerId); const rect=canvas.getBoundingClientRect(); sand.pour={x:event.clientX-rect.left,y:event.clientY-rect.top}; sand.start(); return; } if (strokes.length >= 200) return; event.preventDefault(); if (dissolving) { cancelAnimationFrame(dissolving); dissolving = 0; drawInk(); } activeStroke = []; strokes.push(activeStroke); canvas.setPointerCapture(event.pointerId); addInk(event); });
+  canvas.addEventListener('pointerdown', event => { if (event.button !== 0) return; if (sand?.enabled) { event.preventDefault(); canvas.setPointerCapture(event.pointerId); const rect=canvas.getBoundingClientRect(); sand.pour={x:event.clientX-rect.left,y:event.clientY-rect.top}; if (sand.life) sand.grain(sand.pour.x,sand.pour.y); sand.render(); sand.start(); return; } if (strokes.length >= 200) return; event.preventDefault(); if (dissolving) { cancelAnimationFrame(dissolving); dissolving = 0; drawInk(); } activeStroke = []; strokes.push(activeStroke); canvas.setPointerCapture(event.pointerId); addInk(event); });
   canvas.addEventListener('pointermove', addInk);
   const finishInk = () => { if (sand?.pour) { sand.pour = null; persist('lf.notes.sand.v1', sand.snapshot()); } if (activeStroke) { activeStroke = null; strokes = strokes.filter(s => s.length); persist('lf.notes.ink.v1', strokes); } };
   for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) canvas.addEventListener(event, finishInk);
@@ -108,7 +115,7 @@ if (noteBoard) {
     dissolving = requestAnimationFrame(step);
   });
   noteBoard.addEventListener('noteslayout', () => cards.forEach(place));
-  if (sand) { sandButton.hidden = false; sand.restore(saved('lf.notes.sand.v1')); updateSandButton(); }
+  if (sand) { modeButtons.forEach(button => button.hidden = false); sand.restore(saved('lf.notes.sand.v1')); updateSandButton(); }
   noteBoard.classList.add('is-interactive'); canvas.hidden = clear.hidden = false; cards.forEach(enhance);
   new ResizeObserver(() => { const ratio = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(noteBoard.clientWidth * ratio); canvas.height = Math.round(noteBoard.clientHeight * ratio); ctx.setTransform(ratio, 0, 0, ratio, 0, 0); cards.forEach(place); sand?.resize(); drawInk(); }).observe(noteBoard);
   new MutationObserver(drawInk).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });

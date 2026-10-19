@@ -17,7 +17,7 @@ async def main():
           Object.defineProperty(performance,'now',{value:()=>0});
           window.requestAnimationFrame=fn=>{queue.push(fn);return queue.length+1};
           function seeded(){let n=42;Math.random=()=>{n=(n*1664525+1013904223)>>>0;return n/4294967296}}
-          function fall(hz){seeded();queue=[];const s=new FallingSand(canvas,()=>{},()=>{});s.grain(200,20);s.toggle();for(let i=1;i<=hz;i++){const fn=queue.shift();if(fn)fn(i*1000/hz)}return s.grid.findIndex(Boolean)}
+          function fall(hz){seeded();queue=[];const s=new FallingSand(canvas,()=>{},()=>{});s.grain(200,20);s.setMode('sand');for(let i=1;i<=hz;i++){const fn=queue.shift();if(fn)fn(i*1000/hz)}return s.grid.findIndex(Boolean)}
           const fps=[fall(30),fall(60),fall(144)];
           seeded();const s=new FallingSand(canvas,()=>{},()=>{});s.enabled=true;s.pour={x:200,y:16};
           for(let i=0;i<480;i++)s.advance(1/120);s.pour=null;
@@ -54,13 +54,13 @@ async def main():
         await page.mouse.move(point['x']+70,point['y']+8,steps=10);await page.mouse.up()
         await page.locator('#sand-toggle').click()
         assert await page.locator('#sand-toggle').get_attribute('aria-pressed') == 'true'
-        assert await page.locator('.sand-dot').evaluate("e=>getComputedStyle(e).display") == 'none'
+        assert await page.locator('#draw-mode').get_attribute('aria-pressed') == 'false'
         assert await page.locator('#sand-toggle').evaluate("e=>getComputedStyle(e).color===getComputedStyle(document.getElementById('clear-drawing')).color")
         await page.wait_for_function("()=>{const s=JSON.parse(localStorage.getItem('desk.lf.notes.sand.v1'));return s?.enabled&&s.cells.includes('1')&&s.cells.slice(-s.cols).includes('1')}",timeout=7000)
         assert await page.evaluate("JSON.parse(localStorage.getItem('desk.lf.notes.ink.v1')).length") == 0
         await page.reload(wait_until='networkidle')
         assert await page.locator('#sand-toggle').get_attribute('aria-pressed') == 'true'
-        await page.locator('#sand-toggle').click()
+        await page.locator('#draw-mode').click()
         assert await page.locator('#sand-toggle').get_attribute('aria-pressed') == 'false'
         await page.wait_for_function("()=>{const e=document.getElementById('note-drawing');return !e.getContext('2d').getImageData(0,0,e.width,e.height).data.some((v,i)=>i%4===3&&v)}",timeout=7000)
         await page.locator('#sand-toggle').click()

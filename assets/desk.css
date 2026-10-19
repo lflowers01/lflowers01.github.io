@@ -8,8 +8,9 @@
 [data-desk-item][data-dragging=true]{z-index:4;cursor:grabbing}.desk-study #clear-drawing{display:grid!important}
 @media(max-width:900px){.desk-study .desk-surface{--desk-height:950px}.desk-study .desk-player{width:250px}.desk-study .sticky{width:200px}}
 @media(max-width:700px){.desk-study{margin:25px 5% 50px}.desk-study .desk-surface{--desk-height:1370px}.desk-study .desk-player{max-width:80%;width:260px}.desk-study .sticky{width:175px}}
-#sand-toggle[aria-pressed=false] .sand-pile,#sand-toggle[aria-pressed=true] .sand-dot{display:none}
-#sand-toggle[aria-pressed=true]{color:var(--accent);border-color:var(--accent)}
 #note-drawing[data-sand=true]{cursor:crosshair}
 
 .desk-surface.pointer-drag-focus :focus{outline:none}
+.drawing-modes{display:flex;gap:4px}.drawing-modes [aria-pressed=true]{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.desk-heading{gap:16px;flex-wrap:wrap}
+@media(max-width:700px){.desk-heading>.note-tools{width:100%;justify-content:space-between;gap:8px}}

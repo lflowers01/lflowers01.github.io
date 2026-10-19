@@ -4,7 +4,8 @@ class FallingSand {
   constructor(canvas, paintInk, save) {
     this.canvas = canvas; this.ctx = canvas.getContext('2d'); this.paintInk = paintInk; this.save = save;
     this.audioTarget = 0; this.audioEnergy = 0; this.shakeBudget = 0;
-    document.addEventListener('audio-waveform', event => { this.audioTarget = Number.isFinite(event.detail) ? Math.max(0, Math.min(1, event.detail)) : 0; if (this.enabled && this.audioTarget > .08 && this.grid.some(Boolean)) this.start(); });
+    document.addEventListener('audio-waveform', event => { this.audioTarget = Number.isFinite(event.detail) ? Math.max(0, Math.min(1, event.detail)) : 0; if (this.enabled && !this.life && this.audioTarget > .08 && this.grid.some(Boolean)) this.start(); });
+    this.life = false; this.frozen = false; this.lifeClock = 0;
     this.enabled = false; this.draining = false; this.frame = 0; this.pour = null;
     this.resize();
   }
@@ -18,21 +19,25 @@ class FallingSand {
     if (this.enabled || this.draining) this.start();
   }
   restore(data) {
-    if (!data || data.enabled !== true || !Number.isInteger(data.cols) || !Number.isInteger(data.rows) || data.cols < 1 || data.rows < 1 || data.cols * data.rows > 1000000 || typeof data.cells !== 'string' || data.cells.length !== data.cols * data.rows || /[^01]/.test(data.cells)) return false;
+    if (!data || (data.enabled !== true && !(data.mode === 'draw' && data.frozen === true)) || (data.mode && !['draw','sand','life'].includes(data.mode)) || !Number.isInteger(data.cols) || !Number.isInteger(data.rows) || data.cols < 1 || data.rows < 1 || data.cols * data.rows > 1000000 || typeof data.cells !== 'string' || data.cells.length !== data.cols * data.rows || /[^01]/.test(data.cells)) return false;
     for (let i = 0; i < data.cells.length; i++) if (data.cells[i] === '1') this.grid[Math.min(this.rows-1, Math.floor(Math.floor(i / data.cols) * this.rows / data.rows)) * this.cols + Math.min(this.cols-1, Math.floor((i % data.cols) * this.cols / data.cols))] = 1;
-    this.enabled = true; this.start(); return true;
+    this.life = data.mode === 'life'; this.frozen = data.mode === 'draw'; this.enabled = !this.frozen;
+    if (this.enabled) this.start(); return true;
   }
-  snapshot() { return {enabled:this.enabled, cols:this.cols, rows:this.rows, cells:this.enabled ? this.grid.join('') : ''}; }
+  snapshot() { return {mode:this.life ? 'life' : this.enabled ? 'sand' : 'draw', enabled:this.enabled, frozen:this.frozen, cols:this.cols, rows:this.rows, cells:(this.enabled || this.frozen) ? this.grid.join('') : ''}; }
   grain(x, y) {
     const col = Math.floor(x / 4), row = Math.floor(y / 4);
     if (col >= 0 && col < this.cols && row >= 0 && row < this.rows) this.grid[row * this.cols + col] = 1;
   }
-  toggle() {
-    this.enabled = !this.enabled; this.draining = !this.enabled; this.pour = null;
-    this.save(this.snapshot()); this.start();
+  setMode(mode) {
+    const wasLife = this.life;
+    this.life = mode === 'life'; this.enabled = mode !== 'draw'; this.pour = null; this.lifeClock = 0;
+    this.frozen = mode === 'draw' && (wasLife || this.frozen);
+    this.draining = mode === 'draw' && !this.frozen;
+    this.save(this.snapshot()); this.render(); if (!this.frozen) this.start();
   }
   clear() {
-    this.grid.fill(0); this.pour = null; this.draining = false;
+    this.grid.fill(0); this.pour = null; this.draining = false; this.frozen = false;
     this.save(this.snapshot()); this.render();
   }
   render() {
@@ -46,7 +51,27 @@ class FallingSand {
       }
     }
   }
+  advanceLife(dt) {
+    if (this.pour) this.grain(this.pour.x, this.pour.y);
+    this.lifeClock += dt;
+    if (this.lifeClock < .15) return Boolean(this.pour) || this.grid.some(Boolean);
+    this.lifeClock -= .15;
+    const next = new Uint8Array(this.grid.length); let changed = false;
+    for (let y=0; y<this.rows; y++) for (let x=0; x<this.cols; x++) {
+      let neighbors = 0;
+      for (let dy=-1; dy<=1; dy++) for (let dx=-1; dx<=1; dx++) {
+        if ((!dx && !dy) || x+dx<0 || x+dx>=this.cols || y+dy<0 || y+dy>=this.rows) continue;
+        neighbors += this.grid[(y+dy)*this.cols+x+dx];
+      }
+      const i=y*this.cols+x;
+      next[i] = neighbors===3 || (neighbors===2 && this.grid[i]) ? 1 : 0;
+      changed ||= next[i] !== this.grid[i];
+    }
+    this.grid = next; return changed || Boolean(this.pour);
+  }
   advance(dt) {
+    if (this.life) return this.advanceLife(dt);
+    if (!this.enabled && !this.draining) return false;
     let active = false;
     if (this.enabled && this.pour) {
       this.pourBudget = (this.pourBudget || 0) + 220 * dt;
@@ -89,13 +114,14 @@ class FallingSand {
   }
   start() {
     if (this.frame) return;
-    let previous = performance.now(), accumulator = 0, active = true;
+    let previous = performance.now(), accumulator = 0, active = true, lastSave = previous;
     const tick = 1/120;
     const step = now => {
       // Fixed physics ticks keep falling and pouring identical at 30, 60 or 144 Hz.
       accumulator += Math.max(0, Math.min(.1, (now-previous)/1000)); previous = now;
       while (accumulator + 1e-9 >= tick) { active = this.advance(tick); accumulator = Math.max(0, accumulator - tick); if (!active) break; }
       this.render();
+      if (this.life && now-lastSave>=1000) { this.save(this.snapshot()); lastSave=now; }
       if (active) this.frame = requestAnimationFrame(step);
       else { this.frame = 0; if (!this.grid.some(Boolean)) this.draining = false; this.save(this.snapshot()); }
     };
