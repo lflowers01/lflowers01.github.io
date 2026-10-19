@@ -31,6 +31,8 @@ async def main():
                 assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth'),(width,route)
         await page.set_viewport_size({'width':390,'height':844})
         await page.goto('http://127.0.0.1:49280/',wait_until='networkidle')
+        assert await page.locator('.hero + .hero-webring').is_visible()
+        assert await page.locator('.hero-webring .ring-step').evaluate_all('es=>es.every(e=>{const r=e.getBoundingClientRect();return r.width>=44&&r.height>=44&&!e.hasAttribute("target")})')
         assert await page.locator('.sticky').count()==1
         assert await page.locator('.note-open strong').inner_text()=='More ideas soon'
         assert await page.locator('.note-open').evaluate('e=>getComputedStyle(e).filter')=='none'

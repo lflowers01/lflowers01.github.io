@@ -58,7 +58,7 @@ This server binds to loopback by default. For a public self-hosted release, run 
 
 ## Webring
 
-The visible link opens the Purdue Hackers directory. `ringNavigation` stays false during local review, so the site does not offer next/previous links that cannot recognize an unpublished page. When preparing the public release, set `ringNavigation` to true and rebuild before requesting enrollment, so maintainers can check the required homepage links. Follow the ring's current joining instructions. This adds the three required links, with same-tab previous/next and the canonical domain as host. Enrollment requires the owner's message in the Purdue Hackers Discord; no message was sent on their behalf.
+The visible link opens the Purdue Hackers directory. `ringNavigation` is now true. The homepage has a compact Previous / Purdue Hackers webring / Next strip immediately below the hero, with pixel arrows and 44px targets. Both traversal links stay in the current tab and use the browser referrer, following the joining instructions. The footer retains a directory link. Follow the ring's current joining instructions. This adds the three required links, with same-tab previous/next. Enrollment requires the owner's message in the Purdue Hackers Discord; no message was sent on their behalf.
 
 ## Content provenance
 

@@ -36,13 +36,14 @@ def data_json(data):
 
 
 def external_links(html, host):
-    """Off-site links and PDFs (the résumé) open in a new tab; site pages and mailto stay put."""
+    """Off-site links and PDFs open in a new tab; ring traversal, site pages and mailto stay put."""
     def tag(match):
         a = match.group(0)
         href = re.search(r'href="([^"]*)"', a)
         url = urlsplit(href.group(1)) if href else None
         pdf = url is not None and url.path.lower().endswith(".pdf")
-        if not href or "target=" in a or not (pdf or (url.scheme in ("http", "https") and url.hostname != host)):
+        ring_step = url is not None and url.hostname == "ring.purduehackers.com" and url.path in ("/previous", "/next")
+        if ring_step or not href or "target=" in a or not (pdf or (url.scheme in ("http", "https") and url.hostname != host)):
             return a
         return a[:-1] + ' target="_blank" rel="noopener">'
     return re.sub(r"<a\s[^>]*>", tag, html)
@@ -73,10 +74,10 @@ def build():
     photo_html = "".join(f'<figure><a href="{p["src"]}"><img src="{p["src"]}" width="250" height="333" loading="lazy" alt="{escape(p["alt"],quote=True)}"></a><figcaption>{escape(p["caption"])}</figcaption></figure>' for p in photos[:3])
 
     header = read("templates/header.html").replace('src="assets/', 'src="/assets/')
-    ring = '<a href="https://ring.purduehackers.com/" target="_blank" rel="noopener">Explore the Purdue Hackers webring ↗</a>'
+    ring = '<a href="https://ring.purduehackers.com/" target="_blank" rel="noopener">Purdue Hackers webring ↗</a>'
+    ring_navigation = ''
     if site["ringNavigation"]:
-        host = escape(urlsplit(base).hostname)
-        ring = f'<a href="https://ring.purduehackers.com/previous?host={host}">← Previous</a><a href="https://ring.purduehackers.com/">Purdue Hackers webring</a><a href="https://ring.purduehackers.com/next?host={host}">Next →</a>'
+        ring_navigation = read('templates/webring.html')
     footer = fill(read("templates/footer.html"), {"ring": ring})
     pages = {}
 
@@ -106,7 +107,7 @@ def build():
         "soundcloud": escape(site["soundcloud"], quote=True), "tracks-json": data_json(site["tracks"]),
     })
     desk = fill(read('templates/desk.html'), {'notes': notes_html, 'music': music})
-    home_values = {"notes": notes_html, "photos": photo_html, "photo-data": data_json(photos), "note-list": "".join(f'<li><a href="/notes/{n["id"]}.html"><time>{n["date"]}</time><h3>{escape(n["title"])}</h3><p>{escape(n["excerpt"])}</p></a></li>' for n in site["notes"][:3]), "projects": "".join(map(project_card, site["projects"][:3])), "music": music}
+    home_values = {"ring-navigation": ring_navigation, "notes": notes_html, "photos": photo_html, "photo-data": data_json(photos), "note-list": "".join(f'<li><a href="/notes/{n["id"]}.html"><time>{n["date"]}</time><h3>{escape(n["title"])}</h3><p>{escape(n["excerpt"])}</p></a></li>' for n in site["notes"][:3]), "projects": "".join(map(project_card, site["projects"][:3])), "music": music}
     home_values['desk'] = desk
     page('index.html', 'Lucas Flowers', 'Robotics Engineering Technology at Purdue. Projects, notes, photographs and music.', fill(read('templates/home.html'), home_values), True)
     pages['index.html'] = pages['index.html'].replace('</head>', '<link rel="stylesheet" href="/assets/desk.css"><script src="/assets/desk.js" defer></script></head>')

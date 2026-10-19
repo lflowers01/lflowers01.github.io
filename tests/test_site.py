@@ -72,11 +72,21 @@ class SiteTests(unittest.TestCase):
                 continue  # the packaged game is a historical build, not site markup
             for a in re.findall(r"<a\s[^>]*>", path.read_text(encoding="utf-8")):
                 href = re.search(r'href="(https?://[^"]+)"', a)
-                if href and urlsplit(href.group(1)).hostname != "lucasflowers.net":
+                if href and urlsplit(href.group(1)).hostname == "ring.purduehackers.com" and urlsplit(href.group(1)).path in ("/previous", "/next"):
+                    self.assertNotIn('target=', a)
+                    self.assertNotIn('noreferrer', a)
+                elif href and urlsplit(href.group(1)).hostname != "lucasflowers.net":
                     self.assertIn('target="_blank"', a, f"{path.name}: {a}")
                     self.assertIn('rel="noopener"', a, f"{path.name}: {a}")
                 if 'href="/Resume.pdf"' in a:
                     self.assertIn('target="_blank"', a, f"{path.name}: {a}")
+
+    def test_webring_links_follow_hero(self):
+        home = (ROOT / "dist/index.html").read_text(encoding="utf-8")
+        self.assertLess(home.index('id="hero-title"'), home.index('class="hero-webring"'))
+        self.assertLess(home.index('class="hero-webring"'), home.index('id="about"'))
+        for direction in ('previous','next'):
+            self.assertIn(f'href="https://ring.purduehackers.com/{direction}"',home)
 
     def test_published_content_and_feed(self):
         home = (ROOT / "dist/index.html").read_text(encoding="utf-8")
