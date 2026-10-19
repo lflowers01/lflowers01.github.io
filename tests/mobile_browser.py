@@ -89,6 +89,23 @@ async def main():
         assert await page.locator('.photo-focus').is_visible()
         await page.locator('.photo-focus-close').tap()
         assert not await page.locator('.photo-focus').is_visible()
+        badge=page.locator('#site-badge')
+        await page.emulate_media(reduced_motion='no-preference')
+        await badge.tap(); await badge.tap()
+        await page.wait_for_function("document.getElementById('site-badge').getAttribute('aria-pressed')==='true'&&!document.getElementById('site-badge').classList.contains('is-turning')")
+        assert await badge.locator('img').is_hidden()
+        assert await badge.locator('.site-badge-back').is_visible()
+        assert await badge.locator('.site-badge-back').evaluate('e=>getComputedStyle(e).transform')=='none'
+        await badge.press('Space')
+        await page.wait_for_function("document.getElementById('site-badge').getAttribute('aria-pressed')==='false'&&!document.getElementById('site-badge').classList.contains('is-turning')")
+        assert await badge.locator('img').is_visible()
+        assert await badge.locator('.site-badge-back').is_hidden()
+        await page.emulate_media(reduced_motion='reduce')
+        await badge.tap()
+        assert await badge.get_attribute('aria-pressed')=='true'
+        assert not await badge.evaluate("e=>e.classList.contains('is-turning')")
+        await badge.tap()
+        await badge.screenshot(path=str(ROOT/'.git/mobile-badge-fixed.png'))
         for width in [320,360,390,430,768,844]:
             await page.set_viewport_size({'width':width,'height':844})
             assert await page.locator('.site-header').evaluate('e=>{const es=[...e.querySelectorAll("a,button")];return es.every(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth&&r.height>=44})}'),width

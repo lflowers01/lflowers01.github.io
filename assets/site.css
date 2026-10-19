@@ -98,9 +98,15 @@
 @media(max-width:700px){.notebook-section .board,#clear-drawing{display:none!important}.note-list{display:block}}
 .project-shot{margin:0 0 45px;border:1px solid var(--line)}.project-shot img{display:block;width:100%;height:auto}
 /* 88x31 button in the footer: clicking turns it over to an inverted WELCOME face. */
-.site-badge{width:88px;height:31px;padding:0;border:0;background:none;perspective:240px;flex:none}.site-badge-turn{display:block;position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.3,.7,.2,1.2)}.site-badge[aria-pressed=true] .site-badge-turn{transform:rotateX(180deg)}
-.site-badge-face{position:absolute;inset:0;backface-visibility:hidden}.site-badge-face img{display:block;image-rendering:pixelated}.site-badge-back{transform:rotateX(180deg);display:grid;place-items:center;background:var(--accent);color:var(--bg);font:11px/1 Departure,monospace;letter-spacing:.12em}
-@media(prefers-reduced-motion:reduce){.site-badge-turn{transition:none}}
+.site-badge{width:88px;height:31px;padding:0;border:0;background:none;flex:none;touch-action:manipulation}
+.site-badge-turn{display:block;position:relative;width:100%;height:100%}
+.site-badge-face{position:absolute;inset:0}.site-badge-face img{display:block;image-rendering:pixelated}
+.site-badge-back{display:none;place-items:center;background:var(--accent);color:var(--bg);font:11px/1 Departure,monospace;letter-spacing:.12em}
+.site-badge[aria-pressed=true] .site-badge-face:first-child{display:none}
+.site-badge[aria-pressed=true] .site-badge-back{display:grid}
+.site-badge.is-turning .site-badge-turn{animation:badge-turn .32s ease-in-out}
+@keyframes badge-turn{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0)}}
+@media(prefers-reduced-motion:reduce){.site-badge-turn{animation:none!important}}
 .footer-stamp{display:flex;align-items:center;gap:20px}
 .project-visual img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top left;border:1px solid var(--mat-edge,var(--line));filter:saturate(.85)}.project-card:hover .project-visual img{filter:none}
 /* High-school archive: list at the bottom of /projects/, entries on /projects/archive.html. */

@@ -23,4 +23,15 @@ async function loadCounter() {
 loadCounter();
 
 const badge = document.getElementById('site-badge');
-badge?.addEventListener('click', () => badge.setAttribute('aria-pressed', String(badge.getAttribute('aria-pressed') !== 'true')));
+badge?.addEventListener('click', () => {
+  if (badge.classList.contains('is-turning')) return;
+  const turn = () => {
+    const flipped = badge.getAttribute('aria-pressed') !== 'true';
+    badge.setAttribute('aria-pressed', String(flipped));
+    badge.setAttribute('aria-label', flipped ? 'Welcome. Turn the site button back.' : 'Lucas Flowers site button. Turn it over.');
+  };
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches) { turn(); return; }
+  badge.classList.add('is-turning');
+  setTimeout(turn, 160);
+  setTimeout(() => badge.classList.remove('is-turning'), 320);
+});
