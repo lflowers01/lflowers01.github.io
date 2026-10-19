@@ -103,6 +103,8 @@ async def main():
         await page.locator('#clear-drawing').click()
         assert await page.evaluate('fields.find(f=>f.spins).objectRotation.yaw') == .7
         assert await page.evaluate("JSON.parse(localStorage.getItem('lf.notes.ink.v1')).length") == 0
+        # The ink dissolves away and the canvas is empty within a second and a half.
+        await page.wait_for_function("!(e=>e.getContext('2d').getImageData(0,0,e.width,e.height).data.some((v,i)=>i%4===3&&v>0))(document.getElementById('note-drawing'))", timeout=1500)
         assert await page.locator('.sticky').count() == 3
         assert await page.evaluate("localStorage.getItem('lf.board.positions.v1')") == position_before_clear
 

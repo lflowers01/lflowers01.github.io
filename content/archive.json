@@ -2,12 +2,12 @@
   {
     "id": "team-epsilon",
     "title": "Team Epsilon",
-    "period": "Founded May 2025 · FIRST Robotics Competition",
-    "summary": "Co-founding a student-led robotics team and developing its robot software.",
+    "period": "May 2025 – May 2026 · FIRST Robotics Competition",
+    "summary": "Founding and leading a community robotics team, and programming its robot.",
     "paragraphs": [
-      "I co-founded Team Epsilon, FRC Team 11100, in North Phoenix. Alongside robot programming, my work included the business plan, fundraising, team operations, website, branding, and coordinating technical work across the team.",
+      "I founded Team Epsilon, FRC Team 11100, and led it as president and lead programmer. The team brought together students from across Phoenix, from Maryvale to Scottsdale. Alongside robot programming, my work included the business plan, fundraising, team operations, website, branding, and coordinating technical work across the team.",
       "The off-season robot's auto-alignment system used two cameras on a dedicated coprocessor to detect fiducial markers and estimate the robot's pose. I used simulation to develop the vision pipeline and control logic before the assembled robot was available, then calibrated and tuned the system on the robot.",
-      "The archived portfolio records an off-season practice robot, three Arizona Robotics League events, selection for the championship, and a Breakthrough Award. It describes preparations for the first full competition season; this page preserves that stage of the project."
+      "The off-season robot competed at three Arizona Robotics League events and received a Breakthrough Award. In our first full season, we competed at the Arizona North and Utah Regionals and earned the Rookie All-Star Award at the 2026 Utah Regional. I've since moved into a mentor role."
     ],
     "links": [
       {

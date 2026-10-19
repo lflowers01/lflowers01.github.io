@@ -46,10 +46,10 @@ if (noteBoard) {
     const finish = () => { if (drag) { drag = null; card.dataset.dragging = 'false'; persist('lf.board.positions.v1', positions); } };
     for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) handle.addEventListener(event, finish);
   }
-  function segment(a, b) {
+  function segment(a, b, plot = (x, y) => ctx.fillRect(x, y, 4, 4)) {
     const width = noteBoard.clientWidth, height = noteBoard.clientHeight, ax = a.x * width, ay = a.y * height, bx = b.x * width, by = b.y * height;
     const steps = Math.max(1, Math.ceil(Math.hypot(bx - ax, by - ay) / 2));
-    for (let i = 0; i <= steps; i++) ctx.fillRect(Math.floor((ax + (bx - ax) * i / steps) / 4) * 4, Math.floor((ay + (by - ay) * i / steps) / 4) * 4, 4, 4);
+    for (let i = 0; i <= steps; i++) plot(Math.floor((ax + (bx - ax) * i / steps) / 4) * 4, Math.floor((ay + (by - ay) * i / steps) / 4) * 4);
   }
   function drawInk() {
     ctx.clearRect(0, 0, noteBoard.clientWidth, noteBoard.clientHeight); ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim();
@@ -61,11 +61,28 @@ if (noteBoard) {
     if (previous && Math.hypot((point.x - previous.x) * rect.width, (point.y - previous.y) * rect.height) < 3) return;
     activeStroke.push(point); ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim(); segment(previous || point, point);
   }
-  canvas.addEventListener('pointerdown', event => { if (event.button !== 0 || strokes.length >= 200) return; event.preventDefault(); activeStroke = []; strokes.push(activeStroke); canvas.setPointerCapture(event.pointerId); addInk(event); });
+  canvas.addEventListener('pointerdown', event => { if (event.button !== 0 || strokes.length >= 200) return; event.preventDefault(); if (dissolving) { cancelAnimationFrame(dissolving); dissolving = 0; drawInk(); } activeStroke = []; strokes.push(activeStroke); canvas.setPointerCapture(event.pointerId); addInk(event); });
   canvas.addEventListener('pointermove', addInk);
   const finishInk = () => { if (activeStroke) { activeStroke = null; strokes = strokes.filter(s => s.length); persist('lf.notes.ink.v1', strokes); } };
   for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) canvas.addEventListener(event, finishInk);
-  clear.addEventListener('click', () => { activeStroke = null; strokes = []; persist('lf.notes.ink.v1', strokes); drawInk(); });
+  // Clearing dissolves the ink one 4px block at a time, in random order, accelerating toward the end.
+  // Nothing moves (blocks vanish in place, like a fade), so it also runs under prefers-reduced-motion.
+  let dissolving = 0;
+  clear.addEventListener('click', () => {
+    const cells = new Map();
+    for (const stroke of strokes) stroke.forEach((point, index) => segment(stroke[Math.max(0, index - 1)], point, (x, y) => cells.set(`${x},${y}`, [x, y])));
+    activeStroke = null; strokes = []; persist('lf.notes.ink.v1', strokes); cancelAnimationFrame(dissolving); dissolving = 0;
+    if (!cells.size) { drawInk(); return; }
+    const order = [...cells.values()];
+    for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+    const start = performance.now(); let done = 0;
+    const step = now => {
+      const t = Math.min(1, (now - start) / 700), target = Math.round(order.length * t * t);
+      for (; done < target; done++) ctx.clearRect(order[done][0], order[done][1], 4, 4);
+      dissolving = t < 1 ? requestAnimationFrame(step) : 0;
+    };
+    dissolving = requestAnimationFrame(step);
+  });
   noteBoard.classList.add('is-interactive'); canvas.hidden = clear.hidden = false; cards.forEach(enhance);
   new ResizeObserver(() => { const ratio = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(noteBoard.clientWidth * ratio); canvas.height = Math.round(noteBoard.clientHeight * ratio); ctx.setTransform(ratio, 0, 0, ratio, 0, 0); cards.forEach(place); drawInk(); }).observe(noteBoard);
   new MutationObserver(drawInk).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });

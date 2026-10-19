@@ -74,6 +74,8 @@ class SiteTests(unittest.TestCase):
                 if href and urlsplit(href.group(1)).hostname != "lucasflowers.net":
                     self.assertIn('target="_blank"', a, f"{path.name}: {a}")
                     self.assertIn('rel="noopener"', a, f"{path.name}: {a}")
+                if 'href="/Resume.pdf"' in a:
+                    self.assertIn('target="_blank"', a, f"{path.name}: {a}")
 
     def test_published_content_and_feed(self):
         home = (ROOT / "dist/index.html").read_text(encoding="utf-8")
