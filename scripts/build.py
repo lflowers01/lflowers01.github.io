@@ -103,15 +103,15 @@ def build():
         "artist-url": escape(site["tracks"][0]["url"], quote=True),
         "soundcloud": escape(site["soundcloud"], quote=True), "tracks-json": data_json(site["tracks"]),
     })
-    page("index.html", "Lucas Flowers", "Robotics Engineering Technology at Purdue. Current projects, a notebook, photographs, music, and an interactive ASCII playground.", fill(read("templates/home.html"), {"notes": notes_html, "photos": photo_html, "photo-data": data_json(photos), "note-list": "".join(f'<li><a href="/notes/{n["id"]}.html"><time>{n["date"]}</time><h3>{escape(n["title"])}</h3><p>{escape(n["excerpt"])}</p></a></li>' for n in site["notes"][:3]), "projects": "".join(map(project_card, site["projects"][:3])), "music": music}), True)
-
-    desk_points = iter(((.57, .1), (.91, .32), (.6, .75)))
-    desk_notes = re.sub(r'data-x="[^"]+" data-y="[^"]+"', lambda _: 'data-x="{}" data-y="{}"'.format(*next(desk_points)), notes_html)
-    desk = fill(read('templates/desk.html'), {'notes': desk_notes, 'music': music})
-    study = re.sub(r'<section id="music".*?</main>', lambda _: desk + '</main>', pages['index.html'].split('<main id="main">', 1)[1].split('</main>', 1)[0] + '</main>', flags=re.S)
-    study = '<p class="desk-review"><a href="/">← Current layout</a><span>Desk layout preview</span></p><main id="main">' + study
-    page('desk-demo.html', 'Desk preview — Lucas Flowers', 'An alternate interactive desk layout for review.', study, True)
-    pages['desk-demo.html'] = pages['desk-demo.html'].replace('</head>', '<meta name="robots" content="noindex"><link rel="stylesheet" href="/assets/desk.css"><script src="/assets/desk.js" defer></script></head>')
+    desk = fill(read('templates/desk.html'), {'notes': notes_html, 'music': music})
+    home_values = {"notes": notes_html, "photos": photo_html, "photo-data": data_json(photos), "note-list": "".join(f'<li><a href="/notes/{n["id"]}.html"><time>{n["date"]}</time><h3>{escape(n["title"])}</h3><p>{escape(n["excerpt"])}</p></a></li>' for n in site["notes"][:3]), "projects": "".join(map(project_card, site["projects"][:3])), "music": music}
+    home_values['desk'] = desk
+    page('index.html', 'Lucas Flowers', 'Robotics Engineering Technology at Purdue. Projects, notes, photographs and music.', fill(read('templates/home.html'), home_values), True)
+    pages['index.html'] = pages['index.html'].replace('</head>', '<link rel="stylesheet" href="/assets/desk.css"><script src="/assets/desk.js" defer></script></head>')
+    pages['index.html'] = pages['index.html'].replace('<script src="/assets/notebook.js"', '<script src="/assets/sand.js" defer></script><script src="/assets/notebook.js"')
+    page('classic.html', 'Classic layout — Lucas Flowers', 'Previous separate music and notes layout.', fill(read('templates/home-classic.html'), home_values), True)
+    pages['classic.html'] = pages['classic.html'].replace('</head>', '<meta name="robots" content="noindex"></head>')
+    pages['desk-demo.html'] = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=/"><title>Desk layout</title></head><body><a href="/">The desk is now on the homepage.</a></body></html>'
 
     def reading(title, intro, content, back="/", back_label="Home"):
         return f'<main id="main" class="project-report reading-page"><a class="back-link" href="{back}">← {back_label}</a><h1>{escape(title)}</h1><p class="report-summary">{intro}</p><div class="prose">{content}</div></main>'
@@ -170,7 +170,7 @@ def build():
     ET.ElementTree(feed).write(OUT / "feed.xml", encoding="utf-8", xml_declaration=True)
     sitemap = ET.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
     for path in pages:
-        if path not in {"404.html", "desk-demo.html"}:
+        if path not in {"404.html", "desk-demo.html", "classic.html"}:
             ET.SubElement(ET.SubElement(sitemap, "url"), "loc").text = base + ("/" if path == "index.html" else "/" + path.replace("index.html", ""))
     ET.ElementTree(sitemap).write(OUT / "sitemap.xml", encoding="utf-8", xml_declaration=True)
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {base}/sitemap.xml\n", encoding="utf-8")

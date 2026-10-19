@@ -59,9 +59,13 @@ python scripts/serve.py --port 49280      # if the preview server isn't running
 
 Refresh [the local preview](http://127.0.0.1:49280/). If the server is already running, rebuild and refresh; there is no file watcher or automatic deployment. Build errors name the Markdown file to fix and leave the last successful output intact. See [SITE.md](SITE.md) for hosting, saved browser data, music and the research provenance.
 
-## Desk layout preview
+## Interactive desk
 
-Try [the interactive desk version](http://127.0.0.1:49280/desk-demo.html). It combines music, notes and drawing on one surface, with draggable pixel pencils, a ruler and an iPod. The music waveform is drawn into the surface underneath the objects. Use the grip above the iPod to move it; its player controls keep their normal behavior. Desk positions and drawings use separate browser-storage keys, so trying it does not rearrange the current homepage. The “Current layout” link returns to `/`. This version is a preview, excluded from the sitemap and marked noindex; the normal homepage is unchanged. Source: `templates/desk.html`, `assets/desk.css`, `assets/desk.js`.
+[The homepage](http://127.0.0.1:49280/) now combines music, notes and drawing on one desk. The old `/desk-demo.html` address redirects there. Use the grip above the iPod to move it; its playback controls keep their normal behavior. Notes start in a non-overlapping layout that adapts to their size and the screen. Saved arrangements take precedence. The waveform is part of the desktop beneath the iPod, paper and ink.
+
+The dot button to the left of Clear switches ink to falling sand. Drag to pour; the floor catches grains and builds piles. Switch back to drawing to let the sand drain through the bottom. Sand and ink share the same palette color. Sand mode/piles are saved separately from ink, and Clear empties either without moving notes or the iPod. Physics runs at a fixed time step, independently of display refresh rate. SoundCloud's actual waveform amplitude drives gentle surface motion; sustained envelope energy is weighted more than sharp transients. This is a bass-like approximation, **not a measurement of bass/treble frequencies**: the widget does not expose PCM or frequency bands.
+
+The previous separate layout remains at [classic.html](http://127.0.0.1:49280/classic.html), with its original browser data intact. The desk has separate storage keys. Source: `templates/desk.html`, `assets/desk.css`, `assets/desk.js`, `assets/notebook.js`, `assets/sand.js`. Pencils and ruler were removed after review.
 
 Current design review: [build.html](build.html). Try the [OLED / ASCII / sticky-note interaction study](design-demo.html), with [Purdue Hackers REA findings](research_notes/purdue-hackers-interaction-study.md). The new-site plan focuses on college/current content; historical project research below is archival context.
 

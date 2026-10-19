@@ -79,7 +79,7 @@ async def main():
         assert await page.evaluate("document.fonts.check('18px Kalam')")
         assert await page.locator('.note-open span').first.evaluate("e=>getComputedStyle(e).lineHeight") == '28px'
         assert 'Kalam' in await page.locator('.note-open strong').first.evaluate("e=>getComputedStyle(e).fontFamily")
-        assert await page.locator('main > section').evaluate_all("es=>es.filter(e=>e.id).map(e=>e.id)") == ['about','projects','music','board-section']
+        assert await page.locator('main > section').evaluate_all("es=>es.filter(e=>e.id).map(e=>e.id)") == ['about','projects','board-section']
         await page.locator('.note-open').first.hover()
         assert await page.locator('.note-open strong').first.evaluate("e=>getComputedStyle(e).textDecorationLine") == 'none'
         assert not await page.get_by_text('Elsewhere on the web').count()
@@ -92,10 +92,10 @@ async def main():
         box = await handle.bounding_box()
         await page.mouse.move(box["x"]+30, box["y"]+15)
         await page.mouse.down(); await page.mouse.move(box["x"]+100, box["y"]+45, steps=6); await page.mouse.up()
-        saved = await page.evaluate("localStorage.getItem('lf.board.positions.v1')")
+        saved = await page.evaluate("localStorage.getItem('desk.lf.board.positions.v1')")
         assert saved and "a-place-to-leave-things" in saved
         await page.reload(wait_until="networkidle")
-        assert await page.evaluate("localStorage.getItem('lf.board.positions.v1')") == saved
+        assert await page.evaluate("localStorage.getItem('desk.lf.board.positions.v1')") == saved
         await page.locator(".note-open").first.click()
         assert "/notes/a-place-to-leave-things.html" in page.url
         assert "at Purdue" in await page.locator(".prose").inner_text()
@@ -108,20 +108,20 @@ async def main():
         box = await drawing.bounding_box()
         await page.mouse.move(box['x']+20, box['y']+box['height']-30)
         await page.mouse.down();await page.mouse.move(box['x']+130,box['y']+box['height']-70,steps=12);await page.mouse.up()
-        ink = await page.evaluate("localStorage.getItem('lf.notes.ink.v1')")
+        ink = await page.evaluate("localStorage.getItem('desk.lf.notes.ink.v1')")
         assert ink and len(json.loads(ink)[0]) > 1
         await page.reload(wait_until='networkidle')
-        assert await page.evaluate("localStorage.getItem('lf.notes.ink.v1')") == ink
+        assert await page.evaluate("localStorage.getItem('desk.lf.notes.ink.v1')") == ink
         assert await drawing.evaluate("e=>e.getContext('2d').getImageData(0,0,e.width,e.height).data.some((v,i)=>i%4===3&&v>0)")
-        position_before_clear = await page.evaluate("localStorage.getItem('lf.board.positions.v1')")
+        position_before_clear = await page.evaluate("localStorage.getItem('desk.lf.board.positions.v1')")
         await page.evaluate('fields.find(f=>f.spins).objectRotation.yaw=.7')
         await page.locator('#clear-drawing').click()
         assert await page.evaluate('fields.find(f=>f.spins).objectRotation.yaw') == .7
-        assert await page.evaluate("JSON.parse(localStorage.getItem('lf.notes.ink.v1')).length") == 0
+        assert await page.evaluate("JSON.parse(localStorage.getItem('desk.lf.notes.ink.v1')).length") == 0
         # The ink dissolves away and the canvas is empty within a second and a half.
         await page.wait_for_function("!(e=>e.getContext('2d').getImageData(0,0,e.width,e.height).data.some((v,i)=>i%4===3&&v>0))(document.getElementById('note-drawing'))", timeout=1500)
         assert await page.locator('.sticky').count() == 3
-        assert await page.evaluate("localStorage.getItem('lf.board.positions.v1')") == position_before_clear
+        assert await page.evaluate("localStorage.getItem('desk.lf.board.positions.v1')") == position_before_clear
 
         # Theme survives reading-page navigation and reload, without losing its button label.
         await page.locator("#theme-toggle").click()
@@ -198,8 +198,8 @@ async def main():
         plain = await browser.new_page(java_script_enabled=False, viewport={"width":390,"height":900})
         await plain.goto(BASE+"/")
         assert await plain.locator(".note-open").count() == 3
-        assert await plain.locator("#note-board").is_hidden()  # phones get the plain list instead
-        await plain.locator(".note-list a").first.click()
+        assert await plain.locator("#note-board").is_visible()
+        await plain.locator(".note-open").first.click()
         assert await plain.locator(".prose p").count() > 0
         await plain.close()
 
@@ -261,14 +261,15 @@ async def main():
         field=page.locator('#music-art')
         bounds=await field.bounding_box()
         baseline=await page.evaluate('fields.find(f=>f.music).playerY')
-        await page.mouse.move(bounds['x']+100,bounds['y']+baseline)
+        free_x=await page.evaluate('''({x,y,width})=>{for(let dx=25;dx<width-25;dx+=15)if(document.elementFromPoint(x+dx,y)?.id==='note-drawing')return dx;throw Error('No free waveform area')}''',{'x':bounds['x'],'y':bounds['y']+baseline,'width':bounds['width']})
+        await page.mouse.move(bounds['x']+free_x,bounds['y']+baseline)
         assert await page.evaluate("""()=>{
           const f=fields.find(f=>f.music),ctx=f.ctx,stroke=ctx.stroke;let count=0;
           ctx.stroke=function(){count++;return stroke.call(this)};
           try{f.draw(performance.now())}finally{ctx.stroke=stroke}
           return f.pointer&&count>0;
         }"""), 'Waveform hover must render X dithering'
-        await field.click(position={'x':100,'y':baseline})
+        await page.mouse.click(bounds['x']+free_x,bounds['y']+baseline)
         assert await page.evaluate("fields.find(f=>f.music).events.at(-1).type==='wave'")
         assert await page.evaluate("""()=>{
           const f=fields.find(f=>f.music),event=f.events.at(-1),pointer=f.pointer;
@@ -277,7 +278,7 @@ async def main():
           return first!==second;
         }"""), 'Click ripple must propagate through the waveform'
         await page.mouse.move(2,2)
-        await page.locator('#music').screenshot(path='.git/music-waveform.png')
+        await page.locator('.desk-study').screenshot(path='.git/music-waveform.png')
         await page.emulate_media(reduced_motion="reduce")
         await page.evaluate("testAudio.emit('progress',{currentPosition:132999})")
         after_bars = await page.locator('.dap-meter i').evaluate_all('(es)=>es.map(e=>e.style.height)')
