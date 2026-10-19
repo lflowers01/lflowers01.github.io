@@ -36,6 +36,9 @@ class ArtField {
     this.navigationPointer = null;
     this.footer = canvas.id === 'footer-art'; this.pad = canvas.id === 'effect-art';
     this.walleLines = this.footer ? document.querySelector('.walle-art').textContent.split('\n') : [];
+    if (this.footer) new MutationObserver(() => {
+      this.updateTextRegions(); this.activeUntil = performance.now()+100; wake();
+    }).observe(canvas.parentElement, {childList:true,characterData:true,subtree:true});
     this.header = canvas.id === 'navigation-art'; this.ambient = canvas.id === 'ambient-art';
     this.music = canvas.id === 'music-art';
     this.spins = canvas.id === 'hero-art';
@@ -109,10 +112,11 @@ class ArtField {
   }
   point(event) { const rect = this.canvas.getBoundingClientRect(); return { x: event.clientX - rect.left, y: event.clientY - rect.top }; }
   updateTextRegions() {
-    if (!this.spins) return;
+    if (!this.spins && !this.footer) return;
     const canvasRect = this.canvas.getBoundingClientRect();
-    this.copyBottom = document.querySelector('.hero-copy').getBoundingClientRect().bottom - canvasRect.top;
-    this.textRegions = [...document.querySelectorAll('.hero-copy h1,.hero-copy .location,.hero-copy .bio,.hero-copy .text-link,.profile-links a,.hero-webring a,.site-header nav a,.hero .art-hint')].flatMap(element => {
+    if (this.spins) this.copyBottom = document.querySelector('.hero-copy').getBoundingClientRect().bottom - canvasRect.top;
+    const selector = this.footer ? '.footer-content a,.footer-content p,.footer-bottom a,.visit-counter,#site-badge' : '.hero-copy h1,.hero-copy .location,.hero-copy .bio,.hero-copy .text-link,.profile-links a,.hero-webring a,.site-header nav a,.hero .art-hint';
+    this.textRegions = [...document.querySelectorAll(selector)].flatMap(element => {
       const range = document.createRange(); range.selectNodeContents(element);
       return [...range.getClientRects()].filter(rect => rect.width && rect.height).map(rect => ({ left: rect.left - canvasRect.left, right: rect.right - canvasRect.left, top: rect.top - canvasRect.top, bottom: rect.bottom - canvasRect.top }));
     });
@@ -299,7 +303,7 @@ class ArtField {
       ctx.fillStyle = characterPart ? '#ffffff' : ink; ctx.strokeStyle = ctx.fillStyle;
       const quietBackground = this.spins && objectValue < .08 && value < .18;
       ctx.globalAlpha = this.footer ? (characterPart ? .30 + .65 * reveal : .30) : quietBackground ? .055 : .88;
-      if (this.spins) ctx.globalAlpha *= this.textOpacity(x + cell / 2, y + rowHeight / 2);
+      if (this.spins || this.footer) ctx.globalAlpha *= this.textOpacity(x + cell / 2, y + rowHeight / 2);
       const breathe = .035 * Math.sin(x * .013 + y * .017 + now / 1800);
       value += breathe * Math.min(1, value * 4);
       value *= 1 + audioLevel * (this.spins ? .08 : .05);
@@ -309,7 +313,7 @@ class ArtField {
     ctx.strokeStyle = copper; ctx.fillStyle = copper;
     for (const [key, mark] of this.marks) {
       if (mark.expires <= now) { this.marks.delete(key); continue; }
-      ctx.globalAlpha = Math.min(1, (mark.expires - now) / 700) * (this.spins ? this.textOpacity(mark.x * cell + cell / 2, mark.y * rowHeight + rowHeight / 2) : 1); cross(ctx, mark.x * cell + cell / 2, mark.y * rowHeight + rowHeight / 2, cell - 3);
+      ctx.globalAlpha = Math.min(1, (mark.expires - now) / 700) * ((this.spins || this.footer) ? this.textOpacity(mark.x * cell + cell / 2, mark.y * rowHeight + rowHeight / 2) : 1); cross(ctx, mark.x * cell + cell / 2, mark.y * rowHeight + rowHeight / 2, cell - 3);
     }
     for (const event of this.events) {
       if (event.type === 'wave') continue;

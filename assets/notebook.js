@@ -146,7 +146,7 @@ if (noteBoard) {
     if (previous && Math.hypot((point.x - previous.x) * rect.width, (point.y - previous.y) * rect.height) < 3) return;
     activeStroke.push(point); ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim(); segment(previous || point, point);
   }
-  canvas.addEventListener('pointerdown', event => { if (event.button !== 0 || (touchDrawing && event.pointerType === 'touch' && canvas.dataset.touchDrawing !== 'true')) return; if (sand?.enabled) { event.preventDefault(); canvas.setPointerCapture(event.pointerId); const rect=canvas.getBoundingClientRect(); sand.pour={x:event.clientX-rect.left,y:event.clientY-rect.top}; if (sand.life) sand.grain(sand.pour.x,sand.pour.y); sand.render(); sand.start(); return; } if (strokes.length >= 200) return; event.preventDefault(); if (dissolving) { cancelAnimationFrame(dissolving); dissolving = 0; drawInk(); } activeStroke = []; strokes.push(activeStroke); canvas.setPointerCapture(event.pointerId); addInk(event); });
+  canvas.addEventListener('pointerdown', event => { if (event.button !== 0 || (touchDrawing && event.pointerType === 'touch' && canvas.dataset.touchDrawing !== 'true')) return; if (dissolving) { cancelAnimationFrame(dissolving); dissolving = 0; drawInk(); } if (sand?.enabled) { if (sand.draining) sand.clear(); event.preventDefault(); canvas.setPointerCapture(event.pointerId); const rect=canvas.getBoundingClientRect(); sand.pour={x:event.clientX-rect.left,y:event.clientY-rect.top}; if (sand.life) sand.grain(sand.pour.x,sand.pour.y); sand.render(); sand.start(); return; } if (strokes.length >= 200) return; event.preventDefault(); activeStroke = []; strokes.push(activeStroke); canvas.setPointerCapture(event.pointerId); addInk(event); });
   canvas.addEventListener('pointermove', addInk);
   const finishInk = () => { if (sand?.pour) { sand.pour = null; persist('lf.notes.sand.v1', sand.snapshot()); } if (activeStroke) { activeStroke = null; strokes = strokes.filter(s => s.length); persist('lf.notes.ink.v1', strokes); } };
   for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) canvas.addEventListener(event, finishInk);
@@ -154,10 +154,16 @@ if (noteBoard) {
   // Nothing moves (blocks vanish in place, like a fade), so it also runs under prefers-reduced-motion.
   let dissolving = 0;
   clear.addEventListener('click', () => {
-    sand?.clear();
+    if (dissolving) return;
+    if (sand?.enabled && !sand.life) { sand.drain(); return; }
     const cells = new Map();
     for (const stroke of strokes) stroke.forEach((point, index) => segment(stroke[Math.max(0, index - 1)], point, (x, y) => cells.set(`${x},${y}`, [x, y])));
-    activeStroke = null; strokes = []; persist('lf.notes.ink.v1', strokes); cancelAnimationFrame(dissolving); dissolving = 0;
+    if (sand) for (let i=0; i<sand.grid.length; i++) if (sand.grid[i]) {
+      const x=(i%sand.cols)*4, y=Math.floor(i/sand.cols)*4; cells.set(`${x},${y}`,[x,y]);
+    }
+    activeStroke = null; strokes = []; persist('lf.notes.ink.v1', strokes); sand?.clear();
+    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim();
+    for (const [x,y] of cells.values()) ctx.fillRect(x,y,4,4);
     if (!cells.size) { drawInk(); return; }
     const order = [...cells.values()];
     for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }

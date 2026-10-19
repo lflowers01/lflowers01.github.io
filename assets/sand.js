@@ -24,7 +24,7 @@ class FallingSand {
     this.life = data.mode === 'life'; this.frozen = data.mode === 'draw'; this.enabled = !this.frozen;
     if (this.enabled) this.start(); return true;
   }
-  snapshot() { return {mode:this.life ? 'life' : this.enabled ? 'sand' : 'draw', enabled:this.enabled, frozen:this.frozen, cols:this.cols, rows:this.rows, cells:(this.enabled || this.frozen) ? this.grid.join('') : ''}; }
+  snapshot() { return {mode:this.life ? 'life' : this.enabled ? 'sand' : 'draw', enabled:this.enabled, frozen:this.frozen, cols:this.cols, rows:this.rows, cells:(this.enabled || this.frozen) ? (this.draining ? '0'.repeat(this.grid.length) : this.grid.join('')) : ''}; }
   grain(x, y) {
     const col = Math.floor(x / 4), row = Math.floor(y / 4);
     if (col >= 0 && col < this.cols && row >= 0 && row < this.rows) this.grid[row * this.cols + col] = 1;
@@ -36,7 +36,12 @@ class FallingSand {
     this.draining = mode === 'draw' && !this.frozen;
     this.save(this.snapshot()); this.render(); if (!this.frozen) this.start();
   }
+  drain() {
+    this.pour = null; this.draining = true;
+    this.save(this.snapshot()); this.start();
+  }
   clear() {
+    cancelAnimationFrame(this.frame); this.frame = 0;
     this.grid.fill(0); this.pour = null; this.draining = false; this.frozen = false;
     this.save(this.snapshot()); this.render();
   }
