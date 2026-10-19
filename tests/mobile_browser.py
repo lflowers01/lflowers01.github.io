@@ -91,11 +91,19 @@ async def main():
         assert not await page.locator('.photo-focus').is_visible()
         badge=page.locator('#site-badge')
         await page.emulate_media(reduced_motion='no-preference')
-        await badge.tap(); await badge.tap()
+        await badge.tap()
+        assert await badge.locator('.site-badge-turn').evaluate('''e=>{
+          const animation=e.getAnimations()[0];if(!animation)return false;
+          animation.pause();animation.currentTime=80;
+          const threeD=getComputedStyle(e).transform.startsWith('matrix3d(');
+          animation.play();return threeD;
+        }''')
+        await badge.tap()
         await page.wait_for_function("document.getElementById('site-badge').getAttribute('aria-pressed')==='true'&&!document.getElementById('site-badge').classList.contains('is-turning')")
         assert await badge.locator('img').is_hidden()
         assert await badge.locator('.site-badge-back').is_visible()
         assert await badge.locator('.site-badge-back').evaluate('e=>getComputedStyle(e).transform')=='none'
+        assert await badge.locator('.site-badge-turn').evaluate('e=>getComputedStyle(e).transform')=='none'
         await badge.press('Space')
         await page.wait_for_function("document.getElementById('site-badge').getAttribute('aria-pressed')==='false'&&!document.getElementById('site-badge').classList.contains('is-turning')")
         assert await badge.locator('img').is_visible()
