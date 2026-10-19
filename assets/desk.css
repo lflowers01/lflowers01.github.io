@@ -14,3 +14,15 @@
 .drawing-modes{display:flex;gap:4px}.drawing-modes [aria-pressed=true]{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}
 .desk-heading{gap:16px;flex-wrap:wrap}
 @media(max-width:700px){.desk-heading>.note-tools{width:100%;justify-content:space-between;gap:8px}}
+
+#touch-drawing{display:none}
+@media(pointer:coarse){
+  #touch-drawing{display:grid}
+  .desk-study #note-drawing{touch-action:pan-y pinch-zoom}
+  .desk-study #note-drawing[data-touch-drawing=true]{touch-action:none}
+  #touch-drawing[aria-pressed=true]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}
+  .desk-grip,.note-handle{min-height:44px}
+  .desk-heading .icon-button{width:44px;height:44px;padding:11px;flex-shrink:0}
+  .desk-heading>.note-tools{flex-wrap:wrap;gap:8px}
+  .desk-heading .text-link{flex-basis:100%;min-height:32px}
+}

@@ -4,6 +4,17 @@ if (noteBoard) {
   const status = document.getElementById('board-status');
   const canvas = document.getElementById('note-drawing'), ctx = canvas.getContext('2d');
   const clear = document.getElementById('clear-drawing');
+  const touchDrawing = document.getElementById('touch-drawing');
+  if (touchDrawing) {
+    touchDrawing.hidden = false;
+    touchDrawing.addEventListener('click', () => {
+      const enabled = touchDrawing.getAttribute('aria-pressed') !== 'true';
+      touchDrawing.setAttribute('aria-pressed', String(enabled));
+      touchDrawing.setAttribute('aria-label', enabled ? 'Disable touch drawing to scroll' : 'Enable touch drawing');
+      touchDrawing.title = enabled ? 'Scroll instead of drawing' : 'Touch drawing';
+      canvas.dataset.touchDrawing = String(enabled);
+    });
+  }
   let positions = {}, strokes = [], layer = 1, activeStroke = null;
   let cards = [...noteBoard.querySelectorAll('.sticky')];
   const storagePrefix = noteBoard.dataset.storagePrefix || '';
@@ -91,7 +102,7 @@ if (noteBoard) {
     if (previous && Math.hypot((point.x - previous.x) * rect.width, (point.y - previous.y) * rect.height) < 3) return;
     activeStroke.push(point); ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim(); segment(previous || point, point);
   }
-  canvas.addEventListener('pointerdown', event => { if (event.button !== 0) return; if (sand?.enabled) { event.preventDefault(); canvas.setPointerCapture(event.pointerId); const rect=canvas.getBoundingClientRect(); sand.pour={x:event.clientX-rect.left,y:event.clientY-rect.top}; if (sand.life) sand.grain(sand.pour.x,sand.pour.y); sand.render(); sand.start(); return; } if (strokes.length >= 200) return; event.preventDefault(); if (dissolving) { cancelAnimationFrame(dissolving); dissolving = 0; drawInk(); } activeStroke = []; strokes.push(activeStroke); canvas.setPointerCapture(event.pointerId); addInk(event); });
+  canvas.addEventListener('pointerdown', event => { if (event.button !== 0 || (touchDrawing && event.pointerType === 'touch' && canvas.dataset.touchDrawing !== 'true')) return; if (sand?.enabled) { event.preventDefault(); canvas.setPointerCapture(event.pointerId); const rect=canvas.getBoundingClientRect(); sand.pour={x:event.clientX-rect.left,y:event.clientY-rect.top}; if (sand.life) sand.grain(sand.pour.x,sand.pour.y); sand.render(); sand.start(); return; } if (strokes.length >= 200) return; event.preventDefault(); if (dissolving) { cancelAnimationFrame(dissolving); dissolving = 0; drawInk(); } activeStroke = []; strokes.push(activeStroke); canvas.setPointerCapture(event.pointerId); addInk(event); });
   canvas.addEventListener('pointermove', addInk);
   const finishInk = () => { if (sand?.pour) { sand.pour = null; persist('lf.notes.sand.v1', sand.snapshot()); } if (activeStroke) { activeStroke = null; strokes = strokes.filter(s => s.length); persist('lf.notes.ink.v1', strokes); } };
   for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) canvas.addEventListener(event, finishInk);

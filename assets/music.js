@@ -21,7 +21,7 @@ if (dap) {
   let current = Math.floor(Math.random() * tracks.length), widget = null, duration = 0, lastPosition = 0, loading = false, timeout, playbackTimeout;
   let shuffle = true, bag = [], history = [current], historyPosition = 0;
   let waveform = null, waveformRequest = null, waveformRetry;
-  let seekTarget = null, seekTime = 0;
+  let seekTarget = null, seekTime = 0, lastPlaybackPosition = 0, resumePosition = 0, recoveries = 0, errorTimeout, needsReload = false;
   const clock = milliseconds => `${Math.floor(milliseconds / 60000)}:${String(Math.floor(milliseconds / 1000) % 60).padStart(2, '0')}`;
   const trackUrl = () => `https://api.soundcloud.com/tracks/${tracks[current].id}`;
   const views = { playing: document.getElementById('music-now-playing'), menu: document.getElementById('music-main-menu'), songs: document.getElementById('music-track-list'), extras: document.getElementById('music-extras'), link: linkForm, settings };
@@ -118,7 +118,7 @@ if (dap) {
   }
   function failed() {
     if (pendingSource) { pendingSource = null; linkStatus.textContent = 'That link could not be loaded. Try a public track or playlist.'; }
-    clearTimeout(timeout); clearTimeout(playbackTimeout); busy(false); setPlaying(false); seek.disabled = true;
+    clearTimeout(timeout); clearTimeout(playbackTimeout); clearTimeout(errorTimeout); busy(false); setPlaying(false); seek.disabled = true;
     state.textContent = 'Unavailable';
     status.textContent = 'SoundCloud could not start playback in this browser. Try another track or open SoundCloud in Extras.';
     if (widget) {
@@ -185,7 +185,7 @@ if (dap) {
     });
   }
   function updateTrack() {
-    seekTarget = null; seekTime = 0;
+    seekTarget = null; seekTime = 0; lastPlaybackPosition = 0; resumePosition = 0; recoveries = 0; needsReload = false; clearTimeout(errorTimeout);
     clearWaveform();
     document.getElementById('music-title').textContent = tracks[current].title;
     document.getElementById('music-artist').textContent = tracks[current].artist;
@@ -235,17 +235,18 @@ if (dap) {
       activeWidget.getSounds(sounds => { if (Array.isArray(sounds) && sounds.length) accept(sounds); else activeWidget.getCurrentSound(sound => accept(sound ? [sound] : [])); });
       return;
     }
-    clearTimeout(timeout); busy(false);
     const activeWidget = widget, trackId = tracks[current].id;
     widget.setVolume(Number(volume.value));
+    state.textContent = 'Ready'; status.textContent = 'Press play if your browser paused playback.';
     widget.getDuration(value => {
       if (widget !== activeWidget || tracks[current].id !== trackId) return;
+      clearTimeout(timeout); busy(false);
       duration = Number.isFinite(value) && value > 0 ? value : 0;
       seek.disabled = !duration; document.getElementById('music-duration').textContent = clock(duration);
       loadTrackVisuals(activeWidget, trackId);
+      if (resumePosition && duration) { activeWidget.seekTo(Math.min(resumePosition, Math.max(0, duration-1000))); resumePosition = 0; }
+      activeWidget.play(); watchPlayback();
     });
-    state.textContent = 'Ready'; status.textContent = 'Press play if your browser paused playback.';
-    widget.play(); watchPlayback();
   }
   async function start() {
     startTimeout();
@@ -258,32 +259,61 @@ if (dap) {
       iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(pendingSource || trackUrl())}&auto_play=false&show_artwork=false&visual=false`;
       dap.append(iframe); widget = SC.Widget(iframe);
       widget.bind(SC.Widget.Events.READY, ready);
-      widget.bind(SC.Widget.Events.PLAY, () => { if (pendingSource) return; clearTimeout(timeout); busy(false); setPlaying(true); status.textContent = 'Audio via SoundCloud. Availability and ads depend on the track.'; });
-      widget.bind(SC.Widget.Events.PAUSE, () => setPlaying(false));
-      widget.bind(SC.Widget.Events.PLAY_PROGRESS, event => {
-        if (!Number.isFinite(event.currentPosition) || event.currentPosition < 0) return;
-        lastPosition = event.currentPosition;
-        if (event.currentPosition > 0) clearTimeout(playbackTimeout);
-        if (!duration) return;
-        seek.value = Math.min(1000, Math.max(0, event.currentPosition / duration * 1000));
-        document.getElementById('music-time').textContent = clock(event.currentPosition);
-        drawMeter(Math.min(duration, event.currentPosition));
-      });
-      widget.bind(SC.Widget.Events.FINISH, () => {
-        if (loading) return;
+      widget.bind(SC.Widget.Events.PLAY, event => { if (pendingSource || !currentEvent(event)) return; clearTimeout(timeout); busy(false); setPlaying(true); status.textContent = 'Audio via SoundCloud. Availability and ads depend on the track.'; });
+      widget.bind(SC.Widget.Events.PAUSE, event => { if (currentEvent(event)) setPlaying(false); });
+      widget.bind(SC.Widget.Events.PLAY_PROGRESS, event => { if (currentEvent(event)) updatePosition(event.currentPosition); });
+      widget.bind(SC.Widget.Events.FINISH, event => {
+        if (loading || !currentEvent(event)) return;
         const tolerance = Math.min(1200, duration * .02);
         const seekingMiddle = seekTarget !== null && performance.now() - seekTime < 2500 && seekTarget < duration - tolerance;
-        if (duration && lastPosition >= duration - tolerance && !seekingMiddle) change(1);
+        // FINISH can mark a playable preview ending before the full metadata duration.
+        if (lastPlaybackPosition > 500 && !seekingMiddle) change(1);
         else if (seekingMiddle) {
           const activeWidget = widget;
           activeWidget.isPaused(paused => { if (widget === activeWidget && paused) { setPlaying(false); status.textContent = 'SoundCloud paused while seeking. Press play to resume.'; } });
-        } else if (lastPosition <= 500) failed();
+        } else if (lastPlaybackPosition <= 500) failed();
         else {
           setPlaying(false); status.textContent = 'SoundCloud stopped before the end of this track. Resume playback or choose another track.';
         }
       });
-      widget.bind(SC.Widget.Events.ERROR, failed);
+      widget.bind(SC.Widget.Events.ERROR, playbackError);
     } catch { failed(); }
+  }
+  const currentEvent = event => !event?.soundId || String(event.soundId) === String(tracks[current].id);
+  function updatePosition(position) {
+    if (!Number.isFinite(position) || position < 0) return;
+    lastPosition = position; if (position > 0) lastPlaybackPosition = position;
+    if (position > 0) clearTimeout(playbackTimeout);
+    if (!duration) return;
+    seek.value = Math.min(1000, Math.max(0, position / duration * 1000));
+    document.getElementById('music-time').textContent = clock(position);
+    drawMeter(Math.min(duration, position));
+  }
+  // Widget progress events can stop while audio continues; ask the engine for its real position.
+  setInterval(() => {
+    if (!widget || loading || dap.dataset.playing !== 'true' || document.hidden) return;
+    const activeWidget = widget, trackId = tracks[current].id;
+    activeWidget.getPosition(position => {
+      if (widget === activeWidget && tracks[current].id === trackId && !loading && dap.dataset.playing === 'true') updatePosition(position);
+    });
+  }, 750);
+  function reloadInterrupted() {
+    needsReload = false; resumePosition = lastPosition || lastPlaybackPosition;
+    startTimeout(); widget.load(trackUrl(), {auto_play:false, show_artwork:false, callback:ready});
+  }
+  function playbackError(event) {
+    if (!currentEvent(event)) return;
+    if (loading || lastPlaybackPosition <= 500) { failed(); return; }
+    const activeWidget = widget, trackId = tracks[current].id, before = lastPosition;
+    clearTimeout(errorTimeout);
+    errorTimeout = setTimeout(() => activeWidget.getPosition(position => {
+      if (widget !== activeWidget || tracks[current].id !== trackId || loading) return;
+      if (position > before+100) { updatePosition(position); return; }
+      needsReload = true;
+      if (dap.dataset.playing === 'true' && recoveries++ < 1) { reloadInterrupted(); return; }
+      setPlaying(false); state.textContent = 'Interrupted';
+      status.textContent = 'SoundCloud interrupted this track. Press play to reconnect.';
+    }), 1500);
   }
   function change(direction) {
     if (loading) return;
@@ -314,7 +344,8 @@ if (dap) {
   play.addEventListener('click', () => {
     if (loading) return;
     if (!widget) start();
-    else if (dap.dataset.playing === 'true') { clearTimeout(playbackTimeout); widget.pause(); }
+    else if (dap.dataset.playing === 'true') { clearTimeout(playbackTimeout); clearTimeout(errorTimeout); widget.pause(); }
+    else if (needsReload) reloadInterrupted();
     else { widget.play(); watchPlayback(); }
   });
   previous.addEventListener('click', () => change(-1));

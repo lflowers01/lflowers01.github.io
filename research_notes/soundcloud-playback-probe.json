@@ -1,0 +1,15 @@
+{
+  "evidence_id": "ev_809deea7ea0623745a8da3dbbe8ffbc269ca08e8cd3d2d3456ca5d31cab9e70e",
+  "track_id": 2361318236,
+  "metadata": {
+    "duration": 61569,
+    "full_duration": 61523,
+    "policy": "MONETIZE",
+    "monetization_model": "AD_SUPPORTED"
+  },
+  "observed": "READY, PLAY then PAUSE at zero; declared play click did not advance position in the test browser.",
+  "limitations": [
+    "This does not reproduce the owner's audible playback or establish the cause of their interruption.",
+    "The owner's track is not identified by the captured metadata as a 30-second preview."
+  ]
+}

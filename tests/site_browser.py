@@ -23,7 +23,7 @@ WIDGET_FIXTURE = """()=>{
       isPaused:fn=>fn(false),setVolume:v=>testAudio.volume=v,getDuration:fn=>fn(133000),getPosition:fn=>fn(testAudio.position),
       getSounds:fn=>fn(testAudio.imported||[{id:987654,title:'Visitor track',user:{username:'Visitor artist',permalink_url:'https://soundcloud.com/visitor'}}]),
       getCurrentSound:fn=>fn({duration:30000,full_duration:133000,waveform_url:'https://wave.sndcdn.com/test-waveform.json',artwork_url:testAudio.loads.length?null:'https://i1.sndcdn.com/test-cover.png'}),
-      play:()=>{emit('play');testAudio.position=testAudio.position||12000;emit('progress',{currentPosition:testAudio.position})},
+      play:()=>{emit('play');testAudio.position=testAudio.failEarly?0:(testAudio.position||12000);emit('progress',{currentPosition:testAudio.position})},
       pause:()=>emit('pause'),seekTo:v=>testAudio.position=v,
       load:(url,options)=>{testAudio.loads.push(url);testAudio.position=0;setTimeout(options.callback,40)}};
     testAudio.emit=emit;
@@ -406,6 +406,9 @@ async def main():
         await page.evaluate("testAudio.emit('progress',{currentPosition:133000});testAudio.emit('finish')")
         await page.wait_for_function("document.getElementById('music-index').textContent==='02 / 49'&&!document.getElementById('music-next').disabled")
         # A track that fails before advancing must not automatically cycle through the playlist.
+        await page.evaluate('testAudio.failEarly=true')
+        await page.locator('#music-next').click()
+        await page.wait_for_function("!document.getElementById('music-next').disabled")
         before_index = await page.locator('#music-index').inner_text()
         await page.evaluate("testAudio.emit('progress',{currentPosition:0});testAudio.emit('finish')")
         assert await page.locator('#music-state').inner_text() == 'Unavailable'

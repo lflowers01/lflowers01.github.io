@@ -1,0 +1,74 @@
+"""Mobile routes, touch scrolling/drawing/dragging and phone-sized controls."""
+import asyncio
+from pathlib import Path
+from playwright.async_api import async_playwright
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+async def swipe(cdp, x, y, dx, dy):
+    await cdp.send('Input.dispatchTouchEvent', {'type':'touchStart','touchPoints':[{'x':x,'y':y}]})
+    for step in range(1, 11):
+        await cdp.send('Input.dispatchTouchEvent', {'type':'touchMove','touchPoints':[{'x':x+dx*step/10,'y':y+dy*step/10}]})
+        await asyncio.sleep(.025)
+    await cdp.send('Input.dispatchTouchEvent', {'type':'touchEnd','touchPoints':[]})
+
+
+async def main():
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(executable_path=str(ROOT/'.local/chrome-for-testing/chrome-win64/chrome.exe'))
+        page = await browser.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True,device_scale_factor=2,reduced_motion='reduce')
+        errors=[]
+        page.on('pageerror',lambda e: errors.append(str(e)))
+        await page.route('**/api/visits',lambda r:r.fulfill(json={'visits':123}))
+        routes=['/'+str(path.relative_to(ROOT/'dist')).replace('\\','/') for path in (ROOT/'dist').rglob('*.html') if path.name not in ['classic.html','desk-demo.html']]
+        for width in [320,390,844]:
+            await page.set_viewport_size({'width':width,'height':390 if width==844 else 844})
+            for route in routes:
+                await page.goto('http://127.0.0.1:49280'+route,wait_until='domcontentloaded')
+                await page.evaluate('document.fonts.ready')
+                await page.wait_for_timeout(100)
+                assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth'),(width,route)
+        await page.set_viewport_size({'width':390,'height':844})
+        await page.goto('http://127.0.0.1:49280/',wait_until='networkidle')
+        cdp=await page.context.new_cdp_session(page)
+        await page.evaluate("scrollTo({top:document.getElementById('note-board').getBoundingClientRect().top+scrollY+300,behavior:'instant'})")
+        await page.wait_for_timeout(100)
+        x=await page.locator('#note-board').evaluate('e=>e.getBoundingClientRect().left+20')
+        before=await page.evaluate('scrollY')
+        await swipe(cdp,x,500,0,-150)
+        await page.wait_for_timeout(200)
+        assert await page.evaluate('scrollY') > before+50, 'Desk must allow normal finger scrolling'
+        assert await page.evaluate("localStorage.getItem('desk.lf.notes.ink.v1')") is None
+        await page.locator('#touch-drawing').tap()
+        await page.evaluate("scrollTo({top:document.getElementById('note-board').getBoundingClientRect().top+scrollY+300,behavior:'instant'})")
+        await page.wait_for_timeout(100)
+        before=await page.evaluate('scrollY')
+        await swipe(cdp,x,500,50,-100)
+        assert abs(await page.evaluate('scrollY')-before)<2
+        assert await page.evaluate("JSON.parse(localStorage.getItem('desk.lf.notes.ink.v1'))[0].length>2")
+        for selector in ['.note-handle','[data-desk-handle]']:
+            handle=page.locator(selector).first
+            await handle.scroll_into_view_if_needed()
+            box=await handle.bounding_box()
+            await swipe(cdp,box['x']+box['width']/2,box['y']+box['height']/2,25,25)
+        assert await page.evaluate("localStorage.getItem('desk.items.v1')&&localStorage.getItem('desk.lf.board.positions.v1')")
+        await page.locator('#music-menu').tap()
+        await page.locator('[data-ipod-view=settings]').tap()
+        assert await page.locator('#music-settings').is_visible()
+        await page.locator('.photo-open').first.tap()
+        assert await page.locator('.photo-focus').is_visible()
+        await page.locator('.photo-focus-close').tap()
+        assert not await page.locator('.photo-focus').is_visible()
+        for width in [320,360,390,430,768,844]:
+            await page.set_viewport_size({'width':width,'height':844})
+            assert await page.locator('.site-header').evaluate('e=>{const es=[...e.querySelectorAll("a,button")];return es.every(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth&&r.height>=44})}'),width
+            assert await page.locator('.note-tools').evaluate('e=>e.getBoundingClientRect().right<=innerWidth'),width
+        await page.set_viewport_size({'width':390,'height':844})
+        await page.locator('.desk-heading').screenshot(path=str(ROOT/'.git/mobile-controls.png'))
+        assert not errors,errors
+        await browser.close()
+        print('PASS: all mobile routes, portrait/landscape, touch scrolling and drawing, note/iPod drag, photo close, menus and larger touch targets; no JS errors.')
+
+
+asyncio.run(main())
