@@ -13,11 +13,11 @@ function drawPhoto() {
   ctx.putImageData(photoDither, 0, 0); ctx.imageSmoothingEnabled = false;
   if (photoProgress > 0) {
     ctx.font = '7px Departure,monospace'; ctx.fillStyle = '#c3cdb3';
-    const reach = Math.hypot(260, 300);
-    for (let y = 0; y < 300; y += 4) for (let x = 0; x < 260; x += 4) {
-      const threshold = Math.hypot(x - photoPoint.x, y - photoPoint.y) / reach * .55 + (bayer[(y / 4 % 4) * 4 + x / 4 % 4] + .5) / 16 * .43;
-      if (photoProgress > threshold) ctx.drawImage(photoPixels, x, y, 4, 4, x, y, 4, 4);
-      if (!reducedMotion.matches && photoProgress < .98 && Math.abs(photoProgress - threshold) < .025) ctx.fillText(':+X'[(x + y) % 3], x, y + 4);
+    const reach = Math.max(...[[0, 0], [260, 0], [0, 300], [260, 300]].map(([x, y]) => Math.hypot(x - photoPoint.x, y - photoPoint.y)));
+    for (let y = 0; y < 300; y += 2) for (let x = 0; x < 260; x += 2) {
+      const threshold = .03 + Math.hypot(x - photoPoint.x, y - photoPoint.y) / reach * .77 + (bayer[(y / 2 % 4) * 4 + x / 2 % 4] + .5) / 16 * .19;
+      if (photoProgress > threshold) ctx.drawImage(photoPixels, x, y, 2, 2, x, y, 2, 2);
+      if (photoProgress < .98 && Math.abs(photoProgress - threshold) < .015 && x % 6 === 0 && y % 6 === 0) ctx.fillText(':+X'[(x + y) % 3], x, y + 4);
     }
   }
   if (photoHover && photoProgress < .98) {
@@ -27,14 +27,12 @@ function drawPhoto() {
   photoCanvas.dataset.reveal = photoProgress >= .99 ? 'visible' : photoProgress <= .01 ? 'dither' : 'transition';
 }
 function animatePhoto(target) {
-  if (photoTarget === target && photoFrame) return;
   cancelAnimationFrame(photoFrame); photoFrame = 0;
   photoTarget = target; photoFrom = photoProgress; photoStart = performance.now();
-  if (reducedMotion.matches) { photoProgress = target; drawPhoto(); return; }
-  const duration = target ? 850 : 1000;
+  const duration = target ? 1100 : 1200;
   const step = now => {
-    const t = Math.min(1, (now - photoStart) / duration), eased = t * t * (3 - 2 * t);
-    photoProgress = photoFrom + (target - photoFrom) * eased; drawPhoto();
+    const t = Math.min(1, (now - photoStart) / duration);
+    photoProgress = photoFrom + (target - photoFrom) * t; drawPhoto();
     photoFrame = t < 1 ? requestAnimationFrame(step) : 0;
   };
   photoFrame = requestAnimationFrame(step);
@@ -44,10 +42,10 @@ function hidePhotoLater(delay = 1200) {
   photoHide = setTimeout(() => { if (!photoHover && !photoKeyboard) animatePhoto(0); }, delay);
 }
 portrait.onload = () => {
-  const original = document.createElement('canvas'); original.width = 65; original.height = 75;
+  const original = document.createElement('canvas'); original.width = 130; original.height = 150;
   const small = original.getContext('2d'); if (!small) return;
-  const scale = Math.max(65 / portrait.naturalWidth, 75 / portrait.naturalHeight);
-  small.drawImage(portrait, (65 - portrait.naturalWidth * scale) / 2, (75 - portrait.naturalHeight * scale) / 2, portrait.naturalWidth * scale, portrait.naturalHeight * scale);
+  const scale = Math.max(130 / portrait.naturalWidth, 150 / portrait.naturalHeight);
+  small.drawImage(portrait, (130 - portrait.naturalWidth * scale) / 2, (150 - portrait.naturalHeight * scale) / 2, portrait.naturalWidth * scale, portrait.naturalHeight * scale);
   photoPixels = document.createElement('canvas'); photoPixels.width = 260; photoPixels.height = 300;
   const pixels = photoPixels.getContext('2d'); if (!pixels) return;
   pixels.imageSmoothingEnabled = false; pixels.drawImage(original, 0, 0, 260, 300);
@@ -70,30 +68,34 @@ photoCanvas.addEventListener('pointermove', event => {
   photoPoint = { x: (event.clientX - rect.left) * 260 / rect.width, y: (event.clientY - rect.top) * 300 / rect.height }; drawPhoto();
 });
 photoCanvas.addEventListener('pointerleave', () => { photoHover = false; drawPhoto(); hidePhotoLater(); });
-photoCanvas.addEventListener('click', () => { clearTimeout(photoHide); animatePhoto(1); if (!photoHover && !photoKeyboard) hidePhotoLater(2600); });
+photoCanvas.addEventListener('click', () => { clearTimeout(photoHide); if (photoTarget !== 1) animatePhoto(1); if (!photoHover && !photoKeyboard) hidePhotoLater(2600); });
 photoCanvas.addEventListener('focus', () => { if (photoCanvas.matches(':focus-visible')) { photoKeyboard = true; clearTimeout(photoHide); animatePhoto(1); } });
 photoCanvas.addEventListener('blur', () => { photoKeyboard = false; hidePhotoLater(); });
 photoCanvas.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); clearTimeout(photoHide); animatePhoto(1); } });
 reducedMotion.addEventListener('change', () => { cancelAnimationFrame(photoFrame); photoFrame = 0; photoProgress = photoTarget; drawPhoto(); });
 
 // A fresh Blob URL gives each hover its own GIF decoder and restarts frame one.
-const flowerBytes = fetch('assets/plan/flower-grow.gif').then(response => { if (!response.ok) throw new Error('Flower GIF unavailable'); return response.arrayBuffer(); });
+const flowerBytes = fetch('assets/plan/flower-grow.gif?speed=1.5').then(response => { if (!response.ok) throw new Error('Flower GIF unavailable'); return response.arrayBuffer(); });
 flowerBytes.catch(() => {});
 for (const trigger of document.querySelectorAll('.flower-trigger')) {
   const image = trigger.querySelector('[data-flower]');
-  let hovered = false, active = false, playbackURL = null, revision = 0;
+  let hovered = false, active = false, completed = false, playbackURL = null, revision = 0, finishTimer;
   function stopFlower() {
-    active = false; revision++; image.src = 'assets/plan/flower-original.png';
+    active = false; completed = false; revision++; clearTimeout(finishTimer); image.src = 'assets/plan/flower-original.png';
     if (playbackURL) { URL.revokeObjectURL(playbackURL); playbackURL = null; }
   }
   async function updateFlower() {
-    if (!hovered && !trigger.matches(':focus-visible')) { stopFlower(); return; }
+    if (!hovered && !trigger.matches(':focus-visible')) { if (!active || completed) stopFlower(); return; }
     if (active) return;
     active = true; const version = ++revision;
     try {
       const bytes = await flowerBytes;
       if (!active || version !== revision) return;
       playbackURL = URL.createObjectURL(new Blob([bytes], { type: 'image/gif' })); image.src = playbackURL;
+      finishTimer = setTimeout(() => {
+        completed = true;
+        if (!hovered && !trigger.matches(':focus-visible')) stopFlower();
+      }, 1050);
     } catch { stopFlower(); }
   }
   trigger.addEventListener('pointerenter', () => { hovered = true; updateFlower(); });

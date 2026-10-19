@@ -29,7 +29,7 @@ for index in range(22):
     frames.append(frame)
 frames[-1] = source.copy()
 frames[0].save(root / "flower-grow.gif", save_all=True, append_images=frames[1:],
-               duration=[60] * 21 + [1600], disposal=2, optimize=False)
+               duration=[40] * 21 + [1070], disposal=2, optimize=False)
 
 with Image.open(root / "flower-grow.gif") as result:
     assert result.n_frames > 10 and "loop" not in result.info

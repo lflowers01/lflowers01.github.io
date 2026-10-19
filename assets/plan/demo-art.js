@@ -9,10 +9,10 @@ function wake() { if (!frame && !document.hidden) frame = requestAnimationFrame(
 function tick(now) {
   frame = 0;
   if (document.hidden) return;
-  if (now - lastFrame < 42) { wake(); return; }
+  if (now - lastFrame < (reducedMotion.matches ? 80 : 42)) { wake(); return; }
   lastFrame = now;
   for (const field of fields) if (field.visible) field.draw(now);
-  if (fields.some(field => field.visible && ((!reducedMotion.matches && field.spins) || field.activeUntil > now))) wake();
+  if (fields.some(field => field.visible && (field.spins || field.ambient || field.header || field.activeUntil > now))) wake();
 }
 function refreshFields() { for (const field of fields) field.activeUntil = performance.now() + 100; wake(); }
 function cross(ctx, x, y, size) {
@@ -26,7 +26,12 @@ class ArtField {
     this.canvas = canvas; this.ctx = canvas.getContext('2d');
     this.visible = false; this.activeUntil = 0; this.events = []; this.marks = new Map();
     this.pointer = null; this.previous = null; this.down = false; this.width = 1; this.height = 1;
+    this.pointerStrength = 0; this.pointerTarget = 0; this.lastPointerFrame = 0;
+    this.objectRotation = { yaw: 0, pitch: 0 }; this.objectDrag = null; this.objectGeometry = null;
+    this.spinPhase = 0; this.lastSpinFrame = 0;
+    this.navigationPointer = null;
     this.footer = canvas.id === 'footer-art'; this.pad = canvas.id === 'effect-art';
+    this.walleLines = this.footer ? document.querySelector('.walle-art').textContent.split('\n') : [];
     this.header = canvas.id === 'navigation-art'; this.ambient = canvas.id === 'ambient-art';
     this.spins = canvas.id === 'hero-art';
     new ResizeObserver(() => {
@@ -42,37 +47,68 @@ class ArtField {
     if (this.header || this.ambient) return;
     canvas.addEventListener('pointerdown', event => {
       if (event.button !== 0) return;
-      const point = this.point(event); this.pulse(point.x, point.y);
+      const point = this.point(event);
+      if (this.hitsObject(point)) {
+        this.objectDrag = { start: point, origin: { ...this.objectRotation }, moved: false };
+        canvas.setPointerCapture(event.pointerId); canvas.classList.add('dragging-object'); return;
+      }
+      this.pulse(point.x, point.y);
       if (event.pointerType === 'mouse' || this.pad) {
         this.down = true; this.previous = null; canvas.setPointerCapture(event.pointerId);
       }
     });
     canvas.addEventListener('pointermove', event => {
       this.pointer = this.point(event);
+      if (this.objectDrag) {
+        const dx = this.pointer.x - this.objectDrag.start.x, dy = this.pointer.y - this.objectDrag.start.y;
+        this.objectDrag.moved ||= Math.hypot(dx, dy) > 4;
+        if (this.objectDrag.moved) {
+          this.objectRotation.yaw = this.objectDrag.origin.yaw + dx * .009;
+          this.objectRotation.pitch = this.objectDrag.origin.pitch + dy * .009;
+        }
+        wake(); return;
+      }
+      canvas.dataset.overObject = String(this.hitsObject(this.pointer));
       if (this.down) this.paint(this.pointer);
       this.activeUntil = Math.max(this.activeUntil, performance.now() + 150); wake();
     });
-    const finish = () => { this.down = false; this.previous = null; };
+    const finish = event => {
+      if (this.objectDrag) {
+        if (event.type === 'pointerup' && !this.objectDrag.moved) { const point = this.point(event); this.pulse(point.x, point.y); }
+        this.objectDrag = null; canvas.classList.remove('dragging-object');
+      }
+      this.down = false; this.previous = null;
+    };
     canvas.addEventListener('pointerup', finish); canvas.addEventListener('pointercancel', finish);
+    canvas.addEventListener('lostpointercapture', finish);
     canvas.addEventListener('pointerleave', () => { this.pointer = null; this.activeUntil = Math.max(this.activeUntil, performance.now() + 100); wake(); });
     canvas.addEventListener('keydown', event => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.pulse(this.width * .65, this.height * .48); }
+      if (this.spins && ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+        event.preventDefault();
+        this.objectRotation.yaw += event.key === 'ArrowLeft' ? -.12 : event.key === 'ArrowRight' ? .12 : 0;
+        this.objectRotation.pitch += event.key === 'ArrowUp' ? -.12 : event.key === 'ArrowDown' ? .12 : 0;
+        wake();
+      }
     });
   }
   point(event) { const rect = this.canvas.getBoundingClientRect(); return { x: event.clientX - rect.left, y: event.clientY - rect.top }; }
+  hitsObject(point) { return this.spins && this.objectGeometry && Math.hypot(point.x - this.objectGeometry.cx, point.y - this.objectGeometry.cy) < this.objectGeometry.size * 1.1; }
   pulse(x, y) {
-    const time = performance.now(); this.events.push({ x, y, time, type: clickEffect });
+    const time = performance.now(); this.events.push({ x, y, time, type: this.pad ? clickEffect : 'wave' });
     if (this.events.length > 6) this.events.shift();
-    this.activeUntil = time + (reducedMotion.matches ? 250 : 2500); wake();
+    this.activeUntil = time + 2500; wake();
   }
   paint(point) {
     const previous = this.previous || point;
+    const cell = this.footer ? (this.width < 700 ? 8 : 10) : this.pad ? 6 : 7;
+    const rowHeight = this.footer ? Math.round(cell * 1.8) : cell;
     const steps = Math.ceil(Math.hypot(point.x - previous.x, point.y - previous.y) / 5) || 1;
     const expires = performance.now() + (reducedMotion.matches ? 250 : 2000);
     for (let i = 0; i <= steps; i++) {
-      const x = Math.floor((previous.x + (point.x - previous.x) * i / steps) / 8);
-      const y = Math.floor((previous.y + (point.y - previous.y) * i / steps) / 8);
-      if (x >= 0 && y >= 0 && x * 8 < this.width && y * 8 < this.height) this.marks.set(`${x},${y}`, { x, y, expires });
+      const x = Math.floor((previous.x + (point.x - previous.x) * i / steps) / cell);
+      const y = Math.floor((previous.y + (point.y - previous.y) * i / steps) / rowHeight);
+      if (x >= 0 && y >= 0 && x * cell < this.width && y * rowHeight < this.height) this.marks.set(`${x},${y}`, { x, y, expires });
     }
     while (this.marks.size > 1800) this.marks.delete(this.marks.keys().next().value);
     this.previous = point; this.activeUntil = expires + 100; wake();
@@ -82,13 +118,21 @@ class ArtField {
     const light = new Float32Array(cols * rows), depth = new Float32Array(cols * rows).fill(-10);
     const narrow = width < 600 && !this.pad;
     const cx = width * (this.pad ? .54 : narrow ? .55 : .75);
-    const cy = height * (narrow ? .68 : .46);
-    const size = this.pad ? Math.min(width * .25, height * .52) : narrow ? Math.min(width * .38, height * .23) : Math.min(width * .25, height * .42);
-    const angle = reducedMotion.matches ? .6 : now / 4800;
-    const ca = Math.cos(angle), sa = Math.sin(angle), tilt = .8;
-    const project = (x, y, z, value) => {
-      const a = x * ca + z * sa, b = -x * sa + z * ca;
-      const c = y * Math.cos(tilt) - b * Math.sin(tilt), d = y * Math.sin(tilt) + b * Math.cos(tilt);
+    const navigationHeight = this.spins ? document.querySelector('.site-header').offsetHeight : 0;
+    const artHeight = height - navigationHeight;
+    const cy = navigationHeight + artHeight * (narrow ? .68 : .46);
+    const size = this.pad ? Math.min(width * .25, artHeight * .52) : narrow ? Math.min(width * .38, artHeight * .23) : Math.min(width * .25, artHeight * .42);
+    const elapsed = Math.max(0, Math.min(100, now - (this.lastSpinFrame || now)));
+    this.lastSpinFrame = now;
+    if (!this.objectDrag) this.spinPhase += elapsed / (reducedMotion.matches ? 12000 : 3600);
+    const angle = this.spinPhase + this.objectRotation.yaw;
+    const ca = Math.cos(angle), sa = Math.sin(angle), tilt = .8 + this.objectRotation.pitch;
+    const project = (x, y, z, value, outer = false) => {
+      const outerAngle = .6 - this.spinPhase * .45 + this.objectRotation.yaw * .18;
+      const cosine = outer ? Math.cos(outerAngle) : ca, sine = outer ? Math.sin(outerAngle) : sa;
+      const axisTilt = outer ? .8 + Math.sin(this.spinPhase * .4) * .2 + this.objectRotation.pitch * .15 : tilt;
+      const a = x * cosine + z * sine, b = -x * sine + z * cosine;
+      const c = y * Math.cos(axisTilt) - b * Math.sin(axisTilt), d = y * Math.sin(axisTilt) + b * Math.cos(axisTilt);
       const perspective = 1 / (1 - d * .2);
       const px = Math.floor((cx + a * size * perspective) / cell), py = Math.floor((cy + c * size * perspective) / cell);
       if (px < 0 || py < 0 || px >= cols || py >= rows) return;
@@ -102,11 +146,11 @@ class ArtField {
           const x = (radius + tube * Math.cos(v)) * Math.cos(u);
           const y = (radius + tube * Math.cos(v)) * Math.sin(u), z = tube * Math.sin(v);
           const shade = .27 + .65 * Math.max(0, Math.cos(v + angle) * .55 + Math.sin(u) * .45);
-          if (ring) project(x, z, y, .57 + .23 * Math.cos(u)); else project(x, y, z, shade);
+          if (ring) project(x, z, y, .57 + .23 * Math.cos(u), true); else project(x, y, z, shade);
         }
       }
     }
-    return { light, cols };
+    return { light, cols, cx, cy, size };
   }
   draw(now) {
     const ctx = this.ctx; if (!ctx) return;
@@ -114,45 +158,80 @@ class ArtField {
     const ink = style.getPropertyValue('--accent').trim(), copper = style.getPropertyValue('--copper').trim();
     ctx.clearRect(0, 0, width, height); ctx.strokeStyle = ink; ctx.fillStyle = ink; ctx.lineWidth = 1;
     if (this.header || this.ambient) {
-      const cell = this.header ? 8 : 22;
+      const cell = this.header ? 8 : 16;
+      const time = now / (reducedMotion.matches ? 9000 : 3000);
+      const elapsed = Math.min(100, now - (this.lastPointerFrame || now));
+      this.lastPointerFrame = now;
+      this.pointerStrength += (this.pointerTarget - this.pointerStrength) * (1 - Math.exp(-elapsed / 150));
       for (let y = 4; y < height; y += cell) for (let x = 4; x < width; x += cell) {
         const distance = this.pointer ? Math.hypot(x - this.pointer.x, (y - this.pointer.y) * (this.header ? .5 : 1)) : 1000;
-        const influence = Math.max(0, 1 - distance / (this.header ? 180 : 160));
-        const base = this.header ? .25 * Math.pow(1 - y / height, 2) : 0;
-        ctx.globalAlpha = base + influence * (this.header ? .45 : .10);
-        if (ctx.globalAlpha > .005) cross(ctx, x, y, this.header ? 2 + influence * 3 : 3);
+        const influence = Math.max(0, 1 - distance / (this.header ? 180 : 160)) * this.pointerStrength;
+        const noise = .5 + .22 * Math.sin(x * .017 + y * .013 + time) + .18 * Math.sin(x * .005 - y * .019 - time * .7);
+        const breath = .83 + .17 * Math.sin(time * .8);
+        if (this.header) {
+          const t = Math.max(0, Math.min(1, (y / height - .08) / .72));
+          const fade = 1 - t * t * (3 - 2 * t);
+          ctx.globalAlpha = (.14 + noise * .10 + influence * .28) * fade * breath;
+        } else {
+          const threshold = (bayer[(Math.floor(y / cell) % 4) * 4 + Math.floor(x / cell) % 4] + .5) / 16;
+          ctx.globalAlpha = (noise > threshold ? .035 * breath : .008) + influence * .045;
+        }
+        if (ctx.globalAlpha > .005) cross(ctx, x, y, this.header ? 2 + influence * 2 : 2.5);
       }
       ctx.globalAlpha = 1; return;
     }
-    this.events = this.events.filter(event => now - event.time < (reducedMotion.matches ? 250 : 2500));
-    const cell = this.pad ? 6 : 7;
+    this.events = this.events.filter(event => now - event.time < 2500);
+    const cell = this.footer ? (width < 700 ? 8 : 10) : this.pad ? 6 : 7;
+    const rowHeight = this.footer ? Math.round(cell * 1.8) : cell;
     const object = this.footer ? null : this.objectField(now, cell);
-    ctx.font = `${cell + 1}px Departure, monospace`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    for (let y = 0, row = 0; y < height; y += cell, row++) for (let x = 0, col = 0; x < width; x += cell, col++) {
+    if (object) this.objectGeometry = object;
+    const walleColumn = Math.floor((width / cell - Math.max(0, ...this.walleLines.map(line => line.length))) / 2);
+    const navigationHeight = this.spins ? document.querySelector('.site-header').offsetHeight : 0;
+    if (this.spins) {
+      const elapsed = Math.min(100, now - (this.lastPointerFrame || now)); this.lastPointerFrame = now;
+      this.pointerStrength += (this.pointerTarget - this.pointerStrength) * (1 - Math.exp(-elapsed / 150));
+    }
+    ctx.font = `${this.footer ? Math.round(cell * 1.6) : cell + 1}px Departure, monospace`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (let y = 0, row = 0; y < height; y += rowHeight, row++) for (let x = 0, col = 0; x < width; x += cell, col++) {
       let value = object ? object.light[row * object.cols + col] || 0 : 0;
-      if (this.footer) value = Math.max(0, .24 - Math.abs(y / height - .8) * .35);
-      let offsetX = 0, offsetY = 0;
+      const objectValue = value;
+      if (this.spins) value = Math.max(value, .11 + .025 * Math.sin(x * .012 + y * .009 + now / 4000));
+      let navigationFade = 1;
+      if (y < navigationHeight) {
+        const t = Math.max(0, Math.min(1, (y / navigationHeight - .08) / .72));
+        navigationFade = 1 - t * t * (3 - 2 * t);
+        const distance = this.navigationPointer ? Math.hypot(x - this.navigationPointer.x, (y - this.navigationPointer.y) * .5) : 1000;
+        const influence = Math.max(0, 1 - distance / 180) * this.pointerStrength;
+        const noise = .5 + .25 * Math.sin(x * .017 + y * .013 + now / 3000);
+        value = Math.max(value, (.22 + noise * .15 + influence * .42) * navigationFade);
+      }
+      if (this.footer) value = .12 + .05 * Math.sin(x * .013) + .045 * Math.sin(y * .018 + x * .004);
+      const literal = this.footer ? this.walleLines[row - 2]?.[col - walleColumn] : null;
+      const characterPart = literal && literal !== ' ';
+      if (characterPart) value = .88;
       for (const event of this.events) {
         if (event.type !== 'wave') continue;
         const age = (now - event.time) / 1000, distance = Math.hypot(x - event.x, y - event.y);
-        const radius = reducedMotion.matches ? 30 : age * 230;
-        const envelope = Math.exp(-Math.pow((distance - radius) / 36, 2)) * Math.max(0, 1 - age / 2.5);
-        const wave = Math.sin((distance - radius) / 8) * envelope;
-        value += wave * .52 + envelope * .17;
-        offsetX += (x - event.x) / Math.max(1, distance) * wave * 7;
-        offsetY += (y - event.y) / Math.max(1, distance) * wave * 7;
+        const radius = age * 250;
+        const envelope = Math.exp(-Math.pow((distance - radius) / 38, 2)) * Math.max(0, 1 - age / 2.5);
+        const wave = Math.cos((distance - radius) / 10) * envelope;
+        value += wave * .85 + envelope * .38;
       }
       const threshold = (bayer[(row % 4) * 4 + col % 4] + .5) / 16;
       const lens = this.pointer && Math.hypot(x - this.pointer.x, y - this.pointer.y) < 105;
-      const characters = renderMode === 'ascii' || (renderMode === 'hybrid' && lens);
-      ctx.fillStyle = ink; ctx.strokeStyle = ink; ctx.globalAlpha = this.footer ? .30 : .88;
-      if (characters && value > .08) ctx.fillText(glyphs[Math.min(glyphs.length - 1, Math.floor(Math.min(1, value) * glyphs.length))], x + cell / 2 + offsetX, y + cell / 2 + offsetY);
-      else if (!characters && value > threshold) cross(ctx, x + cell / 2 + offsetX, y + cell / 2 + offsetY, cell - 3);
+      const characters = renderMode === 'ascii' || (renderMode === 'hybrid' && !lens);
+      ctx.fillStyle = characterPart ? '#ffffff' : ink; ctx.strokeStyle = ctx.fillStyle;
+      const quietBackground = this.spins && objectValue < .08 && value < .18;
+      ctx.globalAlpha = this.footer ? (characterPart ? .95 : .30) : quietBackground ? .055 : .88;
+      const breathe = .035 * Math.sin(x * .013 + y * .017 + now / 1800);
+      value += breathe * Math.min(1, value * 4);
+      if (characters && value > .08) ctx.fillText(characterPart && value > .4 ? literal : glyphs[Math.min(glyphs.length - 1, Math.floor(Math.min(1, value) * glyphs.length))], x + cell / 2, y + rowHeight / 2);
+      else if (!characters && value > threshold) cross(ctx, x + cell / 2, y + rowHeight / 2, cell - 3);
     }
     ctx.strokeStyle = copper; ctx.fillStyle = copper;
     for (const [key, mark] of this.marks) {
       if (mark.expires <= now) { this.marks.delete(key); continue; }
-      ctx.globalAlpha = Math.min(1, (mark.expires - now) / 700); cross(ctx, mark.x * 8 + 4, mark.y * 8 + 4, 5);
+      ctx.globalAlpha = Math.min(1, (mark.expires - now) / 700); cross(ctx, mark.x * cell + cell / 2, mark.y * rowHeight + rowHeight / 2, cell - 3);
     }
     for (const event of this.events) {
       if (event.type === 'wave') continue;
@@ -169,14 +248,24 @@ class ArtField {
 }
 for (const canvas of document.querySelectorAll('.art-field')) fields.push(new ArtField(canvas));
 document.addEventListener('pointermove', event => {
+  const hero = fields.find(field => field.spins);
+  if (hero) {
+    const point = hero.point(event), inside = point.x >= 0 && point.y >= 0 && point.x < hero.width && point.y < hero.height;
+    hero.pointer = inside ? point : null;
+    const overNavigation = inside && point.y < document.querySelector('.site-header').offsetHeight;
+    if (overNavigation) hero.navigationPointer = point;
+    hero.pointerTarget = overNavigation ? 1 : 0;
+  }
   for (const field of fields.filter(field => field.header || field.ambient)) {
     const point = field.point(event);
-    field.pointer = point.x >= 0 && point.y >= 0 && point.x < field.width && point.y < field.height ? point : null;
+    const inside = point.x >= 0 && point.y >= 0 && point.x < field.width && point.y < field.height;
+    if (inside) field.pointer = point;
+    field.pointerTarget = inside ? 1 : 0;
     field.activeUntil = performance.now() + 100;
   }
   wake();
 }, { passive: true });
-document.addEventListener('pointerleave', () => { for (const field of fields) field.pointer = null; refreshFields(); });
+document.addEventListener('pointerleave', () => { for (const field of fields) { field.pointerTarget = 0; field.pointer = null; } refreshFields(); });
 document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshFields(); });
 document.fonts.ready.then(refreshFields);
 reducedMotion.addEventListener('change', () => { for (const field of fields) { field.events = []; field.marks.clear(); } refreshFields(); });
@@ -190,10 +279,10 @@ for (const button of document.querySelectorAll('[data-click-effect]')) button.ad
   for (const sibling of document.querySelectorAll('[data-click-effect]')) sibling.setAttribute('aria-pressed', String(sibling === button));
   const pad = fields.find(field => field.pad); pad.pulse(pad.width * .5, pad.height * .5);
 });
-document.getElementById('clear-drawing').addEventListener('click', () => { for (const field of fields) { field.events = []; field.marks.clear(); } refreshFields(); });
+document.getElementById('clear-drawing')?.addEventListener('click', () => { for (const field of fields) { field.events = []; field.marks.clear(); field.objectRotation = { yaw: 0, pitch: 0 }; } refreshFields(); });
 
 const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('click', event => {
+themeToggle?.addEventListener('click', event => {
   if (document.documentElement.classList.contains('theme-switching')) return;
   const next = document.body.dataset.theme === 'oled' ? 'forest' : 'oled';
   const rect = themeToggle.getBoundingClientRect();
@@ -205,12 +294,12 @@ themeToggle.addEventListener('click', event => {
     themeToggle.title = themeToggle.getAttribute('aria-label');
     refreshFields();
   };
-  if (document.startViewTransition && !reducedMotion.matches) {
+  if (document.startViewTransition) {
     document.documentElement.classList.add('theme-switching');
     const transition = document.startViewTransition(update);
     transition.finished.finally(() => document.documentElement.classList.remove('theme-switching'));
   } else {
     update();
-    if (!reducedMotion.matches) { document.body.classList.add('theme-flash'); setTimeout(() => document.body.classList.remove('theme-flash'), 650); }
+    document.body.classList.add('theme-flash'); setTimeout(() => document.body.classList.remove('theme-flash'), 750);
   }
 });
