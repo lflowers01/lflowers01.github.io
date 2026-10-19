@@ -112,6 +112,15 @@ def build():
     page('index.html', 'Lucas Flowers', 'Robotics Engineering Technology at Purdue. Projects, notes, photographs and music.', fill(read('templates/home.html'), home_values), True)
     pages['index.html'] = pages['index.html'].replace('</head>', '<link rel="stylesheet" href="/assets/desk.css"><script src="/assets/desk.js" defer></script></head>')
     pages['index.html'] = pages['index.html'].replace('<script src="/assets/notebook.js"', '<script src="/assets/sand.js" defer></script><script src="/assets/notebook.js"')
+    study_values = dict(home_values)
+    study_values['desk'] = desk.replace('data-storage-prefix="desk."', 'data-storage-prefix="study.desk." data-item-storage="study.desk.items.v1"')
+    page('home-study.html', 'Homepage study — Lucas Flowers', 'An alternate composition for Lucas Flowers’s homepage.', fill(read('templates/home-study.html'), study_values), True)
+    pages['home-study.html'] = (pages['home-study.html']
+        .replace('</head>', '<meta name="robots" content="noindex"><link rel="stylesheet" href="/assets/desk.css"><link rel="stylesheet" href="/assets/home-study.css"><script src="/assets/desk.js" defer></script><script src="/assets/home-study.js" defer></script></head>')
+        .replace('<body data-theme=', '<body data-home-study data-theme=')
+        .replace('data-home="true"', 'data-home="false"')
+        .replace('<script src="/assets/notebook.js"', '<script src="/assets/sand.js" defer></script><script src="/assets/notebook.js"')
+        .replace('<header class="site-header">', '<div class="study-banner"><span>Homepage study</span><a href="/">Compare with current site</a></div><header class="site-header">'))
     page('classic.html', 'Classic layout — Lucas Flowers', 'Previous separate music and notes layout.', fill(read('templates/home-classic.html'), home_values), True)
     pages['classic.html'] = pages['classic.html'].replace('</head>', '<meta name="robots" content="noindex"></head>')
     pages['desk-demo.html'] = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=/"><title>Desk layout</title></head><body><a href="/">The desk is now on the homepage.</a></body></html>'
@@ -173,7 +182,7 @@ def build():
     ET.ElementTree(feed).write(OUT / "feed.xml", encoding="utf-8", xml_declaration=True)
     sitemap = ET.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
     for path in pages:
-        if path not in {"404.html", "desk-demo.html", "classic.html"}:
+        if path not in {"404.html", "desk-demo.html", "classic.html", "home-study.html"}:
             ET.SubElement(ET.SubElement(sitemap, "url"), "loc").text = base + ("/" if path == "index.html" else "/" + path.replace("index.html", ""))
     ET.ElementTree(sitemap).write(OUT / "sitemap.xml", encoding="utf-8", xml_declaration=True)
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {base}/sitemap.xml\n", encoding="utf-8")

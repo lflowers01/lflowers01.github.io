@@ -7,12 +7,13 @@ if (photoDrawer) {
     const j = Math.floor(Math.random() * (i + 1));
     [pool[i], pool[j]] = [pool[j], pool[i]];
   }
+  const photoStorage = photoDrawer.dataset.storageKey || 'lf.photos.layout.v1';
   let saved = {}, layer = 1;
-  try { saved = JSON.parse(localStorage.getItem('lf.photos.layout.v1')) || {}; } catch { /* Optional storage. */ }
+  try { saved = JSON.parse(localStorage.getItem(photoStorage)) || {}; } catch { /* Optional storage. */ }
   const positions = {};
   const valid = p => p && Number.isFinite(p.x) && Number.isFinite(p.y) && p.x >= 0 && p.x <= 1 && p.y >= 0 && p.y <= 1;
   function persist() {
-    try { localStorage.setItem('lf.photos.layout.v1', JSON.stringify(positions)); } catch { /* Positions still last for this visit. */ }
+    try { localStorage.setItem(photoStorage, JSON.stringify(positions)); } catch { /* Positions still last for this visit. */ }
   }
   for (let slot = 0; slot < 3; slot++) if (valid(saved[slot])) positions[slot] = saved[slot];
   const focus = document.createElement('dialog'), close = document.createElement('button');

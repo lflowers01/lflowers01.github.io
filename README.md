@@ -2,6 +2,8 @@
 
 The full site is now implemented alongside this research library. [Build, run, edit content, and hosting notes](SITE.md). Source content is in `content/`; `python scripts/build.py` generates `dist/`. The design-review pages remain available separately.
 
+The [alternate homepage study](https://lucasflowers.net/home-study.html) is a separate, noindex experiment; `/` remains the approved homepage. Its [design decisions](research_notes/homepage-study-plan.md), `templates/home-study.html` and `assets/home-study.css` describe the comparison. Project rows select a shared image preview on desktop and show individual images on mobile. Photos, desk positions and drawings use separate `study.*` browser storage; theme and music use the existing behavior. Nothing from the study is promoted to the homepage automatically.
+
 ## Edit the website
 
 These are the folders you edit; `dist/` is generated output.

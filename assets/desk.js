@@ -3,11 +3,13 @@ const desk = document.querySelector('.desk-surface');
 if (desk) {
   desk.addEventListener('pointerdown', () => desk.classList.add('pointer-drag-focus'));
   document.addEventListener('keydown', () => desk.classList.remove('pointer-drag-focus'));
+  const itemStorage = desk.dataset.itemStorage || 'desk.items.v1';
+  const studyLayout = !!desk.closest('.homepage-study');
   let saved = {}, layer = 4;
-  try { saved = JSON.parse(localStorage.getItem('desk.items.v1')) || {}; } catch { /* Optional storage. */ }
+  try { saved = JSON.parse(localStorage.getItem(itemStorage)) || {}; } catch { /* Optional storage. */ }
   const positions = {};
   const valid = p => p && Number.isFinite(p.x) && Number.isFinite(p.y) && p.x >= 0 && p.x <= 1 && p.y >= 0 && p.y <= 1;
-  const persist = () => { try { localStorage.setItem('desk.items.v1', JSON.stringify(positions)); } catch { /* Keep this visit's arrangement. */ } };
+  const persist = () => { try { localStorage.setItem(itemStorage, JSON.stringify(positions)); } catch { /* Keep this visit's arrangement. */ } };
   const items = [...desk.querySelectorAll('[data-desk-item]')];
   const ink = document.getElementById('note-drawing'), wave = document.getElementById('music-art');
   // The drawing canvas shares pointer effects with the waveform beneath it.
@@ -42,11 +44,11 @@ if (desk) {
     const notes = [...desk.querySelectorAll('.sticky')], player = items[0], mobile = innerWidth <= 700;
     const gap = 28, width = Math.max(0, ...notes.map(note => note.offsetWidth)), height = Math.max(0, ...notes.map(note => note.offsetHeight));
     const left = mobile ? Math.max(12, (desk.clientWidth - width) / 2) : player.offsetWidth + 100;
-    const top = mobile ? player.offsetHeight + 110 : 56;
+    const top = mobile ? player.offsetHeight + (studyLayout ? 220 : 110) : (studyLayout ? 130 : 56);
     const columns = mobile ? 1 : Math.max(1, Math.min(2, Math.floor((desk.clientWidth - left - 20 + gap) / (width + gap))));
     const rows = Math.ceil(notes.length / columns);
     desk.style.height = `${Math.max(parseFloat(getComputedStyle(desk).getPropertyValue('--desk-height')), top + rows * (height + gap) + 160)}px`;
-    if (mobile) { player.dataset.x = '.5'; player.dataset.y = '.035'; }
+    if (mobile) { player.dataset.x = '.5'; player.dataset.y = studyLayout ? '.18' : '.035'; }
     else { player.dataset.x = '.04'; player.dataset.y = '.14'; }
     if (!valid(saved.ipod) && !player.dataset.moved) positions.ipod = {x:Number(player.dataset.x),y:Number(player.dataset.y)};
     notes.forEach((note, i) => {
