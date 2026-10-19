@@ -112,7 +112,7 @@ class ArtField {
     if (!this.spins) return;
     const canvasRect = this.canvas.getBoundingClientRect();
     this.copyBottom = document.querySelector('.hero-copy').getBoundingClientRect().bottom - canvasRect.top;
-    this.textRegions = [...document.querySelectorAll('.hero-copy h1,.hero-copy .location,.hero-copy .bio,.hero-copy .text-link,.profile-links a,.site-header nav a,.hero .art-hint')].flatMap(element => {
+    this.textRegions = [...document.querySelectorAll('.hero-copy h1,.hero-copy .location,.hero-copy .bio,.hero-copy .text-link,.profile-links a,.hero-webring a,.site-header nav a,.hero .art-hint')].flatMap(element => {
       const range = document.createRange(); range.selectNodeContents(element);
       return [...range.getClientRects()].filter(rect => rect.width && rect.height).map(rect => ({ left: rect.left - canvasRect.left, right: rect.right - canvasRect.left, top: rect.top - canvasRect.top, bottom: rect.bottom - canvasRect.top }));
     });

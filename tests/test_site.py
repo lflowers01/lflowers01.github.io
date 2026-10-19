@@ -81,10 +81,10 @@ class SiteTests(unittest.TestCase):
                 if 'href="/Resume.pdf"' in a:
                     self.assertIn('target="_blank"', a, f"{path.name}: {a}")
 
-    def test_webring_links_follow_hero(self):
+    def test_webring_links_follow_profile_links(self):
         home = (ROOT / "dist/index.html").read_text(encoding="utf-8")
-        self.assertLess(home.index('id="hero-title"'), home.index('class="hero-webring"'))
-        self.assertLess(home.index('class="hero-webring"'), home.index('id="about"'))
+        self.assertLess(home.index('class="profile-links"'), home.index('class="hero-webring"'))
+        self.assertLess(home.index('class="hero-webring"'), home.index('</section>'))
         for direction in ('previous','next'):
             self.assertIn(f'href="https://ring.purduehackers.com/{direction}"',home)
 
