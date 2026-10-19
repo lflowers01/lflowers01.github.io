@@ -18,3 +18,41 @@ dialog{background:#e9e1c9;color:#25281f;border:1px solid #a9a183;max-width:min(5
 .flower-icon{display:block;width:37px;height:47px;image-rendering:pixelated;object-fit:contain}.flower-trigger{display:inline-block;line-height:0}.maker-mark.flower-trigger{border:0;padding:0;background:none}
 @media(max-width:520px){.hero{min-height:700px}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*{transition:none!important}}
+
+/* The sixth study keeps the drawing separate from readable foreground text. */
+body{isolation:isolate}.ambient-art{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none}
+.review-strip{position:relative;z-index:2}.site-header{gap:28px}.site-header:after{display:none}.site-header nav{margin-left:auto}
+.navigation-art{position:absolute;inset:0;height:100%;z-index:-1;pointer-events:none}
+.theme-icon{flex:none;width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);background:none;color:var(--accent);border-radius:50%;padding:7px;transition:transform .3s}
+.theme-icon svg{width:23px;height:23px}.theme-icon:hover{transform:rotate(35deg)}[data-theme=forest] .theme-icon svg{transform:rotate(180deg)}
+.hero h1{font-family:Arial,Helvetica,sans-serif;font-size:clamp(76px,8.8vw,128px);font-weight:400;letter-spacing:-.07em;line-height:.88;margin-left:-5px;margin-bottom:30px}
+.hero-copy{width:58%;padding-top:60px;padding-bottom:60px}.hero{min-height:640px}.bio{line-height:1.8}
+.profile-links{display:flex;flex-wrap:wrap;gap:18px;font-size:11px;margin-top:28px;pointer-events:auto;color:var(--soft)}.profile-links a:hover{color:var(--ink)}
+.hero-caption{display:none}.flower-icon{width:44px;height:56px}.name-mark{min-width:44px;min-height:56px}
+.notebook-section .board{border:0;box-shadow:none;background:none;height:540px;overflow:visible}
+.board:before,.board:after{display:none}.notebook-section{border-top:0}.sticky{box-shadow:3px 6px 12px #0005}
+.note-reading{margin:35px 0 20px;padding:30px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);max-width:720px}
+.note-reading[hidden]{display:none}.note-reading>button{float:right}.note-reading h3{font:28px/1.25 Departure,monospace;max-width:80%;margin-bottom:24px}.note-reading p{white-space:pre-wrap;overflow-wrap:anywhere;color:var(--soft);line-height:1.9}
+.projects-section:after{display:none}.project-card{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:30px;text-decoration:none;border-top:1px solid var(--line);padding-top:25px}
+.project-visual{display:grid;place-items:center;min-height:220px;background:radial-gradient(var(--line) .7px,transparent 1px) 0 0/9px 9px;color:var(--accent);transition:color .25s}
+.project-visual svg{width:100%;max-width:420px}.project-card:hover .project-visual{color:var(--copper)}.project-card-copy{align-self:center}.project-card-copy h3{font:27px/1.3 Departure,monospace;margin:12px 0 16px}.report-link{display:block;margin-top:22px;font-size:12px;color:var(--accent);text-decoration:underline}
+.section-heading h2,.projects-section h2,.project-report h2{position:relative;transition:color .25s,text-shadow .25s}
+.section-heading h2:hover,.projects-section h2:hover,.project-report h2:hover{color:var(--accent);text-shadow:1px 0 var(--copper)}
+.section-heading h2:after,.projects-section h2:after{content:'';position:absolute;bottom:-10px;left:0;width:75px;height:3px;background:repeating-linear-gradient(90deg,var(--copper) 0 1px,transparent 1px 4px);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.section-heading h2:hover:after,.projects-section h2:hover:after{transform:scaleX(1)}
+.site-footer{min-height:420px;padding-top:75px}.walle-art{position:absolute;left:50%;top:40px;transform:translateX(-50%);margin:0;font:11px/1.4 'Courier New',monospace;color:#fff;pointer-events:none;white-space:pre}
+.footer-content>div:first-child{max-width:29%}.footer-content>div:last-child{max-width:25%}.footer-content{min-height:270px}.footer-note{margin-top:15px}
+.project-report{width:min(840px,calc(100% - 48px));margin:60px auto 100px}.project-report>.location{margin-top:60px}.project-report h1{font:clamp(45px,8vw,90px)/1 Arial,sans-serif;letter-spacing:-.06em;margin-bottom:30px}.report-summary{font-size:16px;color:var(--soft)}.report-meta{display:flex;gap:45px;margin:35px 0}.report-meta dt{font-size:10px;color:var(--soft)}.report-meta dd{margin:4px 0 0;font-size:12px}.report-image{border:1px solid var(--line);color:var(--accent);margin:40px 0}.report-image svg{display:block;width:100%}.report-image figcaption{font-size:11px;color:var(--soft);padding:14px}.project-report section{margin:55px 0}.project-report section h2{font-size:27px;margin-bottom:20px}.project-report section p{color:var(--soft)}
+::view-transition-old(root){animation:none}::view-transition-new(root){animation:theme-reveal .65s ease both;mix-blend-mode:normal}
+@keyframes theme-reveal{from{clip-path:circle(0 at var(--switch-x) var(--switch-y));filter:contrast(1.6)}to{clip-path:circle(150vmax at var(--switch-x) var(--switch-y));filter:contrast(1)}}
+.theme-flash:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:100;background:repeating-conic-gradient(var(--accent) 0 25%,transparent 0 50%) 0/5px 5px;animation:theme-fallback .6s ease both}
+@keyframes theme-fallback{from{opacity:.3;clip-path:circle(0 at var(--switch-x) var(--switch-y))}to{opacity:0;clip-path:circle(150vmax at var(--switch-x) var(--switch-y))}}
+@media(max-width:1000px){.hero h1{font-size:90px}.walle-art{font-size:9px;left:51%}.site-footer{padding-left:4%;padding-right:4%}.footer-name{font-size:19px}}
+@media(max-width:700px){.site-header{gap:16px;padding:0 5%}.site-header nav{gap:14px;font-size:11px}.hero-copy{width:100%;padding:35px 7% 40px}.hero h1{font-size:86px}.hero{min-height:780px}.profile-links{gap:18px;margin-top:25px}.theme-icon{width:33px;height:33px;padding:5px}.notebook-section .board{height:650px}.project-card{grid-template-columns:1fr;gap:20px}.project-visual{min-height:180px}.walle-art{position:relative;left:auto;top:auto;transform:none;font-size:11px;width:fit-content;max-width:100%;margin:0 auto 40px}.site-footer{padding-top:50px}.footer-content{min-height:0;gap:25px}.footer-content>div:first-child,.footer-content>div:last-child{max-width:none}.footer-note{margin-top:35px}}
+@media(max-width:420px){.site-header{gap:12px}.site-header nav{gap:10px;font-size:10px}.flower-icon{width:32px;height:41px}.name-mark{min-width:32px;min-height:41px}.theme-icon{width:29px;height:29px}.theme-icon svg{width:19px;height:19px}.hero h1{font-size:76px}.walle-art{font-size:10px}.project-report{width:calc(100% - 36px)}.report-meta{gap:20px}}
+@media(prefers-reduced-motion:reduce){::view-transition-new(root){animation:none}}
+.inline-compose{position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:30px 0;margin-bottom:30px;max-width:650px}.inline-compose[hidden]{display:none}.inline-compose h2{font-size:27px;margin-bottom:20px}.inline-compose label{display:block;font-size:12px;margin:14px 0 7px}.inline-compose input,.inline-compose textarea{display:block;width:100%;background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:10px}.inline-compose .outline-button{margin-top:20px}.inline-compose .dialog-close{color:var(--ink)}
+.notebook-section .board{overflow:clip}.walle-art{font-size:14px}
+@media(min-width:701px) and (max-width:1000px){.walle-art{font-size:11px}}
+@media(max-width:700px){.walle-art{font-size:11px}}
+@media(max-width:360px){.walle-art{font-size:10px}}
