@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Draft 3: green primary color, brown accents, typography specimens, component studies, and detailed layouts for Lucas Flowers's college-era personal site.">
+  <meta name="description" content="Draft 4: green primary color, brown accents, typography specimens, component studies, and detailed layouts for Lucas Flowers's college-era personal site.">
   <title>Lucas Flowers — Website design plan</title>
   <style>
     @font-face {
@@ -101,31 +101,9 @@
     .preview-toolbar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; padding: 12px 16px; background: var(--spruce); color: var(--paper); font: 11px/1.6 var(--pixel); }
     .preview-nav { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 11px 16px; background: var(--oat); border-bottom: 1px solid var(--walnut); font-size: 11px; }
     .preview-nav span { word-spacing: 10px; }
-    .site-grid { display: grid; grid-template-columns: minmax(0, 1fr) 248px; gap: 16px; padding: 16px; align-items: start; }
-    .site-main, .site-side { display: grid; gap: 16px; min-width: 0; }
-    .profile { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 16px; }
-    .photo-placeholder { width: 88px; height: 116px; display: flex; align-items: end; padding: 6px; border: 1px solid var(--walnut); background: repeating-conic-gradient(#234637 0 25%, #91a584 0 50%) 0/4px 4px; }
-    .photo-placeholder span { font-size: 9px; line-height: 1.5; background: var(--paper); padding: 3px; }
-    .profile-name { font: 33px/1.25 var(--pixel); margin: 2px 0 10px; }
-    .profile p { font-size: 12px; margin-bottom: 10px; }
-    .profile-links { font-size: 11px; word-spacing: 7px; }
-    .sample-project { border: 1px dashed #9a866c; padding: 18px; background: #ece5d6; }
-    .sample-project p { font-size: 12px; margin-bottom: 0; }
-    .sample-project strong { font-size: 13px; display: block; margin-bottom: 8px; }
-    .sample-entry { padding: 12px 0; border-top: 1px dotted var(--line); }
-    .sample-entry:first-child { padding-top: 0; border-top: 0; }
-    .sample-entry p { font-size: 12px; margin: 5px 0 0; }
-    .sample-entry time { font: 11px/1.5 var(--pixel); color: var(--muted); }
     .ascii-art { margin: 4px 0 16px; font: 11px/16px var(--pixel); text-align: center; color: var(--spruce); white-space: pre; }
-    .ascii-controls { display: flex; justify-content: center; gap: 8px; }
-    .ascii-controls .button-sample { font-size: 11px; min-height: 29px; padding: 3px 7px; }
-    .player-display { background: var(--soil); color: var(--oat); padding: 10px; border: 1px solid #241d18; font: 11px/1.8 var(--pixel); margin-bottom: 12px; }
-    .player-progress { height: 5px; background: #b8a88d; margin-top: 7px; border: 1px solid #736149; }
-    .player-controls { display: flex; gap: 7px; flex-wrap: wrap; }
-    .player-controls .button-sample { padding: 3px 8px; min-height: 29px; }
     .counter { display: flex; gap: 3px; margin: 4px 0 10px; }
     .counter span { width: 25px; height: 33px; display: grid; place-items: center; border: 1px solid var(--soil); background: #e3d9c4; box-shadow: inset 1px 1px #ad997d; font: 22px/1 var(--pixel); }
-    .sample-caption { font-size: 10px; color: var(--muted); margin: 9px 0 0; line-height: 1.6; }
     .site-bottom { display: flex; flex-wrap: wrap; gap: 10px 20px; justify-content: space-between; padding: 12px 16px; border-top: 1px solid var(--walnut); background: var(--oat); font-size: 11px; }
     .button-8831 { display: inline-flex; align-items: center; justify-content: center; width: 88px; height: 31px; background: var(--spruce); border: 1px solid var(--soil); color: var(--paper); font: 11px/1 var(--pixel); }
     figcaption { margin: 12px 0 0; }
@@ -161,13 +139,88 @@
     .review li { margin-bottom: 14px; }
     footer { padding: 20px 38px; border-top: 1px solid var(--line); font-size: 11px; }
     footer p:last-child { margin-bottom: 0; }
+
+    .scene-stage { position: relative; min-height: 650px; overflow: hidden; background: var(--sage); background-image: radial-gradient(#23463728 .7px, transparent .7px); background-size: 7px 7px; isolation: isolate; }
+    .scene-stage::before { content:""; position:absolute; width:450px; height:450px; right:-150px; top:-190px; border:1px solid #23463740; border-radius:50%; box-shadow:0 0 0 24px #2346370b,0 0 0 48px #23463709; pointer-events:none; }
+    .scene-title { position:absolute; top:38px; left:230px; max-width:340px; z-index:2; }
+    .scene-title strong { display:block; font:44px/1.1 var(--pixel); color:var(--spruce); }
+    .scene-title p { font-size:11px; max-width:32ch; margin:18px 0 10px; }
+    .scene-links { font-size:11px; word-spacing:8px; }
+    .scene-object { position:absolute; display:block; color:var(--soil); text-decoration:none; transform:rotate(var(--turn,0deg)); transition:transform 160ms ease; min-width:0; }
+    .scene-object:hover,.scene-object:focus-visible { color:var(--soil); transform:translateY(-5px) rotate(0deg); z-index:10; }
+    .scene-photo { --turn:-5deg; top:42px; left:4%; width:160px; padding:8px 8px 18px; background:var(--paper); border:1px solid #8b806b; box-shadow:4px 5px #23463740; z-index:4; }
+    .scene-photo::before,.scene-notes::before { content:""; position:absolute; width:50px; height:19px; background:#ddd6b6b3; top:-9px; left:calc(50% - 25px); transform:rotate(5deg); border:1px solid #c2ba9380; }
+    .scene-photo img { display:block; width:100%; aspect-ratio:3/4; object-fit:cover; object-position:50% 30%; }
+    .scene-photo small,.scene-music strong,.scene-music small,.scene-detail small { display:block; font:11px/1.6 var(--pixel); padding-top:7px; }
+    .scene-ascii { top:48px; right:3%; width:27%; padding:20px 0; color:var(--spruce); text-align:center; border:1px dashed #23463740; border-radius:50%; z-index:1; }
+    .scene-ascii pre { font:11px/15px var(--pixel); margin:6px 0 12px; }
+    .scene-ascii small { font:11px/1.6 var(--pixel); }
+    .scene-projects { --turn:-3deg; left:6%; top:353px; width:250px; min-height:150px; background:#d6c7aa; padding:23px 20px 20px; border:1px solid #826d52; box-shadow:4px 5px #23463730; z-index:3; }
+    .scene-projects::before { content:""; position:absolute; top:-16px; left:-1px; width:92px; height:16px; background:#d6c7aa; border:1px solid #826d52; border-bottom:0; }
+    .scene-projects strong,.scene-notes strong { display:block; font:22px/1.5 var(--pixel); margin-bottom:14px; }
+    .scene-projects p { font-size:12px; margin:0; }
+    .scene-notes { --turn:2deg; left:32%; top:284px; width:320px; min-height:230px; padding:25px 22px; background:var(--paper); border:1px solid #b0a88d; box-shadow:4px 5px #23463730; z-index:5; }
+    .scene-notes p { font:12px/24px var(--reading); background:repeating-linear-gradient(transparent 0 23px,#b9aa9250 23px 24px); min-height:72px; }
+    .scene-notes small { font-size:11px; text-decoration:underline; }
+    .scene-music { --turn:5deg; right:4%; top:357px; width:190px; padding:12px; background:var(--spruce); color:var(--paper); border:1px solid #173a29; box-shadow:4px 5px #23463740; z-index:6; }
+    .scene-music:hover,.scene-music:focus-visible { color:var(--paper); }
+    .record-graphic { width:100%; max-width:146px; display:block; margin:8px auto; }
+    .scene-detail { --turn:-4deg; left:49%; bottom:27px; width:190px; background:var(--oat); border:1px solid #8b806b; padding:8px; box-shadow:3px 4px #23463730; z-index:4; }
+    .scene-detail svg { width:100%; height:75px; display:block; background:#d5deca; }
+    .scene-counter { position:absolute; left:7%; bottom:24px; font:11px/1.8 var(--pixel); color:var(--spruce); }
+    .scene-counter strong { display:block; font:22px/1.4 var(--pixel); letter-spacing:2px; }
+    .scene-caption { font-size:11px; margin:0; padding:12px 16px; background:var(--paper); border-top:1px solid var(--line); }
+    .image-studies { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:22px 0; }
+    .image-study { margin:0; border:1px solid var(--line); padding:12px; min-width:0; }
+    .image-study img { display:block; width:100%; height:210px; object-fit:cover; object-position:50% 30%; }
+    .image-study svg { width:100%; height:210px; display:block; background:#d5deca; }
+    .photo-selection { min-height:210px; background:var(--oat); border:1px dashed #8b806b; padding:22px; display:flex; flex-direction:column; justify-content:center; font:11px/1.8 var(--pixel); }
+    .photo-selection strong { margin-bottom:14px; font:22px/1.5 var(--pixel); }
+    .music-options { border-left:3px solid var(--spruce); background:#e1e7d7; padding:14px 18px; margin:18px 0; }
+    @media (max-width:1200px) and (min-width:901px) {
+      .scene-stage { min-height:900px; }
+      .scene-title { left:210px; right:18px; max-width:none; }
+      .scene-title strong { font-size:33px; }
+      .scene-ascii { top:215px; right:25px; width:230px; }
+      .scene-projects { top:365px; left:25px; width:220px; }
+      .scene-notes { top:470px; left:31%; width:290px; }
+      .scene-music { top:625px; right:25px; width:160px; }
+      .scene-detail { left:26px; bottom:35px; width:170px; }
+      .scene-counter { left:30%; bottom:25px; }
+    }
+    @media (max-width:900px) {
+      .scene-stage { display:grid; grid-template-columns:120px minmax(0,1fr); gap:25px 22px; padding:24px; min-height:0; }
+      .scene-stage > * { position:relative; top:auto; right:auto; bottom:auto; left:auto; width:auto; min-width:0; max-width:none; }
+      .scene-title { grid-column:2; grid-row:1; align-self:center; }
+      .scene-title strong { font-size:33px; }
+      .scene-photo { grid-column:1; grid-row:1; padding-bottom:10px; }
+      .scene-ascii { grid-column:2; grid-row:2; align-self:center; }
+      .scene-projects { grid-column:1; grid-row:2; padding:20px 12px; min-height:150px; align-self:center; }
+      .scene-projects strong,.scene-projects p { font-size:11px; }
+      .scene-notes { grid-column:1/-1; grid-row:3; min-height:190px; }
+      .scene-music { grid-column:1; grid-row:4; }
+      .scene-detail { grid-column:2; grid-row:4; align-self:center; }
+      .scene-counter { grid-column:1/-1; grid-row:5; }
+      .image-studies { grid-template-columns:1fr; }
+    }
+    @media (max-width:600px) {
+      .scene-stage { grid-template-columns:88px minmax(0,1fr); gap:22px 14px; padding:20px 14px; }
+      .scene-title strong { font-size:22px; }
+      .scene-title p { margin-top:10px; }
+      .scene-links { word-spacing:0; }
+      .scene-notes { padding:22px 16px; }
+      .scene-ascii pre { font-size:11px; line-height:14px; }
+      .scene-music { padding:8px; }
+      .scene-music strong { overflow-wrap:anywhere; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      .scene-object { transition:none; }
+      .scene-object:hover,.scene-object:focus-visible { transform:rotate(var(--turn,0deg)); }
+    }
+
     @media (max-width: 1100px) {
       .document-layout { grid-template-columns: 145px minmax(0, 1fr); }
       .intro, section { padding: 28px; }
-      .site-grid { grid-template-columns: minmax(0, 1fr) 208px; gap: 12px; padding: 12px; }
-      .profile { grid-template-columns: 68px minmax(0, 1fr); gap: 12px; }
-      .photo-placeholder { width: 68px; height: 95px; }
-      .profile-name { font-size: 22px; }
       .page-studies { grid-template-columns: 1fr; }
     }
     @media (max-width: 900px) {
@@ -177,9 +230,6 @@
       .index nav { position: static; display: flex; flex-wrap: wrap; gap: 3px 18px; }
       .index-title, .index-note { display: none; }
       .index a { padding: 4px 0; }
-      .site-grid { grid-template-columns: 1fr; }
-      .site-side { grid-template-columns: 1fr 1fr; }
-      .site-side .visits-window { grid-column: 1 / -1; }
       .mobile-layout { grid-template-columns: 270px minmax(0, 1fr); }
     }
     @media (max-width: 600px) {
@@ -190,11 +240,7 @@
       .palette { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 9px; }
       .specimen-name { font-size: 33px; }
       .feature { grid-template-columns: 1fr; gap: 3px; }
-      .site-grid { padding: 9px; }
       .window-content { padding: 12px; }
-      .profile { grid-template-columns: 1fr; }
-      .profile-name { font-size: 22px; }
-      .photo-placeholder { height: 70px; width: 100%; }
       .phone-diagram { max-width: 320px; }
       .specimen-info { display: block; }
       .specimen-info span { display: block; margin-top: 4px; }
@@ -220,14 +266,15 @@
     <symbol id="icon-link" viewBox="0 0 16 16"><path d="M6.5 3.5h-4v10h10v-4M7.5 1.5h7v7M14.5 1.5l-8 8"/></symbol>
   </defs></svg>
   <div class="document">
-    <header class="document-bar"><span>lucasflowers.net / design plan</span><span>Draft 3 / for review</span></header>
+    <header class="document-bar"><span>lucasflowers.net / design plan</span><span>Draft 4 / for review</span></header>
     <div class="document-layout">
       <aside class="index"><nav aria-label="Design plan sections">
         <p class="index-title">Design specification</p>
         <a href="#direction">1. Direction &amp; palette</a>
         <a href="#typography">2. Font specimens</a>
         <a href="#components">3. Visual language</a>
-        <a href="#layout">4. Desktop layout</a>
+        <a href="#layout">4. Layered composition</a>
+        <a href="#imagery">4b. Images &amp; artwork</a>
         <a href="#mobile">5. Mobile layout</a>
         <a href="#pages">6. Other pages</a>
         <a href="#features">7. Feature behavior</a>
@@ -238,19 +285,19 @@
       </nav></aside>
       <main id="plan">
         <div class="intro">
-          <span class="draft">Draft 3</span>
+          <span class="draft">Draft 4</span>
           <h1>Website design plan</h1>
-          <p class="lead">A Web 1.0 personal site with green as the primary color, brown surroundings and accents, pixel typography, dithered images, interactive ASCII, and space for your work and writing at Purdue.</p>
-          <p>This revision specifies the appearance and placement of the interface. The samples below use the proposed fonts and colors directly, so you can respond to what you see.</p>
-          <div class="revision"><strong>Design direction:</strong> green remains primary, with brown surroundings and trim; concrete type samples; more detailed desktop, mobile, and page layouts; neutral interface language; and a fresh project section focused on college-era work. High-school projects will not be imported into the new site's main content.</div>
+          <p class="lead">A green-and-brown personal site built around images, writing, and exploration: a layered composition, a responsive ASCII scene, and direct access to your current work at Purdue.</p>
+          <p>This revision develops a more spatial composition, names the images and artwork to create, and explains the SoundCloud options. Fonts and the green-primary palette remain available below.</p>
+          <div class="revision"><strong>Design direction:</strong> green remains primary, with brown surroundings and trim. Use an asymmetric collage of photos, notes, artwork, and content entrances. Keep the language direct and the content college-focused. Remove the global motion/audio strip.</div>
         </div>
 
         <section id="direction" aria-labelledby="direction-title">
-          <h2 id="direction-title"><span class="section-number">01 / Direction</span>Green first, with brown and earth-tone accents.</h2>
-          <p>Deep green title bars and selected controls, sage workspace surfaces, pale paper reading panels, and a brown textured surround. Brown also appears in borders and small details. Squared windows, visible underlined links, bitmap details, and low-color imagery establish the early-web character.</p>
-          <p>The layout should feel personal and deliberately arranged. It will introduce you as a college student, show current work when it exists, and give notes, music, and interactive elements their own places.</p>
+          <h2 id="direction-title"><span class="section-number">01 / Direction</span>Green and brown, with a layered composition.</h2>
+          <p>A sage-green surface, deep green navigation and accents, brown surrounding texture, pale paper reading surfaces, and low-color imagery. Photos, a folder, a notebook, a music sleeve, and unframed ASCII give different parts of the page different forms.</p>
+          <p>Visitors can explore the composition, bring an item forward, and open a clear reading surface. Ordinary text navigation remains available. Movement supports these interactions rather than becoming a settings feature.</p>
           <div class="palette" aria-label="Green-primary palette with brown and earth-tone accents">
-            <div class="swatch"><i style="--color:#234637"></i><strong>Spruce</strong><code>#234637</code>Primary bars, links, controls</div>
+            <div class="swatch"><i style="--color:#234637"></i><strong>Spruce</strong><code>#234637</code>Primary frame, links, accents</div>
             <div class="swatch"><i style="--color:#91a584"></i><strong>Sage</strong><code>#91a584</code>Workspace, secondary surfaces</div>
             <div class="swatch"><i style="--color:#584438"></i><strong>Walnut</strong><code>#584438</code>Surround, border accents</div>
             <div class="swatch"><i style="--color:#e8dfcc"></i><strong>Oat</strong><code>#e8dfcc</code>Navigation, inset areas</div>
@@ -291,10 +338,10 @@
         </section>
 
         <section id="components" aria-labelledby="components-title">
-          <h2 id="components-title"><span class="section-number">03 / Visual language</span>The interface, shown at component scale.</h2>
-          <p>Square corners, one-pixel outlines, a shallow bevel on controls, and a small set of consistent icons. The samples show the intended finish; they are not working music or site controls.</p>
+          <h2 id="components-title"><span class="section-number">03 / Visual language</span>Reading surfaces and details inside the composition.</h2>
+          <p>Use the window treatment for an opened note, article, or player. Other homepage elements have their own silhouettes: photo prints, paper, a folder, and circular artwork. These samples specify shared details, not a requirement to box every section.</p>
           <div class="contact-sheet">
-            <div class="sample-block"><span class="sample-label">Window frame / active and secondary bars</span><div class="window"><div class="window-title"><svg class="icon" aria-hidden="true"><use href="#icon-note"/></svg>Notes</div><div class="window-content"><p class="body-specimen">Paper surface, 16px internal padding, and a deep green title bar.</p></div><div class="window-title window-muted">Secondary information</div><div class="window-content small">No decorative close/minimize controls unless they actually work.</div></div></div>
+            <div class="sample-block"><span class="sample-label">Reading window / active and secondary bars</span><div class="window"><div class="window-title"><svg class="icon" aria-hidden="true"><use href="#icon-note"/></svg>Notes</div><div class="window-content"><p class="body-specimen">Paper surface, 16px internal padding, and a deep green title bar.</p></div><div class="window-title window-muted">Secondary information</div><div class="window-content small">No decorative close/minimize controls unless they actually work.</div></div></div>
             <div class="sample-block"><span class="sample-label">Controls / normal, hover, focus, selected</span><div class="button-row"><span class="button-sample">Open</span><span class="button-sample hover">Open</span><span class="button-sample focus">Open</span><span class="button-sample selected">Selected</span></div><p class="small">Visible edge and pressed state. Focus uses a clear brown outline. Real controls will have keyboard behavior and larger touch targets on phones.</p><div class="button-row"><span class="status current">In progress</span><span class="status">Complete</span><span class="status offline">Unavailable</span></div></div>
             <div class="sample-block"><span class="sample-label">Surface / pattern / surrounding background</span><div class="texture-row"><div class="texture texture-paper" aria-label="Fine paper dot texture"></div><div class="texture texture-dither" aria-label="Two-color pixel pattern"></div><div class="texture texture-wall" aria-label="Dark brown background pattern"></div></div><p class="small">Texture specimens only. Portraits and selected thumbnails will use actual palette reduction and dithering; detailed project images stay clear.</p></div>
             <div class="sample-block"><span class="sample-label">Icon family / 16px, one-pixel strokes</span><div class="icon-row"><span><svg class="icon" aria-hidden="true"><use href="#icon-folder"/></svg>Projects</span><span><svg class="icon" aria-hidden="true"><use href="#icon-note"/></svg>Notes</span><span><svg class="icon" aria-hidden="true"><use href="#icon-audio"/></svg>Audio</span><span><svg class="icon" aria-hidden="true"><use href="#icon-link"/></svg>Links</span></div><p class="small" style="margin-top:16px">One icon style throughout. Use icons beside text, with plain labels such as Projects, Notes, Play, Pause, and Visits.</p><span class="button-8831">Lucas</span><p class="small" style="margin-top:10px">88×31 site-button scale. Final artwork will be original.</p></div>
@@ -304,60 +351,83 @@
             <tr><td>Frames</td><td>Square corners; 1px brown outlines; 1px inset highlights where a control benefits from a bevel. No soft card shadows.</td></tr>
             <tr><td>Images</td><td>Portrait crop about 3:4; project previews 4:3. One restrained green/cream dither palette; originals on detail pages.</td></tr>
             <tr><td>Links</td><td>Underlined dark green text; stronger underline on hover; obvious focus ring. Avoid unexplained icon-only navigation.</td></tr>
-            <tr><td>Motion</td><td>One ASCII display. A short text reveal is optional; no repeated scrambling of paragraphs or constant animated backgrounds.</td></tr>
+            <tr><td>Motion</td><td>One responsive ASCII scene, small hover/focus lifts, and content coming forward. Automatic reduced-motion behavior, without a global settings toolbar.</td></tr>
             <tr><td>Writing</td><td>Direct labels and normal sentences. No invented mascot voice, slogans, or novelty names for ordinary actions.</td></tr>
           </tbody></table></div>
         </section>
 
         <section id="layout" aria-labelledby="layout-title">
-          <h2 id="layout-title"><span class="section-number">04 / Desktop composition</span>Where everything goes on the homepage.</h2>
-          <p>Proposed site width: <strong>1120px maximum</strong>, centered with at least 24px outside space when available. A flexible main column sits beside a <strong>272px utility column</strong>, separated by 16px. The name and current introduction remain the first things to read.</p>
-          <figure>
-            <div class="site-preview" aria-label="Proposed desktop homepage composition. All content and controls here are design samples.">
-              <div class="preview-toolbar"><span>lucasflowers.net</span><span>Personal site / Lucas Flowers</span></div>
-              <div class="preview-nav"><span>Home &nbsp; Projects &nbsp; Notes &nbsp; About</span><span>Motion: off &nbsp; Audio: off</span></div>
-              <div class="site-grid">
-                <div class="site-main">
-                  <div class="window"><div class="window-title">About</div><div class="window-content profile"><div class="photo-placeholder"><span>Dithered portrait<br>Image to choose</span></div><div><div class="profile-name">Lucas Flowers</div><p>Robotics Engineering Technology<br>Purdue University</p><p>Projects, notes, and current interests.</p><div class="profile-links"><span class="mock-link">Resume</span> <span class="mock-link">GitHub</span> <span class="mock-link">Email</span></div></div></div></div>
-                  <div class="window"><div class="window-title"><svg class="icon" aria-hidden="true"><use href="#icon-folder"/></svg>Projects</div><div class="window-content"><div class="sample-project"><strong>New work will be added here.</strong><p>College projects and independent work. Until there is an entry ready to publish, keep one clear empty state.</p></div><p class="sample-caption">When populated: preview image, title, short purpose, and actual status. Two homepage entries maximum before a project index link.</p></div></div>
-                  <div class="window"><div class="window-title"><svg class="icon" aria-hidden="true"><use href="#icon-note"/></svg>Recent notes</div><div class="window-content"><div class="sample-entry"><time datetime="2026-10-18">Date / layout sample</time><p>A short entry, observation, or link appears here. This text demonstrates length and spacing.</p></div><div class="sample-entry"><time datetime="2026-10-18">Date / layout sample</time><p>A second entry can be a few sentences. The full notebook has permanent links and an archive.</p></div><span class="mock-link" style="font-size:11px">All notes</span></div></div>
-                </div>
-                <div class="site-side">
-                  <div class="window"><div class="window-title">ASCII display</div><div class="window-content"><pre class="ascii-art" aria-label="Static sample of an ASCII wireframe cube">     +--------+
-    /        /|
-   +--------+ |
-   |        | +
-   |        |/
-   +--------+</pre><div class="ascii-controls"><span class="button-sample">Pause</span><span class="button-sample">Reset</span></div><p class="sample-caption">Pointer or keyboard changes the view. A geometric object is the proposed starting subject.</p></div></div>
-                  <div class="window"><div class="window-title"><svg class="icon" aria-hidden="true"><use href="#icon-audio"/></svg>Music</div><div class="window-content"><div class="player-display">No track selected<br>00:00 / --:--<div class="player-progress"></div></div><div class="player-controls"><span class="button-sample">Play</span><span class="button-sample">Stop</span><span class="button-sample">Playlist</span></div><p class="sample-caption">A compact entry panel. Open the full Webamp player on request.</p></div></div>
-                  <div class="window visits-window"><div class="window-title">Visits</div><div class="window-content"><div class="counter" aria-label="Six zero digits, placeholder only"><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span></div><p class="sample-caption">Design sample, not a live count. The real number comes from the shared service.</p></div></div>
-                </div>
-              </div>
-              <div class="site-bottom"><span>Links / selected sites / 88×31 buttons</span><span>RSS / Last updated</span></div>
-              <div class="site-bottom"><span>Previous / Purdue Hackers webring / Next</span><span>Contact / Credits</span></div>
+          <h2 id="layout-title"><span class="section-number">04 / Composition</span>A layered homepage you can explore.</h2>
+          <p>Use different forms and scales: a tilted photo, open typography, a folder, a paper note, a record sleeve, and an ASCII scene that belongs to the background. The composition should have depth and things to discover.</p>
+          <h3>How the research sites create this feeling</h3>
+          <div class="table-wrap"><table><thead><tr><th scope="col">Reference</th><th scope="col">What we found</th><th scope="col">What to adapt</th></tr></thead><tbody>
+            <tr><td><a href="https://imasepan.github.io/" target="_blank" rel="noopener">Charlie Kim</a></td><td>REA verified a whole sky/cloud appearance and reviewed the resulting scene.</td><td>A unified environment with navigation and content placed within it.</td></tr>
+            <tr><td><a href="https://cinni.net/" target="_blank" rel="noopener">cinni</a></td><td>REA inspected ornate framing, personal collections, a central reading region, and a theme change.</td><td>Custom framing, graphics, and visual details that belong to this particular site.</td></tr>
+            <tr><td><a href="https://eightlegman.neocities.org/" target="_blank" rel="noopener">Anish</a></td><td>Delivered source describes an ASCII river with multiple entities and local scores; we did not runtime-playtest it.</td><td>One responsive ASCII environment with things to discover.</td></tr>
+            <tr><td><a href="https://trev3d.com/" target="_blank" rel="noopener">Trev3D</a></td><td>REA captured circular project/video elements; source CSS explains clipping and hover treatment, not measured playback quality.</td><td>Shaped photo previews and revealing captions when current work exists.</td></tr>
+            <tr><td><a href="https://astersarchive.neocities.org/Home" target="_blank" rel="noopener">Aster's Archive</a></td><td>Its fetched description presents room/minimap exploration and a plaintext sitemap; no new runtime study here.</td><td>Objects as entrances, with conventional text navigation alongside them.</td></tr>
+          </tbody></table></div>
+          <h3>Proposed composition</h3>
+          <p>Your name and introduction sit directly on a green field. Photos and writing look placed. A visible navigation strip stays at the top. Selecting an object opens its content in a readable surface.</p>
+          <figure><div class="site-preview" aria-label="Layered homepage design study">
+            <div class="preview-toolbar"><span>lucasflowers.net</span><span>Lucas Flowers</span></div>
+            <div class="preview-nav"><span>Home &nbsp; Projects &nbsp; Notes &nbsp; About</span><span>Resume / Contact</span></div>
+            <div class="scene-stage">
+              <div class="scene-title"><strong>Lucas<br>Flowers</strong><p>Robotics Engineering Technology<br>Purdue University</p><div class="scene-links"><span class="mock-link">About</span> <span class="mock-link">GitHub</span> <span class="mock-link">Email</span></div></div>
+              <a class="scene-object scene-photo" href="#imagery"><img src="assets/plan/portrait-original.png" alt="Portrait from Lucas's existing site, used as a planning reference"><small>Portrait / image reference</small></a>
+              <a class="scene-object scene-ascii" href="#features"><pre aria-hidden="true">      . : .
+   .-:::::::-.
+  .::+----+:::.
+  :::|    |::::
+  :::+----+::::
+   '::::::::'
+      '-:-'</pre><small>Interactive ASCII scene</small></a>
+              <a class="scene-object scene-projects" href="#content"><strong>Projects</strong><p>Space for new work.<br>Open when there is something ready to share.</p></a>
+              <a class="scene-object scene-notes" href="#pages"><strong>Notes</strong><p>Short entries, references, and things I am working through.</p><small>Open notebook</small></a>
+              <a class="scene-object scene-music" href="#music-plan"><strong>Playlist</strong><svg class="record-graphic" viewBox="0 0 150 150" aria-hidden="true"><rect x="1" y="1" width="148" height="148" fill="#e8dfcc" stroke="#584438"/><circle cx="75" cy="75" r="64" fill="#29251f"/><g fill="none" stroke="#584438"><circle cx="75" cy="75" r="55"/><circle cx="75" cy="75" r="47"/><circle cx="75" cy="75" r="39"/></g><circle cx="75" cy="75" r="22" fill="#91a584"/><circle cx="75" cy="75" r="5" fill="#e8dfcc"/></svg><small>SoundCloud / music</small></a>
+              <a class="scene-object scene-detail" href="#imagery"><svg viewBox="0 0 180 80" aria-hidden="true"><g stroke="#234637" fill="none"><path d="M12 60h155M25 60V28l35-12 40 22 45-15v37M60 16v44M100 38v22M25 28l75 10M60 16l85 7"/><circle cx="100" cy="38" r="12"/><circle cx="100" cy="38" r="5"/></g></svg><small>Photos / drawings</small></a>
+              <div class="scene-counter">Visits<strong>000000</strong><small>Layout sample</small></div>
             </div>
-            <figcaption>The composition uses the proposed colors, fonts, and window treatment. The content is labeled sample text; controls are visual specimens. This plan diagram compresses the final site's spacing to fit the document.</figcaption>
-          </figure>
-          <div class="placement"><b>A</b><div><strong>Top frame and navigation</strong><p>Full width. Domain at left, optional page title at right. A 40–44px navigation row below: Home, Projects, Notes, About. Motion and audio state sit at the far right; they do not replace the main links.</p></div></div>
-          <div class="placement"><b>B</b><div><strong>Upper main column: introduction</strong><p>Portrait at left, 96×128px in the full layout. Name, current Purdue introduction, and three direct contact/profile links at right. Allow about 200px for this panel, expanding naturally with text size. No oversized fullscreen hero.</p></div></div>
-          <div class="placement"><b>C</b><div><strong>Main column below: projects, then notes</strong><p>Projects sit directly below the introduction. Use the empty state until current work is ready; later show at most two previews. The notes panel follows, with the latest three entries, dates, and an All notes link. Avoid tiny internal scroll areas.</p></div></div>
-          <div class="placement"><b>D</b><div><strong>Right column: ASCII, music, visits</strong><p>The ASCII panel aligns with the top of the introduction. Reserve about 240px of height including controls. Music follows at roughly 180px; Visits follows at roughly 110px. These are starting sizes, not fixed clipping heights. The column scrolls with the page.</p></div></div>
-          <div class="placement"><b>E</b><div><strong>Bottom: links and ring navigation</strong><p>A short row of credited site buttons and selected links, then the webring footer. Both span the page. Keep the ring controls visible and separated from experimental content; no hidden navigation or fake taskbar.</p></div></div>
-          <p class="rule"><strong>First-screen priority:</strong> introduction and contact links, ASCII display, project state, music entry. Notes can continue below the first screen. We will tune the exact vertical fit against a 1440×900 desktop viewport during the approved build.</p>
+            <div class="site-bottom"><span>Selected links / site buttons</span><span>Previous / Purdue Hackers webring / Next</span></div>
+            <p class="scene-caption">Hover or focus the linked objects to see the proposed lift/straighten response; clicking jumps to the relevant specification in this plan. The final site would open its content page or reading window. ASCII, music, and counter are visual samples.</p>
+          </div><figcaption>Existing portrait, unmodified. Record and line-art studies are original inline SVG placeholders, not a chosen album cover or a working project schematic.</figcaption></figure>
+          <div class="placement"><b>A</b><div><strong>Portrait and identity / upper left and center</strong><p>The photo overlaps the introduction area. Name and current study sit directly on the background. Selecting the photograph can lift it forward and reveal a caption or larger image.</p></div></div>
+          <div class="placement"><b>B</b><div><strong>ASCII environment / upper right and background</strong><p>A larger, unframed region. A mechanical system, abstract flow field, or low-resolution landscape responds to the pointer or a tap. The subject remains an art-direction choice.</p></div></div>
+          <div class="placement"><b>C</b><div><strong>Projects and notes / staggered lower left and center</strong><p>A folder and paper note have distinct silhouettes and overlap slightly. Opening either brings an aligned reading surface forward. Projects stay an honest empty state until current work is ready.</p></div></div>
+          <div class="placement"><b>D</b><div><strong>Music, photos, and drawing / lower right and edge</strong><p>A record-sleeve image opens music. A photo or original drawing sits along the lower edge. These can change over time without changing the navigation. The shared count stays small near the bottom.</p></div></div>
+          <div class="placement"><b>E</b><div><strong>What makes it dynamic</strong><p>Uneven placement, varied shapes, depth, captions revealed on selection, content coming forward, and one responsive scene. Subtle pointer-driven background depth is optional. The plan demonstrates only the hover/focus treatment; the full interaction is still to build.</p></div></div>
+          <p class="rule">Keep ordinary navigation visible. Handle reduced motion automatically. Do not dedicate a header strip to global motion/audio settings; playback controls belong inside the actual player.</p>
+        </section>
+
+        <section id="imagery" aria-labelledby="imagery-title">
+          <h2 id="imagery-title"><span class="section-number">04b / Images &amp; artwork</span>The visual material beyond borders.</h2>
+          <p>A small collection of meaningful images and original artwork gives the page its identity. Each has a place in the composition.</p>
+          <div class="image-studies">
+            <figure class="image-study"><img src="assets/plan/portrait-original.png" alt="Existing portrait of Lucas among plants"><figcaption><strong>Portrait.</strong> Existing image, unmodified; keep it as a reference or choose a newer photo. A green/cream dithered treatment is an option for the final asset.</figcaption></figure>
+            <figure class="image-study"><div class="photo-selection"><strong>Current photos</strong>A campus detail<br>A workspace or object<br>A trip or everyday scene</div><figcaption><strong>Two or three selected photos.</strong> Real images from college/current life, shown as prints, a filmstrip, or circular previews. These images have not been selected yet.</figcaption></figure>
+            <figure class="image-study"><svg viewBox="0 0 240 210" aria-label="Original decorative mechanical line-art study"><g stroke="#234637" stroke-width="1.5" fill="none"><path d="M24 170h190M40 170V70l55-25 65 35 35-15v105M95 45v125M160 80v90M40 70l120 10M95 45l100 20"/><circle cx="160" cy="80" r="28"/><circle cx="160" cy="80" r="12"/><path d="M160 42v-12M160 118v12M122 80h-12M198 80h12M133 53l-9-9M187 107l9 9M133 107l-9 9M187 53l9-9"/></g></svg><figcaption><strong>Original illustration.</strong> A mechanism, object, or place you identify with can become a background drawing or corner image. This is decorative line art, not a working design.</figcaption></figure>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th scope="col">Visual element</th><th scope="col">Placement</th><th scope="col">Treatment</th></tr></thead><tbody>
+            <tr><td>Portrait</td><td>Upper left.</td><td>Offset print, simple caption, optional dithered version with original available.</td></tr>
+            <tr><td>Personal photo strip</td><td>Lower edge or About page.</td><td>Real images, slightly uneven placement, larger view and readable captions.</td></tr>
+            <tr><td>ASCII environment</td><td>Upper-right/background region.</td><td>A bounded interactive character grid; one coherent scene.</td></tr>
+            <tr><td>Music sleeve / playlist artwork</td><td>Lower right.</td><td>Original cover graphic or permitted playlist art; opens the actual player or playlist.</td></tr>
+            <tr><td>Folder and notebook</td><td>Lower left and center.</td><td>Paper edges, restrained tilt, a small tab/tape detail, and clear names.</td></tr>
+            <tr><td>Pixel details</td><td>Corners, dividers, footer.</td><td>Original 16–32px icons and an 88×31 site button; one unobtrusive easter egg.</td></tr>
+            <tr><td>Future project previews</td><td>Inside Projects when current work exists.</td><td>Clear images, shaped crops, or short muted previews. No high-school images or invented project cards.</td></tr>
+          </tbody></table></div>
+          <p><strong>Main art choices still open:</strong> the ASCII subject, the current photos, and the object/place for an original illustration. We can keep the green/brown palette and fonts while changing these subjects.</p>
         </section>
 
         <section id="mobile" aria-labelledby="mobile-title">
-          <h2 id="mobile-title"><span class="section-number">05 / Mobile composition</span>One column, with a deliberate reading order.</h2>
-          <p>At approximately <strong>760px and below</strong>, the final site becomes a single column with 12–16px outside space. Navigation wraps instead of disappearing into a menu. Fonts keep their readable sizes; the decorative frame becomes thinner.</p>
-          <div class="mobile-layout"><figure><div class="phone-diagram" aria-label="Proposed mobile content order"><div class="phone-name">Lucas Flowers</div><div>Home / Projects / Notes / About<small>Motion and audio controls on a second row</small></div><div><strong>Introduction</strong><small>Current study, short bio, resume/GitHub/email. Portrait sits beside text or above it if needed.</small></div><div><strong>ASCII display</strong><small>Compact still/interactive scene; Pause and Reset underneath.</small></div><div><strong>Projects</strong><small>One honest empty state, or current project entries.</small></div><div><strong>Recent notes</strong><small>Latest entries and All notes.</small></div><div><strong>Music</strong><small>Open player; controls sized for touch.</small></div><div><strong>Visits and links</strong><small>Shared count, selected sites, and buttons.</small></div><div class="phone-utilities">Previous / Webring / Next<br>RSS / Contact / Credits</div></div><figcaption>Mobile hierarchy. The diagram is intentionally compact; final touch controls will be at least 44px high.</figcaption></figure><div>
-            <h3>What changes</h3><ul><li>The utility column is redistributed into the main reading order.</li><li>The name uses 33px Departure Mono. Body text remains 14–15px.</li><li>The ASCII grid gets fewer columns. It never forces horizontal page scrolling.</li><li>Project previews use the full content width; dates and status wrap naturally.</li><li>88×31 images retain their original size, with larger linked hit areas.</li><li>Webamp gets a compact fallback if the full player cannot fit.</li></ul>
-            <h3>What stays consistent</h3><p>The same green-led palette with brown accents, title bars, typefaces, link style, and content. No miniature desktop that requires pinching to operate.</p>
-          </div></div>
+          <h2 id="mobile-title"><span class="section-number">05 / Mobile composition</span>Keep the imagery; simplify exploration.</h2>
+          <p>Reflow the collage rather than shrinking an entire desktop. Portrait and name appear together, then ASCII, Projects, Notes, music, and the footer. Retain distinct paper/photo shapes and some overlap; keep reading surfaces aligned.</p>
+          <div class="mobile-layout"><figure><div class="phone-diagram" aria-label="Proposed mobile content order"><div class="phone-name">Lucas Flowers</div><div>Home / Projects / Notes / About<small>Plain navigation, always visible</small></div><div><strong>Portrait and introduction</strong><small>Current study, short bio, contact links.</small></div><div><strong>ASCII scene</strong><small>Compact, tap-responsive artwork.</small></div><div><strong>Project folder</strong><small>Empty state or current work.</small></div><div><strong>Notebook</strong><small>Open an aligned reading page.</small></div><div><strong>Playlist and photos</strong><small>Image-led entrances, with clear labels.</small></div><div class="phone-utilities">Visits / selected links<br>Previous / Webring / Next</div></div><figcaption>No hover-only information, required dragging, or unlabeled hotspots.</figcaption></figure><div><h3>Interaction changes</h3><ul><li>Tapping selects or opens an object; a normal text route is also available.</li><li>Photo captions and project names remain visible.</li><li>Long notes use normal reading pages instead of tiny floating windows.</li><li>ASCII responds to taps without blocking scrolling.</li><li>If chosen, SoundCloud opens in a full-width player area.</li><li>Reduced motion is automatic; music starts only when requested.</li></ul><p>The collage in this plan already reflows on narrow screens. It is a composition study, not the finished mobile site.</p></div></div>
         </section>
 
         <section id="pages" aria-labelledby="pages-title">
           <h2 id="pages-title"><span class="section-number">06 / Page layouts</span>The design beyond the homepage.</h2>
-          <p>Every page keeps the same outer frame, navigation, palette, and footer. Long reading lives in a 680–720px column. Side utilities are secondary and can be omitted on article pages.</p>
+          <p>Opened notes and project articles use the same frame, palette, type, and normal navigation. Long reading lives in a 680–720px column. Objects can open a focused reading window on desktop, with normal page URLs for direct visits and mobile.</p>
           <div class="page-studies">
             <div class="mini-page"><header>Home / Projects / Notes / About</header><div class="mini-title">Projects</div><div class="mini-field">Short introduction to current work</div><div class="mini-image">Project preview / future entry</div><div class="mini-field">Title / status / one-sentence purpose</div><div class="mini-field">No entries yet: one empty-state message</div></div>
             <div class="mini-page"><header>Home / Projects / Notes / About</header><div class="mini-title">Notes</div><div class="mini-field">Date / optional title</div><div class="mini-field">Short entry with readable text and links</div><div class="mini-field">Date / next entry</div><div class="mini-field">Pagination only when there is enough content</div><div class="mini-field">RSS / permanent entry links</div></div>
@@ -369,10 +439,10 @@
         <section id="features" aria-labelledby="features-title">
           <h2 id="features-title"><span class="section-number">07 / Behavior</span>What the elements do, and how they look in each state.</h2>
           <article class="feature"><h3>Dithered images</h3><div><p><strong>Appearance:</strong> green/cream two- or four-color portrait and small previews; solid 1px frame. <strong>Behavior:</strong> a labeled Original image link can open the clear source image. Detailed schematics stay undithered.</p><p>Use one palette and crop convention across assets. The checker patterns in this plan demonstrate texture only, not a finished portrait.</p></div></article>
-          <article class="feature"><h3>Interactive ASCII</h3><div><p><strong>Appearance:</strong> dark green characters on a pale inset field, with two controls directly below. Proposed subject: a wireframe object or mechanism. The final subject is still open.</p><p><strong>Behavior:</strong> pointer movement changes orientation; touch or arrow controls step the view. Pause stops motion; Reset restores the original view. Reduced motion starts still. A brief initial text reveal can be tried after the composition is approved.</p></div></article>
-          <article class="feature"><h3>Visit counter</h3><div><p><strong>Appearance:</strong> six odometer-style digit cells in the lower utility panel, labeled Visits. Use a text label and number that remain readable without decorative styling.</p><p><strong>Behavior:</strong> a server stores accepted homepage-load increments and returns the total. It is not labeled unique people. Offline displays Unavailable or a clearly marked last-known value, never a fabricated zero. Preview/local sessions do not write to the production counter.</p></div></article>
-          <article class="feature"><h3>Music / Webamp</h3><div><p><strong>Appearance:</strong> a compact green-framed music panel with track state and an Open player control. The expanded player will use one selected green/brown-compatible skin; the exact permitted skin will be shown for review before integration.</p><p><strong>Behavior:</strong> Webamp loads when requested and audio starts only after Play. The homepage player sits below the ASCII panel, never on top of the introduction by default. On small screens it becomes an in-flow panel or native audio fallback. Full-page navigation may stop playback unless we choose a persistent shell before implementation.</p></div></article>
-          <article class="feature"><h3>Notes</h3><div><p><strong>Appearance:</strong> newest-first entries separated by fine dotted rules, dates in Departure Mono, body in Verdana. Three recent entries on the homepage and a full chronological archive.</p><p><strong>Behavior:</strong> one Markdown entry generates its permanent page, archive entry, homepage preview, and feed entry. Editing and publishing remain separate actions. Nothing in the layout depends on having many posts.</p></div></article>
+          <article class="feature"><h3>Interactive ASCII</h3><div><p><strong>Appearance:</strong> a larger character field integrated into the background. It can depict an ecosystem, abstract flow, or mechanical arrangement. The subject remains open.</p><p><strong>Behavior:</strong> pointer movement or a tap changes the scene, with a keyboard equivalent. Reduced motion starts still automatically. Ongoing animation gets a local pause action without a global toolbar. The plan shows a static character study only.</p></div></article>
+          <article class="feature"><h3>Visit counter</h3><div><p><strong>Appearance:</strong> a small odometer-style number near the lower edge, labeled Visits. Use a text label and number that remain readable without decorative styling.</p><p><strong>Behavior:</strong> a server stores accepted homepage-load increments and returns the total. It is not labeled unique people. Offline displays Unavailable or a clearly marked last-known value, never a fabricated zero. Preview/local sessions do not write to the production counter.</p></div></article>
+          <article class="feature" id="music-plan"><h3>SoundCloud playlist</h3><div><p><strong>Entrance:</strong> the record-sleeve image opens a playlist surface. Use SoundCloud's official playlist embed in a green/brown frame and retain an Open on SoundCloud link. A playlist URL is still needed before connecting a real player.</p><p><strong>Ads:</strong> SoundCloud says embedded tracks can include audio ads when their owner has enabled monetization. Its documented widget parameters do not offer an ad-disable switch. Hiding comments or recommendations does not remove audio ads, so this site cannot promise ad-free SoundCloud playback for every visitor.</p><div class="music-options"><strong>Two useful choices</strong><p><strong>SoundCloud playlist:</strong> use the official embed and accept platform/track-controlled ad behavior, or keep a plain outbound playlist link and no embedded player on the homepage.</p><p><strong>Ad-free on-site audio:</strong> use owned or permitted files in a native player or Webamp, with a separate SoundCloud link. A different skin alone does not make SoundCloud playback ad-free.</p></div><p>Playback controls stay in the actual player, with no global settings bar. No autoplay. The exact player surface follows the choice of music source.</p><p class="source">Checked October 18, 2026: <a href="https://help.soundcloud.com/hc/en-us/articles/115003447287-Ads-on-SoundCloud" target="_blank" rel="noopener">SoundCloud's embedded-ad explanation</a>, <a href="https://developers.soundcloud.com/docs/api/html5-widget" target="_blank" rel="noopener">Widget API and parameters</a>, <a href="https://help.soundcloud.com/hc/en-us/articles/115003449627-The-HTML5-embedded-player" target="_blank" rel="noopener">playlist-player options</a>.</p></div></article>
+          <article class="feature"><h3>Notes</h3><div><p><strong>Appearance:</strong> a paper-note entrance on the homepage. The opened notebook has newest-first entries, dates in Departure Mono, body in Verdana, and a chronological archive.</p><p><strong>Behavior:</strong> one Markdown entry generates its permanent page, archive entry, homepage preview, and feed entry. Editing and publishing remain separate actions. Nothing in the layout depends on having many posts.</p></div></article>
           <article class="feature"><h3>Easter egg</h3><div><p><strong>Appearance:</strong> one secondary graphic or link detail with an unobtrusive clue. Proposed result: a short alternate ASCII scene or hidden page using the same palette.</p><p><strong>Behavior:</strong> optional, reversible, and available by keyboard/touch. Keep the exact reveal for a later design pass. No forced sound, page takeover, or requirement to solve it to access the site.</p></div></article>
           <article class="feature"><h3>Webring and links</h3><div><p><strong>Appearance:</strong> a quiet full-width footer, with Previous / Purdue Hackers webring / Next as visible text links. A separate row holds selected 88×31 buttons with attribution.</p><p><strong>Behavior:</strong> normal anchors that work without the interactive layer. Test recognition and follow enrollment instructions only after the eventual site is live.</p></div></article>
           <div class="table-wrap"><table><caption>State appearance</caption><thead><tr><th scope="col">State</th><th scope="col">Visual treatment</th><th scope="col">Text and recovery</th></tr></thead><tbody><tr><td>Loading</td><td>Keep the existing panel size; short status text.</td><td>Loading…; no fake count or track state.</td></tr><tr><td>Unavailable</td><td>Muted clay status label; content remains readable.</td><td>Explain the missing function and allow a retry where appropriate.</td></tr><tr><td>Paused / muted</td><td>Selected control clearly differs from an inactive control.</td><td>Explicit Play, Pause, Resume, or Audio off labels.</td></tr><tr><td>Empty projects</td><td>One outlined reading panel.</td><td>New work will be added here. No invented cards or dead links.</td></tr><tr><td>Keyboard focus</td><td>2–3px dark brown outline, offset from the element.</td><td>Same action and information as pointer use.</td></tr></tbody></table></div>
@@ -382,23 +452,23 @@
         <section id="content" aria-labelledby="content-title">
           <h2 id="content-title"><span class="section-number">08 / Content direction</span>Start with where you are now.</h2>
           <p>The new site centers your college life, current interests, new projects, and ongoing writing. We will not populate the project section with high-school work to fill space.</p>
-          <div class="columns"><div><h3>At launch</h3><ul><li>A short current introduction and Purdue context.</li><li>Resume, GitHub, and email links you want public.</li><li>A new portrait or another image you choose.</li><li>A clear Projects empty state unless current work is ready.</li><li>A few real notes when you have something to post.</li><li>Music and selected links based on your current taste.</li></ul></div><div><h3>As the site grows</h3><ul><li>College projects, independent builds, or current experiments you choose to publish.</li><li>Dated process notes and photographs.</li><li>Personal writing beyond engineering.</li><li>Additional collections only when you want to maintain them.</li></ul><p class="small">The older archive remains in the repository and existing site history. It is not part of this new site's proposed navigation or default content.</p></div></div>
-          <p><strong>Needed later:</strong> your current bio, preferred photo, up-to-date resume, music selection, and any current project you actually want featured. We can approve the visual plan before all that content is ready.</p>
+          <div class="columns"><div><h3>At launch</h3><ul><li>A short current introduction and Purdue context.</li><li>Resume, GitHub, and email links you want public.</li><li>A new portrait or another image you choose.</li><li>A clear Projects empty state unless current work is ready.</li><li>A few real notes when you have something to post.</li><li>A music source, selected photos, and links based on your current taste.</li></ul></div><div><h3>As the site grows</h3><ul><li>College projects, independent builds, or current experiments you choose to publish.</li><li>Dated process notes and photographs.</li><li>Personal writing beyond engineering.</li><li>Additional collections only when you want to maintain them.</li></ul><p class="small">The older archive remains in the repository and existing site history. It is not part of this new site's proposed navigation or default content.</p></div></div>
+          <p><strong>Needed later:</strong> your current bio, selected photos, up-to-date resume, SoundCloud playlist URL or permitted audio selection, and any current project you actually want featured. We can approve the visual plan before all that content is ready.</p>
         </section>
 
         <section id="build-order" aria-labelledby="build-order-title">
           <h2 id="build-order-title"><span class="section-number">09 / Implementation sequence</span>Design decisions first, then the full site.</h2>
-          <ol class="steps"><li><strong>Refine this visual plan.</strong><p>Settle palette, font pairing, component treatment, desktop/mobile arrangement, and ASCII subject. No full-site implementation until you approve the plan.</p></li><li><strong>Implement and review the homepage composition.</strong><p>Use actual spacing, typography, responsive rules, image treatment, and college-era copy. Review the page at desktop and phone widths before building out the remaining destinations.</p></li><li><strong>Build the content templates.</strong><p>Projects, project details, notes, note details, About, and the feed. Use Markdown for authored entries. An empty section remains a designed state.</p></li><li><strong>Add interactive elements and services.</strong><p>ASCII input/pause/reset, the easter egg, Webamp, and a real visit counter. Use a small server endpoint with atomic increments, bounded requests, rate limits, and clear failure states.</p></li><li><strong>Verify and release to the agreed destination.</strong><p>Check actual fonts, links, keyboard/touch behavior, reduced motion, media, content updates, counter concurrency, and production asset paths. Settle the hosting URL and test ring controls before joining. The current site stays unchanged until the release is agreed.</p></li></ol>
-          <details><summary>Proposed implementation underneath the visuals</summary><p>Static HTML/CSS/JavaScript with a small Markdown build step. Webamp is the specialist player dependency. Notes and projects stay in source files; browser preferences store theme/motion/volume only. A small Worker/D1 service is one option for the counter; server credentials never enter the browser.</p><p>Keep the research and plan during implementation. No archive import or full desktop window manager is assumed. Main-section links can use hashes; long entries get their own URLs. Choose whether music must persist across full-page navigation before finalizing routing.</p></details>
+          <ol class="steps"><li><strong>Refine this visual plan.</strong><p>Settle palette, font pairing, component treatment, layered composition, image selection, and ASCII subject. No full-site implementation until you approve the plan.</p></li><li><strong>Implement and review the homepage composition.</strong><p>Use actual spacing, typography, responsive rules, image treatment, and college-era copy. Review the page at desktop and phone widths before building out the remaining destinations.</p></li><li><strong>Build the content templates.</strong><p>Projects, project details, notes, note details, About, and the feed. Use Markdown for authored entries. An empty section remains a designed state.</p></li><li><strong>Add interactive elements and services.</strong><p>ASCII interaction, content-window behavior, the easter egg, the chosen music source, and a real visit counter. Use a small server endpoint with atomic increments, bounded requests, rate limits, and clear failure states.</p></li><li><strong>Verify and release to the agreed destination.</strong><p>Check actual fonts, links, keyboard/touch behavior, reduced motion, media, content updates, counter concurrency, and production asset paths. Settle the hosting URL and test ring controls before joining. The current site stays unchanged until the release is agreed.</p></li></ol>
+          <details><summary>Proposed implementation underneath the visuals</summary><p>Static HTML/CSS/JavaScript with a small Markdown build step. SoundCloud uses its official widget if selected; Webamp remains an option for direct permitted audio files. Notes and projects stay in source files; browser preferences store theme/motion/volume only. A small Worker/D1 service is one option for the counter; server credentials never enter the browser.</p><p>Keep the research and plan during implementation. No archive import or full desktop window manager is assumed. Content objects can open a focused reading window with a shareable location and normal back behavior. Long entries also get normal pages. Choose music continuity before finalizing routing.</p></details>
         </section>
 
         <section id="review" class="review" aria-labelledby="review-title">
           <h2 id="review-title"><span class="section-number">10 / Next review</span>What to judge in this revision.</h2>
           <p>The concrete decisions are now visible above. You can refer to any section or sample when giving feedback.</p>
-          <ol><li><strong>Fonts:</strong> the actual Departure Mono and Verdana specimens, especially the name, window bars, and reading text.</li><li><strong>Colors and materials:</strong> green as the main color, brown in the surround and trim, pale reading surfaces, and texture density.</li><li><strong>Composition:</strong> introduction/projects/notes at left; ASCII/music/visits at right; links and webring across the bottom.</li><li><strong>Visual density:</strong> whether you want more imagery, a denser early-web layout, or a simpler arrangement.</li><li><strong>ASCII and player:</strong> the geometric display as the starting subject, and the compact panel leading to Webamp.</li></ol>
+          <ol><li><strong>Fonts:</strong> the actual Departure Mono and Verdana specimens, especially the name, window bars, and reading text.</li><li><strong>Colors and materials:</strong> green as the main color, brown in the surround and trim, pale reading surfaces, and texture density.</li><li><strong>Composition:</strong> overlapping portrait, open name, larger ASCII scene, folder, notebook, music sleeve, and photo/drawing detail.</li><li><strong>Visual density:</strong> whether you want more imagery, a denser early-web layout, or a simpler arrangement.</li><li><strong>Images and sound:</strong> the ASCII subject and photo/illustration subjects, plus whether SoundCloud playback or ad-free on-site audio is the priority.</li></ol>
           <p>We will keep revising <code>build.html</code>. Once you approve the plan, it becomes the brief for the full implementation.</p>
         </section>
-        <footer><p>Draft 3 / Review document only / <a href="README.md">Research library</a> / <a href="library/purdue-webring.md">Purdue references</a> / <a href="assets/plan/README.md">Font source and license notes</a></p><p>The layout samples are visual specifications. No live counter, music service, project archive, or full site has been implemented here.</p></footer>
+        <footer><p>Draft 4 / Review document only / <a href="README.md">Research library</a> / <a href="library/purdue-webring.md">Purdue references</a> / <a href="assets/plan/README.md">Font source and license notes</a></p><p>The layout samples are visual specifications. No live counter, music service, project archive, or full site has been implemented here.</p></footer>
       </main>
     </div>
   </div>
