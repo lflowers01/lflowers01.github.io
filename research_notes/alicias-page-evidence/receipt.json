@@ -1,0 +1,376 @@
+{
+  "target": "https://www.alicias.page/",
+  "date": "2026-10-19",
+  "purpose": "Future inspiration only; no portfolio implementation",
+  "records": [
+    {
+      "evidence_id": "ev_3cd83c6a1e1ae6ce55792a08b505cafbb39c1d02bf91d0d5a31323d690e27489",
+      "authority": "controlled-replay",
+      "confidence": "observed",
+      "parameters": {
+        "actions": [
+          {
+            "action": "wait_for_timeout",
+            "duration_ms": 1800,
+            "step_id": "settle"
+          }
+        ],
+        "browser": {
+          "executable_path": "C:/Users/fartpad/Documents/GitHub/lflowers01.github.io/.local/chrome-for-testing/chrome-win64/chrome.exe",
+          "headless": true,
+          "mode": "launch"
+        },
+        "capture": {
+          "after_each_step": [],
+          "at_end": [
+            "dom",
+            "accessibility",
+            "screenshot"
+          ],
+          "events": [
+            "page-errors",
+            "network"
+          ],
+          "network": {
+            "header_values": false,
+            "request_body": false,
+            "response_body": true
+          }
+        },
+        "environment": {
+          "color_scheme": "light",
+          "locale": "en-US",
+          "reduced_motion": "reduce",
+          "service_workers": "block",
+          "timezone": "UTC",
+          "viewport": {
+            "device_scale_factor": 1,
+            "height": 1000,
+            "width": 1440
+          }
+        },
+        "scenario_sha256": "0e7f8f1fc41bcba6f943374bece1a7a18908d2212fe1463fa9a525f5e50cd331",
+        "secrets": [],
+        "start_url": {
+          "query": [],
+          "url": "https://www.alicias.page/"
+        },
+        "storage": {
+          "cookies": [],
+          "local_storage": [],
+          "session_storage": []
+        }
+      },
+      "browser": {
+        "cleanup": "terminated-owned-process",
+        "mode": "launch",
+        "process_ownership": "provider-owned",
+        "product": "Chromium",
+        "version": "155.0.8059.84"
+      },
+      "steps": [
+        {
+          "step_id": "scenario_start",
+          "action": "goto_start",
+          "status": "completed",
+          "error": null,
+          "completeness": {
+            "equality_eligible": true,
+            "missing_sections": [],
+            "status": "complete",
+            "truncated_sections": []
+          }
+        },
+        {
+          "step_id": "settle",
+          "action": "wait_for_timeout",
+          "status": "completed",
+          "error": null,
+          "completeness": {
+            "equality_eligible": true,
+            "missing_sections": [],
+            "status": "complete",
+            "truncated_sections": []
+          }
+        }
+      ],
+      "completeness": {
+        "equality_eligible": false,
+        "missing_sections": [
+          "events"
+        ],
+        "status": "incomplete",
+        "truncated_sections": []
+      },
+      "limitations": [
+        "Artifact identity is unavailable for this observation.",
+        "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+        "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+        "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+        "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+        "Captured response-body bytes are the result of Playwright's Response.body() API. Playwright may satisfy that API with a credentialed follow-up load of the request URL when CDP has no body, so transaction and event links do not verify that retained bytes came from the original network transaction.",
+        "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+        "Storage values are hashed only after declared-secret redaction.",
+        "Some selected network content was unavailable; per-transaction content states retain the reason.",
+        "Browser host platform and architecture were not observed."
+      ]
+    },
+    {
+      "evidence_id": "ev_d08b887b7d06ec7b03dfa47cb496d3f6e6e24ccf078d520461a67afb766d56c7",
+      "authority": "controlled-replay",
+      "confidence": "observed",
+      "parameters": {
+        "actions": [
+          {
+            "action": "wait_for_timeout",
+            "duration_ms": 3200,
+            "step_id": "settle"
+          },
+          {
+            "action": "click",
+            "button": "left",
+            "click_count": 1,
+            "locator": {
+              "kind": "css",
+              "selector": "button[aria-label=\"Toggle menu\"]"
+            },
+            "step_id": "open-menu"
+          },
+          {
+            "action": "wait_for_timeout",
+            "duration_ms": 600,
+            "step_id": "menu-settle"
+          }
+        ],
+        "browser": {
+          "executable_path": "C:/Users/fartpad/Documents/GitHub/lflowers01.github.io/.local/chrome-for-testing/chrome-win64/chrome.exe",
+          "headless": true,
+          "mode": "launch"
+        },
+        "capture": {
+          "after_each_step": [],
+          "at_end": [
+            "dom",
+            "screenshot"
+          ],
+          "events": [
+            "page-errors"
+          ],
+          "network": {
+            "header_values": false,
+            "request_body": false,
+            "response_body": false
+          }
+        },
+        "environment": {
+          "color_scheme": "light",
+          "locale": "en-US",
+          "reduced_motion": "no-preference",
+          "service_workers": "block",
+          "timezone": "UTC",
+          "viewport": {
+            "device_scale_factor": 1,
+            "height": 844,
+            "width": 390
+          }
+        },
+        "scenario_sha256": "0e16344be7cc5b12d15ed6370e065e3ace87a6e2cbd529696b81e21120043fa9",
+        "secrets": [],
+        "start_url": {
+          "query": [],
+          "url": "https://www.alicias.page/"
+        },
+        "storage": {
+          "cookies": [],
+          "local_storage": [],
+          "session_storage": []
+        }
+      },
+      "browser": {
+        "cleanup": "terminated-owned-process",
+        "mode": "launch",
+        "process_ownership": "provider-owned",
+        "product": "Chromium",
+        "version": "155.0.8059.84"
+      },
+      "steps": [
+        {
+          "step_id": "scenario_start",
+          "action": "goto_start",
+          "status": "completed",
+          "error": null,
+          "completeness": {
+            "equality_eligible": true,
+            "missing_sections": [],
+            "status": "complete",
+            "truncated_sections": []
+          }
+        },
+        {
+          "step_id": "settle",
+          "action": "wait_for_timeout",
+          "status": "completed",
+          "error": null,
+          "completeness": {
+            "equality_eligible": true,
+            "missing_sections": [],
+            "status": "complete",
+            "truncated_sections": []
+          }
+        },
+        {
+          "step_id": "open-menu",
+          "action": "click",
+          "status": "completed",
+          "error": null,
+          "completeness": {
+            "equality_eligible": true,
+            "missing_sections": [],
+            "status": "complete",
+            "truncated_sections": []
+          }
+        },
+        {
+          "step_id": "menu-settle",
+          "action": "wait_for_timeout",
+          "status": "completed",
+          "error": null,
+          "completeness": {
+            "equality_eligible": true,
+            "missing_sections": [],
+            "status": "complete",
+            "truncated_sections": []
+          }
+        }
+      ],
+      "completeness": {
+        "equality_eligible": true,
+        "missing_sections": [],
+        "status": "complete",
+        "truncated_sections": []
+      },
+      "limitations": [
+        "Artifact identity is unavailable for this observation.",
+        "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+        "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+        "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+        "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+        "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+        "Storage values are hashed only after declared-secret redaction.",
+        "Browser host platform and architecture were not observed."
+      ]
+    }
+  ],
+  "supplemental_playwright": {
+    "home": {
+      "fonts": [
+        {
+          "tag": "H1",
+          "font": "Departure",
+          "size": "16px"
+        },
+        {
+          "tag": "PRE",
+          "font": "Departure",
+          "size": "15px"
+        },
+        {
+          "tag": "P",
+          "font": "\"Uncut Sans\"",
+          "size": "15px"
+        },
+        {
+          "tag": "P",
+          "font": "\"Uncut Sans\"",
+          "size": "15px"
+        },
+        {
+          "tag": "P",
+          "font": "\"Uncut Sans\"",
+          "size": "15px"
+        }
+      ],
+      "grid": "52.6562px 52.6562px 52.6562px 52.6562px 52.6562px 52.6562px 52.6562px 52.6562px 52.6562px 52.6562px 52.6562px 52.6562px",
+      "colors": {
+        "bg": "oklch(0.145 0 0)",
+        "accent": "#a5ff3f"
+      }
+    },
+    "preview": {
+      "opacity": "1",
+      "transform": "translate(732px, 399px)",
+      "width": "250px",
+      "height": "250px"
+    },
+    "theme_after_toggle": "scroll-smooth theme-applied has-square-cursor",
+    "mobile": {
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    "route_counts": {
+      "projects": {
+        "images": 0,
+        "stickers": 0
+      },
+      "art": {
+        "images": 24,
+        "stickers": 0
+      },
+      "now": {
+        "images": 3,
+        "stickers": 0
+      },
+      "about": {
+        "images": 14,
+        "stickers": 9
+      }
+    },
+    "limits": "ASCII hovered and frame changed; preview hovered and theme clicked. Routes visited. No sticker drag, sound playback or physical touch test."
+  },
+  "delivered_sources": [
+    {
+      "url": "https://www.alicias.page/_astro/index.CnZ4vyJB.css",
+      "sha256": "f2b5fc0205908d1c4f7af2f7d30b05085d962a86588ae1deedc499556945b3b4",
+      "bytes": 62090,
+      "origin": "REA captured response body"
+    },
+    {
+      "url": "https://www.alicias.page/_astro/Scripts.astro_astro_type_script_index_0_lang.oYeLb6_p.js",
+      "sha256": "1339b5d6e18246fc5132d5b5a36b1aa0cff9067114b666ee4b4755dd26f861ba",
+      "bytes": 92908,
+      "origin": "supplemental public HTTP fetch"
+    },
+    {
+      "url": "https://www.alicias.page/_astro/threeBgReact.BOiSA4mQ.js",
+      "sha256": "8f2a2cef186d5627a08f4075056cc9b1a65ab44044d1ce388f14c6618f31072f",
+      "bytes": 477229,
+      "origin": "supplemental public HTTP fetch"
+    },
+    {
+      "url": "https://www.alicias.page/_astro/sfx.Bkckc9uH.js",
+      "sha256": "9b7af186bfa0411164b3e5491a0d90da81e2b02d3a46b371bf2b145271c0dbe1",
+      "bytes": 2404,
+      "origin": "supplemental public HTTP fetch"
+    },
+    {
+      "url": "https://www.alicias.page/_astro/index.astro_astro_type_script_index_0_lang.Cw537mK5.js",
+      "sha256": "cc5b148bbba527ae554799e043a410a989ca9e634b84e0b2fc76582097730ffc",
+      "bytes": 9947,
+      "origin": "supplemental public HTTP fetch"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "home.png",
+      "sha256": "bfa8266180d03199ac75741510ad27f95b1b9747fd72862b68ac70ccc3f4f016"
+    },
+    {
+      "file": "project-hover.png",
+      "sha256": "f79d607a7dec4f4ebd6d8c58ff9153ace117752395cc076bf1e42ead86291db4"
+    },
+    {
+      "file": "about.png",
+      "sha256": "7d7b5a4a8775484c0a83d5e5eedc08b3fd8fb56ee08365da8460cd05452e2b13"
+    }
+  ]
+}

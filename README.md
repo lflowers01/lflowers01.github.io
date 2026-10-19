@@ -133,7 +133,7 @@ The [member-site study](library/purdue-webring.md) checks every destination in t
 |---|---|
 | Anish's ASCII river with browser-local totals | [ASCII ecosystem](library/purdue-webring.md#an-ascii-river-that-keeps-a-local-history) |
 | Charlie's Clouds appearance switch | [Whole-atmosphere skins](library/purdue-webring.md#change-the-whole-atmosphere-with-clouds) |
-| Alicia's resolving text/computer artwork | [Finite character decode](library/purdue-webring.md#let-text-decode-into-a-name-or-ascii-mascot) |
+| Alicia's resolving text/computer artwork | [Finite character decode](library/purdue-webring.md#let-text-decode-into-a-name-or-ascii-mascot), [2026-10-19 detailed study: smoke grain, previews, ASCII frames and stickers](research_notes/alicias-page-study.md) |
 | dbmaindex's font choice; Artus/Jadden themes | [Readable bitmap alternative](library/purdue-webring.md#offer-readable-type-without-abandoning-bitmap-headings), [status-board/theme ideas](library/purdue-webring.md#a-homepage-can-be-a-personal-status-board) |
 | Arhan's executed local page-erasure joke | [Recoverable theatrical egg](library/purdue-webring.md#rb01--a-terminal-prompt-that-performs-a-theatrical-local-easter-egg) |
 | Trev3D's circular project previews | [Dithered project portholes](library/purdue-webring.md#rb02--project-portholes-with-hover-revealed-labels-and-duotone-treatment) |
