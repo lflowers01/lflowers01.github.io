@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A draft build plan for Lucas Flowers's new personal website. Review the direction, layout, features, and implementation before building.">
+  <title>Lucas Flowers — Website build plan</title>
+  <style>
+    :root {
+      --spruce: #234637;
+      --paper: #f2ecd9;
+      --ink: #202722;
+      --moss: #91a584;
+      --signal: #f3bd65;
+      --lilac: #b9afd7;
+      --line: #a5ab98;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 24px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background-color: var(--lilac);
+      background-image: repeating-linear-gradient(0deg, transparent 0 23px, #23463712 23px 24px), repeating-linear-gradient(90deg, transparent 0 23px, #23463712 23px 24px);
+      font: 16px/1.65 "Trebuchet MS", Arial, sans-serif;
+    }
+    a { color: var(--spruce); text-underline-offset: 3px; }
+    a:hover { text-decoration-thickness: 2px; }
+    :focus-visible { outline: 3px solid #805520; outline-offset: 4px; }
+    h1, h2, h3, p, ul, ol, figure { margin-top: 0; }
+    h1, h2, h3 { line-height: 1.13; }
+    h1 { font-size: clamp(2.2rem, 5vw, 4.3rem); letter-spacing: -.045em; margin-bottom: 24px; max-width: 13ch; }
+    h2 { font-size: clamp(1.65rem, 3vw, 2.25rem); letter-spacing: -.035em; margin-bottom: 22px; }
+    h3 { font-size: 1.12rem; margin-bottom: 10px; }
+    p { max-width: 70ch; margin-bottom: 16px; }
+    li + li { margin-top: 8px; }
+    code, pre { font-family: "Courier New", monospace; }
+    code { font-size: .88em; overflow-wrap: anywhere; }
+    .skip { position: absolute; left: 16px; top: -80px; background: var(--paper); padding: 10px; z-index: 5; }
+    .skip:focus { top: 12px; }
+    .sheet { width: min(1190px, calc(100% - 40px)); margin: 36px auto; border: 2px solid var(--ink); background: var(--paper); box-shadow: 9px 9px 0 var(--spruce); }
+    .titlebar { background: var(--spruce); color: var(--paper); padding: 9px 17px; display: flex; gap: 16px; justify-content: space-between; font-size: .82rem; }
+    .titlebar span:first-child { font-weight: bold; }
+    .frame { display: grid; grid-template-columns: 175px minmax(0, 1fr); }
+    .sidebar { border-right: 1px solid var(--line); padding: 28px 18px; background: #e4e4d0; }
+    .sidebar nav { position: sticky; top: 24px; }
+    .sidebar a { display: block; padding: 6px 0; font-size: .86rem; }
+    .sidebar .index-title { font-weight: bold; margin-bottom: 13px; font-size: .9rem; }
+    .sidebar .side-note { margin: 26px 0 0; font-size: .78rem; color: #485346; }
+    main { min-width: 0; }
+    .hero { padding: 46px 46px 32px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 26px; font-size: .8rem; }
+    .meta strong { background: var(--signal); padding: 2px 8px; border: 1px solid var(--ink); }
+    .lead { font-size: 1.15rem; max-width: 55ch; }
+    .contract { padding: 14px 18px; border-left: 4px solid var(--spruce); background: #e3e5d3; font-size: .91rem; margin-top: 24px; }
+    section { border-top: 1px solid var(--line); padding: 35px 46px; }
+    .section-id { display: block; font-size: .76rem; font-weight: normal; letter-spacing: 0; margin-bottom: 9px; color: #52624e; }
+    .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+    .note { font-size: .86rem; color: #4b5849; }
+    .tag { font-size: .74rem; padding: 2px 7px; background: #dde1cc; border: 1px solid #8e9b84; display: inline-block; margin-bottom: 10px; }
+    .proposed { background: #f5dfb6; border-color: #bb9557; }
+    .swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; margin: 23px 0; }
+    .swatch { min-width: 0; font-size: .72rem; }
+    .swatch i { display: block; height: 48px; border: 1px solid #6f7969; margin-bottom: 6px; background: var(--color); }
+    .swatch code { display: block; font-size: .7rem; }
+    .alternatives { margin-top: 22px; }
+    details { border-top: 1px solid var(--line); padding: 14px 0; }
+    summary { cursor: pointer; font-weight: bold; }
+    details > :not(summary) { margin-top: 16px; }
+    details p:last-child { margin-bottom: 0; }
+    .screen { border: 2px solid var(--ink); background: #91a584; padding: 13px; margin: 25px 0 12px; }
+    .screen-bar { background: var(--spruce); color: var(--paper); font-size: .8rem; padding: 6px 10px; margin: -13px -13px 13px; }
+    .preview-nav { font-size: .75rem; padding: 7px 9px; background: var(--paper); border: 1px solid var(--ink); margin-bottom: 13px; }
+    .desktop { display: grid; grid-template-columns: 1.25fr 1fr; gap: 12px; }
+    .window { background: var(--paper); border: 1px solid var(--ink); box-shadow: inset 2px 2px #fff9e9, inset -2px -2px #a1a88e; }
+    .window-label { background: #d2d8bd; border-bottom: 1px solid #87967e; padding: 4px 9px; font-size: .75rem; font-weight: bold; }
+    .window-body { padding: 13px; font-size: .83rem; }
+    .window-body p { margin-bottom: 8px; }
+    .window-body p:last-child { margin-bottom: 0; }
+    .welcome { display: grid; grid-template-columns: 64px 1fr; gap: 12px; }
+    .portrait { height: 82px; border: 1px solid var(--ink); background: repeating-conic-gradient(var(--spruce) 0 25%, var(--moss) 0 50%) 0/6px 6px; display: flex; align-items: end; }
+    .portrait span { background: var(--paper); padding: 1px 3px; font-size: .65rem; }
+    .robot { margin: 0 0 8px; font-size: 13px; line-height: 1.16; text-align: center; color: var(--spruce); }
+    .diagram-control { display: inline-block; border: 1px solid #87967e; background: #e0dfca; padding: 2px 7px; font-size: .72rem; }
+    .preview-footer { margin-top: 13px; border: 1px solid var(--ink); padding: 7px 9px; font-size: .7rem; background: #d2d8bd; }
+    figcaption { color: #4b5849; font-size: .81rem; margin: 10px 0 0; }
+    .layout-map { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 22px; margin-top: 24px; font-size: .88rem; }
+    .layout-map p { margin-bottom: 10px; }
+    .feature { display: grid; grid-template-columns: 155px minmax(0, 1fr); gap: 24px; padding: 22px 0; border-top: 1px dotted #8e9b84; }
+    .feature:first-of-type { border-top: 0; padding-top: 4px; }
+    .feature p:last-child { margin-bottom: 0; }
+    .feature h3 { font-size: 1rem; }
+    .reference { font-size: .8rem; }
+    .content-list { padding-left: 20px; font-size: .92rem; }
+    .route-list { list-style: none; padding: 0; }
+    .route-list li { border-bottom: 1px dotted var(--line); padding: 8px 0; }
+    .route-list code { display: block; font-weight: bold; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; margin: 20px 0; }
+    th, td { text-align: left; vertical-align: top; border: 1px solid var(--line); padding: 11px; }
+    th { background: #dde1cc; }
+    .steps { list-style: none; padding: 0; counter-reset: build; }
+    .steps li { counter-increment: build; display: grid; grid-template-columns: 34px 1fr; gap: 13px; padding: 14px 0; border-bottom: 1px dotted var(--line); margin-top: 0; }
+    .steps li::before { content: counter(build); background: var(--spruce); color: var(--paper); width: 30px; height: 30px; text-align: center; line-height: 30px; font-weight: bold; }
+    .steps p { margin: 5px 0 0; font-size: .89rem; }
+    .decisions { background: #e4e4d0; }
+    .decisions ol { padding-left: 22px; }
+    .decisions li { padding-left: 5px; margin-bottom: 18px; }
+    .decisions li p { font-size: .9rem; margin: 6px 0 0; }
+    footer { border-top: 1px solid var(--line); padding: 20px 46px; font-size: .8rem; }
+    @media (max-width: 850px) {
+      .sheet { width: calc(100% - 24px); margin: 18px auto; box-shadow: 5px 5px 0 var(--spruce); }
+      .frame { grid-template-columns: 1fr; }
+      .sidebar { border-right: 0; border-bottom: 1px solid var(--line); padding: 13px 22px; }
+      .sidebar nav { position: static; display: flex; flex-wrap: wrap; gap: 2px 17px; }
+      .sidebar a { padding: 4px 0; }
+      .sidebar .index-title, .sidebar .side-note { display: none; }
+      .hero, section { padding: 29px 26px; }
+      footer { padding: 20px 26px; }
+    }
+    @media (max-width: 540px) {
+      body { font-size: 15px; }
+      .titlebar { flex-wrap: wrap; gap: 2px 16px; font-size: .75rem; }
+      .hero, section { padding: 26px 19px; }
+      .two-column, .desktop, .layout-map { grid-template-columns: 1fr; }
+      .feature { grid-template-columns: 1fr; gap: 3px; }
+      .feature h3 { margin-bottom: 5px; }
+      .swatches { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .screen { padding: 9px; }
+      .screen-bar { margin: -9px -9px 10px; }
+      .preview-nav { line-height: 1.8; }
+      footer { padding: 20px 19px; }
+    }
+    @media print {
+      body { background: white; font-size: 11pt; }
+      .sheet { width: 100%; margin: 0; border: 0; box-shadow: none; }
+      .frame { display: block; }
+      .sidebar { display: none; }
+      .hero, section, footer { padding: 18px 0; }
+      h2, h3 { break-after: avoid; }
+      .feature, .window, .steps li { break-inside: avoid; }
+      .titlebar { color: black; background: white; border-bottom: 1px solid; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#plan">Skip to the plan</a>
+  <div class="sheet">
+    <header class="titlebar"><span>lucasflowers.net / next chapter</span><span>build.html · draft 1 · October 18, 2026</span></header>
+    <div class="frame">
+      <aside class="sidebar">
+        <nav aria-label="Build plan sections">
+          <p class="index-title">Inside this plan</p>
+          <a href="#direction">1. The feeling</a>
+          <a href="#layout">2. The homepage</a>
+          <a href="#features">3. The features</a>
+          <a href="#content">4. Your content</a>
+          <a href="#structure">5. How it works</a>
+          <a href="#build-order">6. Build order</a>
+          <a href="#review">7. Your feedback</a>
+          <p class="side-note">A place to settle the idea before writing the full site.</p>
+        </nav>
+      </aside>
+      <main id="plan">
+        <div class="hero">
+          <div class="meta"><strong>For review</strong><span>Proposed direction, not an approved specification</span></div>
+          <h1>Your own little corner of the internet.</h1>
+          <p class="lead">A personal Web 1.0 home for Lucas Flowers: things you build, things in your head, a little music, and a robot happy to have visitors.</p>
+          <p>This draft picks a concrete direction so you have something to react to. It connects your earlier terminal, forest themes, desktop windows, games, and Webamp experiments with the new ideas from our research.</p>
+          <div class="contract"><strong>The next step is your feedback.</strong> We will revise this file until you like the plan. The full website comes after you say the plan is ready; this page does not start a build or publish anything.</div>
+        </div>
+
+        <section id="direction" aria-labelledby="direction-title">
+          <h2 id="direction-title"><span class="section-id">Section 1</span>A forest desktop, with a life of its own.</h2>
+          <span class="tag proposed">Recommended starting direction</span>
+          <p>Picture a handmade personal computer sitting somewhere between a forest cabin and an electronics bench. Spruce title bars, warm reading surfaces, low-color photographs, small pixel objects, and a moving ASCII robot. A little clutter around a clear, readable center.</p>
+          <p>The personality comes from your photos, projects, notes, favorite links, and odd discoveries. Robotics is one part of the home; there is room for music, trips, games, and whatever else you want to share.</p>
+          <div class="swatches" aria-label="Proposed six-color palette">
+            <div class="swatch"><i style="--color:#234637"></i>Spruce<code>#234637</code></div>
+            <div class="swatch"><i style="--color:#f2ecd9"></i>Paper<code>#f2ecd9</code></div>
+            <div class="swatch"><i style="--color:#202722"></i>Ink<code>#202722</code></div>
+            <div class="swatch"><i style="--color:#91a584"></i>Moss<code>#91a584</code></div>
+            <div class="swatch"><i style="--color:#f3bd65"></i>Signal<code>#f3bd65</code></div>
+            <div class="swatch"><i style="--color:#b9afd7"></i>Lilac<code>#b9afd7</code></div>
+          </div>
+          <div class="two-column">
+            <div><h3>Type and materials</h3><p>Pixel lettering for short window titles and signs; comfortable sans-serif text for reading. Recover your older pixel fonts if their permissions fit. Dither photos with one shared palette. Use a small tile, beveled borders, underlined links, and original robot stamps.</p></div>
+            <div><h3>Density and movement</h3><p>More inhabited than the current landing page, with a few distinct panels visible together. One main animated artwork. Other motion answers a click or a tap. A Quiet mode stops decorative motion; sound always starts by choice.</p></div>
+          </div>
+          <details class="alternatives"><summary>If the forest desktop is the wrong feeling</summary><p><strong>Radio outpost:</strong> darker blue/purple, signal imagery, a listening station, a transmission portrait, and a station log. <strong>Pixel scrapbook:</strong> more illustration, stickers, photo scraps, shrines, and little collections. The content and core features below still work with either direction.</p><p class="note">This plan's colors are a proposal. Its layout diagram shows hierarchy, not the finished artwork or final styling.</p></details>
+          <p class="reference">Grounding: <a href="library/site-history.md">your themes and earlier desktop</a>, <a href="library/design-languages.md#5-ornate-pixel-dollhouse">cinni's personal home</a>, <a href="library/design-languages.md#9-dithered-cyber-transmission">dithered visual systems</a>.</p>
+        </section>
+
+        <section id="layout" aria-labelledby="layout-title">
+          <h2 id="layout-title"><span class="section-id">Section 2</span>What someone finds when they arrive.</h2>
+          <p>The first screen introduces you and gives visitors obvious places to go. Window-like panels sit in a normal page layout. On desktop they make a small dashboard; on a phone they stack in a useful reading order.</p>
+          <figure>
+            <div class="screen" aria-label="Proposed homepage layout diagram. Decorative labels are not working website controls.">
+              <div class="screen-bar">Lucas's corner / proposed homepage</div>
+              <div class="preview-nav">Home &nbsp; Projects &nbsp; Notebook &nbsp; Radio &nbsp; Neighbors &nbsp; About</div>
+              <div class="desktop">
+                <div class="window"><div class="window-label">hello.txt</div><div class="window-body welcome"><div class="portrait"><span>portrait</span></div><div><strong>Lucas Flowers</strong><p>A short introduction in your own voice.</p><p>Resume · GitHub · Contact</p></div></div></div>
+                <div class="window"><div class="window-label">a small resident</div><div class="window-body"><pre class="robot" aria-label="Illustrative ASCII robot">   .----.
+   |o  o|
+   | -- |
+ .-'----'-.
+ |  [] [] |
+ '--------'</pre><span class="diagram-control">Boop the robot</span> <small>shared total</small></div></div>
+                <div class="window"><div class="window-label">projects/</div><div class="window-body"><p>Featured build · a real experiment</p><p>Open the archive</p><p>Space for the next thing</p></div></div>
+                <div class="window"><div class="window-label">notebook / latest thoughts</div><div class="window-body"><p>Dated short entries, links, and things on your mind.</p><p>Read the notebook</p></div></div>
+                <div class="window"><div class="window-label">radio</div><div class="window-body"><p>Open the player · current selection</p><span class="diagram-control">Music starts on request</span></div></div>
+                <div class="window"><div class="window-label">neighbors &amp; small things</div><div class="window-body"><p>Friends' buttons · favorite places</p><p>A little clue worth following</p></div></div>
+              </div>
+              <div class="preview-footer">Previous / Purdue Hackers webring / Next &nbsp; · &nbsp; Feed &nbsp; · &nbsp; Last updated</div>
+            </div>
+            <figcaption>Layout diagram only. The checkered block stands for your future dithered portrait. Labels inside the diagram are intentionally noninteractive.</figcaption>
+          </figure>
+          <div class="layout-map">
+            <p><strong>First:</strong> your introduction and robot, followed by projects and notes.</p>
+            <p><strong>Then:</strong> radio, neighbors, small collections, and the visible ring station.</p>
+            <p><strong>Navigation:</strong> ordinary links and shareable locations. No mandatory boot screen or double-click.</p>
+            <p><strong>Windows:</strong> fixed in the page by default. Dragging is an open choice, not a prerequisite for the aesthetic.</p>
+          </div>
+        </section>
+
+        <section id="features" aria-labelledby="features-title">
+          <h2 id="features-title"><span class="section-id">Section 3</span>The things we will build.</h2>
+          <p>These are the proposed features for the full first version. The build phases sequence them; they do not quietly drop the music or shared-data ideas.</p>
+          <article class="feature"><div><span class="tag">Visual identity</span><h3>Dithering</h3></div><div><p>A dithered portrait and selected project thumbnails, prepared from your original images with one two- or four-color palette. Detail pages keep full-color images when engineering details matter. An optional before/after control can reveal the original portrait.</p><p class="reference">Learn from <a href="library/interactive-elements.md#e01--dithered-portraits-and-project-photographs">the image pipeline</a> and <a href="library/site-history.md#existing-assets-and-destinations-worth-revisiting">your existing processed assets</a>.</p></div></article>
+          <article class="feature"><div><span class="tag">Signature interaction</span><h3>A living ASCII robot</h3></div><div><p>A small original robot whose eyes follow a pointer and whose expression changes on tap, keyboard activation, or a boop. A brief finite text reveal can introduce it. Visible Pause and Quiet controls keep the page comfortable; reduced motion starts with a still pose.</p><p>Start with a character grid and a few expressions. A river-sized ecosystem is an alternative if you prefer that to a mascot.</p><p class="reference">Learn from <a href="library/purdue-webring.md#an-ascii-river-that-keeps-a-local-history">Anish's grid</a>, <a href="library/purdue-webring.md#let-text-decode-into-a-name-or-ascii-mascot">Alicia's reveal</a>, and <a href="library/interactive-elements.md#e03--a-living-ascii-nameplate-or-signal-field">ASCII rendering notes</a>.</p></div></article>
+          <article class="feature"><div><span class="tag">Portfolio</span><h3>Project folders</h3></div><div><p>A few real projects on the homepage, an archive of older work, and one honest space for future experiments. Each entry gets a title, date/status, short purpose, preview, and working detail link. Project pages show the build, photographs, lessons, and next step.</p><p>Choose which archived work belongs in the new introduction. Old “Present” labels will be checked with you before publication.</p><p class="reference"><a href="library/site-history.md#content-you-already-have-for-a-future-project-shelf">Ten real candidates already in your archive</a>.</p></div></article>
+          <article class="feature"><div><span class="tag">Living content</span><h3>A public notebook</h3></div><div><p>Short dated thoughts, observations, links, and rough ideas. Show the latest three on the homepage; give the full notebook permanent entries and a feed. A title is optional. You post by editing a small Markdown file locally or through GitHub's editor, previewing, and publishing.</p><p>No writing dashboard in the first version. If that workflow feels too slow, we can change it after trying a real post.</p><p class="reference"><a href="library/community-and-content.md#c01--brain-buffer-or-micro-notebook">Brain-buffer recipe</a>; <a href="library/community-and-content.md#c15--rss-or-atom-from-the-same-notes">feed from the same content</a>.</p></div></article>
+          <article class="feature"><div><span class="tag">Shared data</span><h3>Boop the robot</h3></div><div><p>One visible button changes the robot's expression and increments a real shared total. The label says “boops,” so it counts accepted actions honestly. Everyone reads the same database total; browser storage only remembers preferences.</p><p>Show waiting, confirmed, rate-limited, and offline states. The button stays useful as a local expression change when the service is unavailable, with no claim that a shared boop was saved. A classic pageview odometer is an alternative if you prefer it.</p><p class="reference"><a href="library/community-and-content.md#c12--shared-robot-boops-watering-can-or-community-pet">Shared-counter design</a>.</p></div></article>
+          <article class="feature"><div><span class="tag">Music</span><h3>A listening window</h3></div><div><p>Recommended: Webamp, opened on request, with a permitted skin and a short playlist you choose. Show track credits and a way to pause, seek, and change volume. It stays mounted while visitors move between the main homepage sections.</p><p>Phones get a player that fits, with native audio as a fallback. Full-page navigation to an archive or project article can stop playback; uninterrupted music across every route is a separate choice to settle before building. No music autoplays.</p><p class="reference"><a href="library/community-and-content.md#c16--webamp-window-and-a-tiny-skin-shelf">Webamp implementation notes</a>; <a href="library/site-history.md#3-april-2025--the-portfolio-becomes-a-personal-desktop">your earlier player experiment</a>.</p></div></article>
+          <article class="feature"><div><span class="tag">Discovery</span><h3>One hidden drawer</h3></div><div><p>A loose screw, tiny icon, or odd notebook link opens a secret page: an original robot blooper, a small repair toy, or a dated old game. Finding it awards a little stamp on this browser. A visible hint and keyboard/touch route make discovery possible without hover.</p><p>The exact hiding place and reward are open. The egg never hides the projects, contact links, or webring navigation.</p><p class="reference"><a href="library/purdue-webring.md#rb01--a-terminal-prompt-that-performs-a-theatrical-local-easter-egg">Arhan's theatrical local effect</a>; <a href="library/interactive-elements.md#e15--secret-doors-discovery-stamps-and-small-puzzles">discovery stamps</a>.</p></div></article>
+          <article class="feature"><div><span class="tag">Web neighborhood</span><h3>Buttons, links, and a ring station</h3></div><div><p>An original 88×31 site button, a small credited shelf of friends and favorite places, a real last-updated note, RSS, and visible Previous / Purdue Hackers webring / Next links. A small changelog makes the page feel cared for.</p><p>Prepare the ring links during the build. Test them after the chosen URL is live, then follow the ring's joining process. Guestbooks and shoutboxes remain optional additions because they bring moderation work.</p><p class="reference"><a href="library/community-and-content.md#c06--friends-shelf-8831-button-and-link-back-code">Button shelf</a>; <a href="library/community-and-content.md#c08--ring-station-web-clique-and-next-door-navigation">ring integration</a>.</p></div></article>
+          <details><summary>Optional accents to choose after the main direction feels right</summary><p>A second night skin, a readable-font toggle, a tiny cursor-spark effect, an illustrated room entrance, a photo drawer, or a topic shrine. We can add these deliberately after the core composition is settled. Full OS simulation, multiple always-running effects, a custom audio engine, and public chat are outside this first proposal.</p></details>
+        </section>
+
+        <section id="content" aria-labelledby="content-title">
+          <h2 id="content-title"><span class="section-id">Section 4</span>Use the things that are already yours.</h2>
+          <div class="two-column">
+            <div><h3>Material to carry forward</h3><ul class="content-list"><li>Your portrait, current introduction, resume, and contact routes.</li><li>The warm green palette and the earlier forest/desktop vocabulary.</li><li>Build photos, drawings, travel/hiking photos, and personal writing you still want public.</li><li>The older games and school site as a dated “old disks” shelf, if you want them included.</li></ul></div>
+            <div><h3>Possible featured work</h3><ul class="content-list"><li>Team Epsilon and your robot-control work.</li><li>The Bluey Jamboard.</li><li>The balloon-camera system or vision-saw research.</li><li>A software toy such as the projectile simulator or Minecraft Server Wizard.</li></ul><p class="note">These are candidates from archived descriptions, not a decision about what is current or what you want to lead with.</p></div>
+          </div>
+          <p><strong>Before the content pass:</strong> choose two or three featured projects, refresh their status, pick a few images, write a short current introduction, and choose music we can use. The remaining archive can stay separate.</p>
+          <p>Some older project links refer to files missing from the current main tree. Recover those assets from specific historical commits, give them deliberate destinations, and test the links. Preserve old work as old work.</p>
+        </section>
+
+        <section id="structure" aria-labelledby="structure-title">
+          <h2 id="structure-title"><span class="section-id">Section 5</span>A small site underneath the personality.</h2>
+          <p>Proposed implementation: a static HTML/CSS/JavaScript site with a small build step for Markdown content. Main sections share one page and hash links; longer notes, project stories, and the archive can have separate pages. Webamp is the main specialist dependency.</p>
+          <div class="two-column">
+            <div><h3>Proposed destinations</h3><ul class="route-list"><li><code>/</code>Introduction, ASCII resident, project shelf, recent notes, radio, neighbors.</li><li><code>/#projects · /#notebook · /#radio</code>Main-section navigation without replacing the player.</li><li><code>/projects/&lt;project&gt;/</code>Real project stories and build logs.</li><li><code>/notes/ · /notes/&lt;entry&gt;/</code>Notebook archive and permanent entries.</li><li><code>/archive/ · /feed.xml</code>Older work and subscription feed.</li></ul></div>
+            <div><h3>Content and assets</h3><p>Keep notes and project descriptions in Markdown with a small amount of metadata. Generate the index, latest entries, and feed from that same source. Keep original images separate from thumbnails and dithered exports.</p><p>Recover useful historical assets by commit without replacing this branch's research. Keep the research library and this plan available during development. No need for a database to store your writing.</p></div>
+          </div>
+          <details><summary>Technical plan for the shared counter</summary><p>Recommended backend: a Cloudflare Worker and one D1 counter row. A read endpoint returns the aggregate; a write endpoint accepts exactly one boop for the fixed counter. Use an atomic increment, server-side rate limits, bounded requests, and a private reset route. Keep credentials out of the browser.</p><p>The UI updates its number only after server confirmation. It handles uncertain writes without blind retries and shows an explicit offline state. Local cooldowns are convenience controls, not identity or abuse protection. Provisioning the actual service happens during the approved implementation, not through this plan.</p></details>
+          <details><summary>Phone, keyboard, motion, and loading behavior</summary><p>Stack the windows on small screens; keep titles and controls readable. Use real links and buttons, visible focus, a logical reading order, and a keyboard equivalent for meaningful pointer actions. The ASCII grid gets fewer cells instead of unreadably small text. Optional decoration is hidden from screen readers; the robot's meaningful state also appears as text.</p><p>Quiet mode pauses artwork and decorative movement. Reduced-motion visitors start still. Load the music library only on request, stop background animation when hidden, and use static posters for previews. Core introduction, projects, and notes remain readable without the interactive layer. Test the actual selected behaviors rather than promising that every reference site already does this.</p></details>
+          <details><summary>Publishing and the existing site</summary><p>Keep the current live site and <code>main</code> unchanged during design and development. Build and review on this branch. Before release, settle whether the new version replaces the main site, lives under a path, or has a different hostname. That choice affects asset paths and ring registration.</p><p>A branch alone is not a second hosted site. Release means building the output, checking actual links and metadata at the chosen URL, configuring the shared service, and then following the ring's enrollment steps. Nothing in this draft changes publishing settings.</p></details>
+        </section>
+
+        <section id="build-order" aria-labelledby="build-order-title">
+          <h2 id="build-order-title"><span class="section-id">Section 6</span>How we get from this plan to the full thing.</h2>
+          <ol class="steps">
+            <li><div><strong>Revise and settle this plan.</strong><p>Choose the mood, density, signature artwork, and feature behavior. Keep editing this document until you say the direction is ready. This is where we are now.</p></div></li>
+            <li><div><strong>Build the visual shell and one real screen.</strong><p>Implement the palette, tile, frames, type, mobile layout, portrait treatment, and actual introduction. Review the composition before filling every panel.</p></div></li>
+            <li><div><strong>Bring in the content and publishing workflow.</strong><p>Add selected project stories, the older archive, notebook entries, navigation, contact/resume links, feed, neighbors, and metadata. Verify a new Markdown note can be published without editing layout code.</p></div></li>
+            <li><div><strong>Make the resident and discoveries work.</strong><p>Build the ASCII interaction, pause/quiet states, keyboard/touch controls, and hidden drawer. Keep the artwork bounded and the recovery route obvious.</p></div></li>
+            <li><div><strong>Connect music and the shared number.</strong><p>Integrate Webamp and permitted tracks, then the real boop service. Test pending/error/offline states, simultaneous increments, and rate limiting. A staged or fake value is never presented as a live shared total.</p></div></li>
+            <li><div><strong>Review the complete site, then release.</strong><p>Check phones, desktop, keyboard, reduced motion, asset permissions, missing media, performance, actual URLs, feed, and counter behavior. Publish to the agreed destination and test the webring links there before requesting membership.</p></div></li>
+          </ol>
+          <details><summary>What “finished” will mean</summary><div class="table-wrap"><table><caption>Acceptance checks for the eventual implementation</caption><thead><tr><th scope="col">Area</th><th scope="col">Evidence we will look for</th></tr></thead><tbody><tr><td>Personal content</td><td>Current intro and working contact/resume links; real project entries; honest older-work labels.</td></tr><tr><td>Notebook</td><td>One new Markdown entry appears on the home, archive, permanent page, and feed.</td></tr><tr><td>ASCII and discovery</td><td>Pointer, touch, and keyboard actions work; pause and still modes work; essential links stay reachable.</td></tr><tr><td>Shared state</td><td>Two separate browser sessions see the same confirmed count; simultaneous writes do not lose increments; failures and throttling are visible.</td></tr><tr><td>Music</td><td>Nothing plays before a visitor requests it; controls, broken media, and the phone fallback work; track/skin credits are recorded.</td></tr><tr><td>Release</td><td>Chosen URL, asset paths, project links, feed, and live ring controls work; existing site changes only through the agreed release.</td></tr></tbody></table></div></details>
+        </section>
+
+        <section id="review" class="decisions" aria-labelledby="review-title">
+          <h2 id="review-title"><span class="section-id">Section 7</span>What to react to first.</h2>
+          <p>You can respond with section numbers, rough reactions, examples, or a list of things to keep/change. No need to answer every detail at once.</p>
+          <ol>
+            <li><strong>The world:</strong> does the forest desktop feel like you?<p>Keep it, move toward a radio outpost or scrapbook, or describe a different mix. Tell me whether you want denser and weirder, calmer, darker, brighter, or less robotics-focused.</p></li>
+            <li><strong>The central toy:</strong> a robot, an ASCII ecosystem, or something else?<p>The robot and boop total connect naturally, but the art should be something you enjoy seeing and sharing.</p></li>
+            <li><strong>The layout:</strong> arranged windows or a more spatial room?<p>Default is readable panels that stack on phones. Say if draggable windows, an illustrated scene, or a more cluttered personal-homepage composition are important to you.</p></li>
+            <li><strong>The everyday experience:</strong> what should feel different?<p>For example: Winamp versus a custom cassette, boops versus visitor count, more writing versus more toys, or music continuing through every page. Also flag any feature you would remove.</p></li>
+          </ol>
+          <p><strong>Then:</strong> I update this plan, you review it again, and we repeat. When you say you like the plan and want the full site built, this becomes the build brief.</p>
+        </section>
+        <footer><p>Draft 1 · Made for review · <a href="README.md">Research library index</a> · <a href="library/site-history.md">Your site's history</a> · <a href="library/purdue-webring.md">Purdue webring discoveries</a></p><p>This document is the plan. The layout diagram, copy, palette, project selection, and proposed technical choices are all open to revision.</p></footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
