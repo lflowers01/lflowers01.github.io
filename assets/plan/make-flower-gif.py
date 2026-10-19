@@ -28,8 +28,12 @@ for index in range(22):
         frame.paste(flower, (19 - (width + 1) // 2, 28 - height))
     frames.append(frame)
 frames[-1] = source.copy()
+# Ease into growth and settle at the bloom without resampling any artwork.
+weights = [1 + 1.4 * (2 * index / 20 - 1) ** 2 for index in range(21)]
+durations = [round(840 * weight / sum(weights) / 10) * 10 for weight in weights]
+durations[-1] += 840 - sum(durations)
 frames[0].save(root / "flower-grow.gif", save_all=True, append_images=frames[1:],
-               duration=[40] * 21 + [1070], disposal=2, optimize=False)
+               duration=durations + [1070], disposal=2, optimize=False)
 
 with Image.open(root / "flower-grow.gif") as result:
     assert result.n_frames > 10 and "loop" not in result.info

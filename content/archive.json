@@ -1,0 +1,148 @@
+[
+  {
+    "id": "team-epsilon",
+    "title": "Team Epsilon",
+    "period": "Founded May 2025 · FIRST Robotics Competition",
+    "summary": "Co-founding a student-led robotics team and developing its robot software.",
+    "paragraphs": [
+      "I co-founded Team Epsilon, FRC Team 11100, in North Phoenix. Alongside robot programming, my work included the business plan, fundraising, team operations, website, branding, and coordinating technical work across the team.",
+      "The off-season robot's auto-alignment system used two cameras on a dedicated coprocessor to detect fiducial markers and estimate the robot's pose. I used simulation to develop the vision pipeline and control logic before the assembled robot was available, then calibrated and tuned the system on the robot.",
+      "The archived portfolio records an off-season practice robot, three Arizona Robotics League events, selection for the championship, and a Breakthrough Award. It describes preparations for the first full competition season; this page preserves that stage of the project."
+    ],
+    "links": [
+      {
+        "label": "Team website",
+        "url": "https://www.teamepsilon.org/"
+      }
+    ]
+  },
+  {
+    "id": "bluey-jamboard",
+    "title": "The Bluey Jamboard",
+    "period": "October 2025 · Makers of Change",
+    "summary": "A Raspberry Pi game board designed for accessible multiplayer play.",
+    "paragraphs": [
+      "Our Makers of Change team built a tabletop game board for a child with motor-control challenges. I programmed the Raspberry Pi games, wired large GPIO button inputs, managed power and startup, and configured the display within the custom enclosure.",
+      "The design changed from a full table to a tabletop device to fit the available time. An early balloon-popping game gave way to a multiplayer basketball game, with large controls and clear feedback for playing together. The archived portfolio records the team as a state finalist, among the top nine of more than 95 teams."
+    ],
+    "links": []
+  },
+  {
+    "id": "weather-balloon-camera",
+    "title": "High-Altitude Weather Balloon Camera System",
+    "period": "Started October 2025 · Engineering III–IV / E-Tech Club",
+    "summary": "A Raspberry Pi camera payload developed around power, weight, and recording reliability.",
+    "paragraphs": [
+      "I developed a camera-system prototype for a school weather-balloon payload. The design targeted long recording sessions within a four-pound payload limit, using incremental image capture rather than high-frame-rate video to reduce power and storage demands.",
+      "The working prototype recorded images from a USB camera and exposed a Flask interface for local monitoring, testing, configuration, and retrieving data. The archived report identified autonomous startup, extended runtime testing, and final camera selection as next steps. It does not document a completed flight."
+    ],
+    "links": []
+  },
+  {
+    "id": "vision-saw-research",
+    "title": "Smart Vision Saw Safety System",
+    "period": "2025 · Engineering research for AZSEF / ISEF",
+    "summary": "Exploring computer vision, configurable detection zones, and relay control for workshop tools.",
+    "paragraphs": [
+      "This research explored a low-cost camera system that could identify a hand entering a configured area near a tool and trigger a power-cutoff signal. The proposed interface let the operator define the blade region so the system could adapt to different tool geometries.",
+      "The archived plan combined embedded vision, a touchscreen configuration interface, and relay control. It proposed measuring detection accuracy, false-positive rates, and end-to-end latency with timestamped logs and video, using a low-torque mock blade for testing. The saved work was still in development; it does not establish a validated injury-prevention system."
+    ],
+    "links": []
+  },
+  {
+    "id": "projectile-simulator",
+    "title": "Physics Projectile Motion Simulator",
+    "period": "May 2025 · Physics final project",
+    "summary": "An interactive browser simulation of launch conditions, trajectories, and velocity vectors.",
+    "paragraphs": [
+      "I built this simulation to connect projectile-motion equations to visible behavior. Users could adjust launch conditions and aim interactively, then follow the projectile's trajectory and its horizontal and vertical velocity components.",
+      "Each projectile kept its own position, velocity, and path history. The implementation used time-based updates to keep motion consistent across frame rates, with controls for parameters such as force, height, and mass. The project focused on making the physics easier to inspect while it was happening."
+    ],
+    "links": [
+      {
+        "label": "Source on GitHub",
+        "url": "https://github.com/lflowers01/projectile-sim"
+      }
+    ]
+  },
+  {
+    "id": "minecraft-server-wizard",
+    "title": "Minecraft Server Wizard",
+    "period": "December 2023 · CS50 final project",
+    "summary": "A Python command-line tool for setting up and maintaining Minecraft servers on Windows.",
+    "paragraphs": [
+      "I designed and implemented a guided workflow for server installation, Java setup, configuration, plugin management, updates, and backups. The goal was to reduce the number of manual setup steps while keeping server settings accessible.",
+      "The tool retrieved server builds from external services, tracked plugin versions, and created timestamped backups. I added help commands and error messages, then packaged it as a standalone Windows executable with PyInstaller and documented the workflow for the CS50 submission."
+    ],
+    "links": [
+      {
+        "label": "Source on GitHub",
+        "url": "https://github.com/lflowers01/mc-server-wizard"
+      }
+    ]
+  },
+  {
+    "id": "phoenix-robotics-2023",
+    "title": "Phoenix Robotics — 2023 Season Code",
+    "period": "2023 · FIRST Robotics Competition",
+    "summary": "Competition robot software from my time as lead programmer for Team 6833.",
+    "paragraphs": [
+      "Before Team Epsilon, I served as lead programmer for Phoenix Robotics, FRC Team 6833. This repository preserves the competition robot software from the 2023 season. The previous portfolio records a regional win that season."
+    ],
+    "links": [
+      {
+        "label": "Season code on GitHub",
+        "url": "https://github.com/PhoenixRobotics-6833/phoenix-robotics-2023"
+      }
+    ]
+  },
+  {
+    "id": "squirrel-simulator",
+    "title": "Squirrel Simulator 3.000",
+    "period": "In repository by May 2023 · School project",
+    "summary": "A Scratch browser game packaged with TurboWarp.",
+    "paragraphs": [
+      "This small class-project game was one of the earliest things on my website. It was created in Scratch and packaged for the browser with TurboWarp. The repository's first commit in May 2023 already contains the game; the old archive did not give a separate project date."
+    ],
+    "links": [
+      {
+        "label": "Play the game (33 MB)",
+        "url": "/assets/archive/squirrel-simulator.html"
+      },
+      {
+        "label": "Archived game source",
+        "url": "https://github.com/lflowers01/lflowers01.github.io/blob/887beba77ab987f7e0eaf4d6435be39e07067d00/projects/game.html"
+      }
+    ]
+  },
+  {
+    "id": "password-tool",
+    "title": "Password Tool",
+    "period": "In repository by August 2023 · JavaScript learning project",
+    "summary": "A password generator and strength checker made while learning JavaScript.",
+    "paragraphs": [
+      "I built this tool while teaching myself JavaScript, combining password generation with strength feedback. It is retained here as an early programming exercise. The old project card did not list a date; the files are present in the August 2023 site snapshot."
+    ],
+    "links": [
+      {
+        "label": "Archived tool source",
+        "url": "https://github.com/lflowers01/lflowers01.github.io/tree/887beba77ab987f7e0eaf4d6435be39e07067d00/projects/password"
+      }
+    ]
+  },
+  {
+    "id": "school-website",
+    "title": "A Website For School",
+    "period": "In repository by August 2023 · Class assignment",
+    "summary": "A multi-page site bringing together work from several school subjects.",
+    "paragraphs": [
+      "This class assignment used separate pages for math, English, science, art, and Spanish. The original site combined coursework with the informal writing and jokes of that period. It remains available in the historical source rather than being presented as current portfolio work."
+    ],
+    "links": [
+      {
+        "label": "Archived website source",
+        "url": "https://github.com/lflowers01/lflowers01.github.io/tree/887beba77ab987f7e0eaf4d6435be39e07067d00/projects/schoolsite"
+      }
+    ]
+  }
+]

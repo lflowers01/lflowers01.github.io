@@ -1,0 +1,39 @@
+{
+  "browser": "155.0.8059.84",
+  "observations": [
+    {
+      "id": 315867410,
+      "duration": 133846,
+      "full_duration": 133851,
+      "widget_duration": 133851,
+      "permalink_url": "https://soundcloud.com/deanblunt/2-1",
+      "waveform_samples": 1800
+    },
+    {
+      "id": 315867715,
+      "duration": 109921,
+      "full_duration": 109949,
+      "widget_duration": 109949,
+      "permalink_url": "https://soundcloud.com/deanblunt/11-1",
+      "waveform_samples": 1800
+    },
+    {
+      "id": 1635207324,
+      "duration": 121463,
+      "full_duration": 121443,
+      "widget_duration": 121443,
+      "permalink_url": "https://soundcloud.com/stalkings/snakeman-freestyle",
+      "waveform_samples": 1800
+    },
+    {
+      "id": 2027701168,
+      "duration": 30000,
+      "full_duration": 207000,
+      "widget_duration": 207000,
+      "permalink_url": "https://soundcloud.com/deanblunt-music/7a1",
+      "waveform_samples": 1800
+    }
+  ],
+  "custom_link_import": "passed",
+  "audible_playback_claim": false
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" fill="none" stroke="#a5b49b" stroke-width=".8">
+  <path d="M20 20v160h200M20 180 180 20M20 180 112.4 20"/>
+  <path d="M20 100a80 80 0 0 1 80 80M20 40a140 140 0 0 1 140 140" stroke-dasharray="3 5"/>
+  <g fill="#a5b49b" stroke="none" font-family="monospace" font-size="9"><text x="181" y="18">45°</text><text x="108" y="15">60°</text><text x="204" y="174">0°</text></g>
+</svg>

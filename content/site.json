@@ -1,0 +1,359 @@
+{
+  "name": "Lucas Flowers",
+  "url": "https://lucasflowers.net",
+  "updated": "2026-10-18",
+  "email": "lucas@lucasflowers.net",
+  "soundcloud": "https://soundcloud.com/discover/sets/artist-stations:249606516",
+  "musicTitle": "Dean Blunt station",
+  "counterEndpoint": "/api/visits",
+  "notes": [
+    {
+      "id": "a-place-to-leave-things",
+      "title": "Website redesign",
+      "date": "2026-10-18",
+      "excerpt": "Rebuilding my portfolio around current work at Purdue.",
+      "x": 0.08,
+      "y": 0.08,
+      "color": 0
+    },
+    {
+      "id": "pixels-without-moving-the-grid",
+      "title": "Rendering on a fixed grid",
+      "date": "2026-10-18",
+      "excerpt": "How the ASCII torus, pointer lens, and water ripple share one grid.",
+      "x": 0.85,
+      "y": 0.16,
+      "color": 1
+    },
+    {
+      "id": "black-and-green",
+      "title": "Color and typography",
+      "date": "2026-10-18",
+      "excerpt": "An OLED palette, a forest theme, and a mix of smooth and pixel type.",
+      "x": 0.42,
+      "y": 0.83,
+      "color": 2
+    }
+  ],
+  "projects": [
+    {
+      "id": "academic-dashboard",
+      "title": "Academic Dashboard",
+      "date": "2026-10-09",
+      "status": "Released v1.6.4",
+      "summary": "A private, local dashboard for Purdue Brightspace: one calendar, one to-do list, and a daily Windows notification.",
+      "role": "Design and development",
+      "repo": "https://github.com/lflowers01/academic-dashboard",
+      "image": "/assets/projects/academic-dashboard.png",
+      "imageAlt": "The dashboard with a to-do list grouped by due date next to a color-coded month calendar, using made-up demo courses"
+    },
+    {
+      "id": "painted-desktop",
+      "title": "PaintedDesktop",
+      "date": "2026-10-04",
+      "status": "Released v2.1.0",
+      "summary": "A Windows tray app that sets a new public-domain oil landscape as your wallpaper every day.",
+      "role": "Design and development",
+      "repo": "https://github.com/lflowers01/PaintedDesktop",
+      "image": "/assets/projects/painted-desktop.jpg",
+      "imageAlt": "A Claude Lorrain landscape as the desktop wallpaper, with PaintedDesktop's history and painting details windows open"
+    }
+  ],
+  "tracks": [
+    {
+      "id": 315867410,
+      "title": "2",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 315867715,
+      "title": "11",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 1635207324,
+      "title": "babyfather - snakeman freestyle",
+      "artist": "‎‎O",
+      "url": "https://soundcloud.com/stalkings"
+    },
+    {
+      "id": 2027701168,
+      "title": "7",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt-music"
+    },
+    {
+      "id": 2361318236,
+      "title": "pj harvey cover",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 1533064633,
+      "title": "blood meadow",
+      "artist": "The Crying Nudes",
+      "url": "https://soundcloud.com/thecryingnudes-music"
+    },
+    {
+      "id": 1635207363,
+      "title": "babyfather - skywalker",
+      "artist": "‎‎O",
+      "url": "https://soundcloud.com/stalkings"
+    },
+    {
+      "id": 1154080069,
+      "title": "SOMALIA PARK",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 1613450217,
+      "title": "angel heart",
+      "artist": "The Crying Nudes",
+      "url": "https://soundcloud.com/thecryingnudes-music"
+    },
+    {
+      "id": 1376669191,
+      "title": "1471",
+      "artist": "Babyfather",
+      "url": "https://soundcloud.com/babyfather"
+    },
+    {
+      "id": 1154080687,
+      "title": "CHANCER",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 2027687672,
+      "title": "5",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt-music"
+    },
+    {
+      "id": 2110682874,
+      "title": "HOLDIN' ON A MEMORY (Bonus Track)",
+      "artist": "Cities Aviv",
+      "url": "https://soundcloud.com/cities-aviv-official"
+    },
+    {
+      "id": 492733266,
+      "title": "Papi",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 2222634020,
+      "title": "joyride",
+      "artist": "The Crying Nudes",
+      "url": "https://soundcloud.com/thecryingnudes-music"
+    },
+    {
+      "id": 301977387,
+      "title": "The Dishwasher (Dean Blunt Remix)",
+      "artist": "Gobby",
+      "url": "https://soundcloud.com/gobbyofficial"
+    },
+    {
+      "id": 492737889,
+      "title": "The Pedigree",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 252483318,
+      "title": "Sleeping in",
+      "artist": "The Radio Dept.",
+      "url": "https://soundcloud.com/the-radio-dept-official"
+    },
+    {
+      "id": 321578806,
+      "title": "A Place in My Heart",
+      "artist": "Club 8",
+      "url": "https://soundcloud.com/club-8-official"
+    },
+    {
+      "id": 1459633135,
+      "title": "Rinsed (feat. TYSON)",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 758882500,
+      "title": "August Again",
+      "artist": "Ida",
+      "url": "https://soundcloud.com/ida-64760"
+    },
+    {
+      "id": 1831280607,
+      "title": "she's lost control again",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt-music"
+    },
+    {
+      "id": 1866205215,
+      "title": "chucking it (feat. Nova Varnrable)",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 254480962,
+      "title": "Never Could Have Been Worse",
+      "artist": "Everything But The Girl",
+      "url": "https://soundcloud.com/ebtgofficial"
+    },
+    {
+      "id": 1635116259,
+      "title": "dean blunt & joanne robertson - nitro girls 2",
+      "artist": "‎‎O",
+      "url": "https://soundcloud.com/stalkings"
+    },
+    {
+      "id": 1154080828,
+      "title": "NBA",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 2000700595,
+      "title": "Dean Blunt, Joanne Robertson-slacker (slowed & reverb)",
+      "artist": "Bevvie",
+      "url": "https://soundcloud.com/beverly-bell-24108124"
+    },
+    {
+      "id": 1831355547,
+      "title": "SASSY",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt-music"
+    },
+    {
+      "id": 1154080504,
+      "title": "PETTY WAP",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 154675140,
+      "title": "Caught Feelings, Dean Blunt",
+      "artist": "Esas Metaforas",
+      "url": "https://soundcloud.com/esasmetaforas"
+    },
+    {
+      "id": 2301037850,
+      "title": "icl (feat. TYSON)",
+      "artist": "Babyfather",
+      "url": "https://soundcloud.com/babyfather"
+    },
+    {
+      "id": 2302631156,
+      "title": "478 freestyle (feat. Celeste)",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 768909841,
+      "title": "Dean Blunt WAR REPORT 2020 freestyle",
+      "artist": "Sharmaarke Adan",
+      "url": "https://soundcloud.com/sharmaarke-adan"
+    },
+    {
+      "id": 637348974,
+      "title": "LEACH",
+      "artist": "CRYOGEYSER",
+      "url": "https://soundcloud.com/user-465947629"
+    },
+    {
+      "id": 1068125806,
+      "title": "the rot",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 319771837,
+      "title": "Jetpacks for Julian",
+      "artist": "Alison's Halo",
+      "url": "https://soundcloud.com/alisonshaloofficial"
+    },
+    {
+      "id": 193852360,
+      "title": "Dean Blunt - Hush",
+      "artist": "aimlowmusic",
+      "url": "https://soundcloud.com/aimlowmusic"
+    },
+    {
+      "id": 1068126421,
+      "title": "SKETAMINE",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 319772355,
+      "title": "Dozen",
+      "artist": "Alison's Halo",
+      "url": "https://soundcloud.com/alisonshaloofficial"
+    },
+    {
+      "id": 2027607872,
+      "title": "3",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt-music"
+    },
+    {
+      "id": 1154080852,
+      "title": "A_X",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 321751464,
+      "title": "HAD MY GUARD UP 2 U (SINCE '92)",
+      "artist": "Matthew Monroe",
+      "url": "https://soundcloud.com/user-495172406"
+    },
+    {
+      "id": 1831302081,
+      "title": "SASSY 2",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt-music"
+    },
+    {
+      "id": 492732081,
+      "title": "Imperial Gold",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 1339099714,
+      "title": "Wish",
+      "artist": "Blood Orange",
+      "url": "https://soundcloud.com/bloodorange"
+    },
+    {
+      "id": 321578482,
+      "title": "Boyfriends Stay",
+      "artist": "Club 8",
+      "url": "https://soundcloud.com/club-8-official"
+    },
+    {
+      "id": 1068126076,
+      "title": "ZaZa",
+      "artist": "Dean Blunt",
+      "url": "https://soundcloud.com/deanblunt"
+    },
+    {
+      "id": 1428760288,
+      "title": "Leach",
+      "artist": "CRYOGEYSER",
+      "url": "https://soundcloud.com/user-465947629"
+    },
+    {
+      "id": 317133260,
+      "title": "Ugly Brunette",
+      "artist": "Horse Jumper of Love",
+      "url": "https://soundcloud.com/horsejumperofloveofficial"
+    }
+  ],
+  "ringNavigation": false
+}

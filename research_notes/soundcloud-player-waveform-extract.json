@@ -1,0 +1,300 @@
+{
+  "record_kind": "Analyst-selected extract, not complete REA Evidence",
+  "evidence_id": "ev_572fa97d857d60420a9e3c398668bc580133b10b0a9b89cfe5763b2126b2c512",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/Documents/GitHub/lflowers01.github.io/.local/chrome-for-testing/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "http://127.0.0.1:49280/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 300
+      },
+      {
+        "step_id": "play",
+        "action": "click",
+        "locator": {
+          "kind": "css",
+          "selector": "#music-play"
+        },
+        "button": "left",
+        "click_count": 1
+      },
+      {
+        "step_id": "load-waveform",
+        "action": "wait_for_timeout",
+        "duration_ms": 3000
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [],
+      "at_end": [
+        "dom",
+        "url"
+      ],
+      "events": [
+        "network",
+        "page-errors"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "a9afee547403bb79595d5af9690e314362686d8a5f1da91cea50b2851d1614c5"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "155.0.8059.84"
+  },
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed"
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed"
+    },
+    {
+      "step_id": "play",
+      "action": "click",
+      "status": "completed"
+    },
+    {
+      "step_id": "load-waveform",
+      "action": "wait_for_timeout",
+      "status": "completed"
+    }
+  ],
+  "waveform_events": [
+    {
+      "sequence": 90,
+      "step_index": 3,
+      "transaction_id": "request-31",
+      "redirected_from_transaction_id": null,
+      "redirected_from_transaction_state": "root",
+      "method": "GET",
+      "url": {
+        "url": "https://wave.sndcdn.com/OUIOg0QhA40M_m.json",
+        "origin": "https://wave.sndcdn.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "resource_type": "xhr",
+      "header_names": [
+        "accept",
+        "accept-language",
+        "referer",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile",
+        "sec-ch-ua-platform",
+        "user-agent"
+      ],
+      "kind": "request",
+      "status": null,
+      "failure": null
+    },
+    {
+      "sequence": 92,
+      "step_index": 3,
+      "transaction_id": "request-32",
+      "redirected_from_transaction_id": null,
+      "redirected_from_transaction_state": "root",
+      "method": "GET",
+      "url": {
+        "url": "https://wave.sndcdn.com/OUIOg0QhA40M_m.json",
+        "origin": "https://wave.sndcdn.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "resource_type": "fetch",
+      "header_names": [
+        "accept-language",
+        "referer",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile",
+        "sec-ch-ua-platform",
+        "user-agent"
+      ],
+      "kind": "request",
+      "status": null,
+      "failure": null
+    },
+    {
+      "sequence": 93,
+      "step_index": 3,
+      "transaction_id": "request-32",
+      "redirected_from_transaction_id": null,
+      "redirected_from_transaction_state": "root",
+      "method": "GET",
+      "url": {
+        "url": "https://wave.sndcdn.com/OUIOg0QhA40M_m.json",
+        "origin": "https://wave.sndcdn.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "resource_type": "fetch",
+      "header_names": [
+        "access-control-allow-headers",
+        "access-control-allow-methods",
+        "access-control-allow-origin",
+        "age",
+        "cache-control",
+        "connection",
+        "content-encoding",
+        "content-type",
+        "date",
+        "server",
+        "transfer-encoding",
+        "vary",
+        "via",
+        "x-amz-cf-id",
+        "x-amz-cf-pop",
+        "x-cache"
+      ],
+      "kind": "response",
+      "status": 200,
+      "failure": null
+    },
+    {
+      "sequence": 94,
+      "step_index": 3,
+      "transaction_id": "request-32",
+      "redirected_from_transaction_id": null,
+      "redirected_from_transaction_state": "root",
+      "method": "GET",
+      "url": {
+        "url": "https://wave.sndcdn.com/OUIOg0QhA40M_m.json",
+        "origin": "https://wave.sndcdn.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "resource_type": "fetch",
+      "header_names": [
+        "accept-language",
+        "referer",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile",
+        "sec-ch-ua-platform",
+        "user-agent"
+      ],
+      "kind": "request-finished",
+      "status": null,
+      "failure": null
+    },
+    {
+      "sequence": 95,
+      "step_index": 3,
+      "transaction_id": "request-31",
+      "redirected_from_transaction_id": null,
+      "redirected_from_transaction_state": "root",
+      "method": "GET",
+      "url": {
+        "url": "https://wave.sndcdn.com/OUIOg0QhA40M_m.json",
+        "origin": "https://wave.sndcdn.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "resource_type": "xhr",
+      "header_names": [
+        "access-control-allow-headers",
+        "access-control-allow-methods",
+        "access-control-allow-origin",
+        "age",
+        "cache-control",
+        "connection",
+        "content-encoding",
+        "content-type",
+        "date",
+        "server",
+        "transfer-encoding",
+        "vary",
+        "via",
+        "x-amz-cf-id",
+        "x-amz-cf-pop",
+        "x-cache"
+      ],
+      "kind": "response",
+      "status": 200,
+      "failure": null
+    },
+    {
+      "sequence": 96,
+      "step_index": 3,
+      "transaction_id": "request-31",
+      "redirected_from_transaction_id": null,
+      "redirected_from_transaction_state": "root",
+      "method": "GET",
+      "url": {
+        "url": "https://wave.sndcdn.com/OUIOg0QhA40M_m.json",
+        "origin": "https://wave.sndcdn.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "resource_type": "xhr",
+      "header_names": [
+        "accept",
+        "accept-language",
+        "referer",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile",
+        "sec-ch-ua-platform",
+        "user-agent"
+      ],
+      "kind": "request-finished",
+      "status": null,
+      "failure": null
+    }
+  ],
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ]
+}

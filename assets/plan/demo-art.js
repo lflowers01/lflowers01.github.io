@@ -4,6 +4,8 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
 const glyphs = ' .:-=+*#%@';
 let renderMode = 'hybrid', clickEffect = 'wave', frame = 0, lastFrame = 0;
+let audioLevel = 0, audioTarget = 0, audioFrameTime = 0;
+let musicWaveform = null;
 const fields = [];
 function wake() { if (!frame && !document.hidden) frame = requestAnimationFrame(tick); }
 function tick(now) {
@@ -11,10 +13,12 @@ function tick(now) {
   if (document.hidden) return;
   if (now - lastFrame < (reducedMotion.matches ? 80 : 42)) { wake(); return; }
   lastFrame = now;
+  const audioElapsed = Math.min(100, now - (audioFrameTime || now)); audioFrameTime = now;
+  audioLevel += (audioTarget - audioLevel) * (1 - Math.exp(-audioElapsed / (audioTarget > audioLevel ? 160 : 450)));
   for (const field of fields) if (field.visible) field.draw(now);
-  if (fields.some(field => field.visible && (field.spins || field.ambient || field.header || field.activeUntil > now))) wake();
+  if (fields.some(field => field.visible && (field.spins || field.ambient || field.header || (field.music && audioLevel > .002) || field.activeUntil > now))) wake();
 }
-function refreshFields() { for (const field of fields) field.activeUntil = performance.now() + 100; wake(); }
+function refreshFields() { for (const field of fields) { field.updateTextRegions(); field.activeUntil = performance.now() + 100; } wake(); }
 function cross(ctx, x, y, size) {
   const half = size / 2;
   ctx.beginPath(); ctx.moveTo(x - half, y - half); ctx.lineTo(x + half, y + half);
@@ -33,12 +37,21 @@ class ArtField {
     this.footer = canvas.id === 'footer-art'; this.pad = canvas.id === 'effect-art';
     this.walleLines = this.footer ? document.querySelector('.walle-art').textContent.split('\n') : [];
     this.header = canvas.id === 'navigation-art'; this.ambient = canvas.id === 'ambient-art';
+    this.music = canvas.id === 'music-art';
     this.spins = canvas.id === 'hero-art';
+    this.textRegions = []; this.copyBottom = 0;
     new ResizeObserver(() => {
       const rect = canvas.getBoundingClientRect(); this.width = rect.width || 1; this.height = rect.height || 1;
       const ratio = Math.min(devicePixelRatio || 1, 1.5);
       canvas.width = Math.round(this.width * ratio); canvas.height = Math.round(this.height * ratio);
-      this.ctx?.setTransform(ratio, 0, 0, ratio, 0, 0); this.draw(performance.now());
+      if (this.music) {
+        const player = canvas.parentElement.querySelector('.ipod-shell') || canvas.parentElement.querySelector('.dap');
+        this.playerWidth = player.offsetWidth; this.playerHeight = player.offsetHeight;
+        const playerRect = player.getBoundingClientRect();
+        this.playerX = playerRect.left - rect.left + playerRect.width / 2;
+        this.playerY = playerRect.top - rect.top + playerRect.height / 2;
+      }
+      this.ctx?.setTransform(ratio, 0, 0, ratio, 0, 0); this.updateTextRegions(); this.draw(performance.now());
     }).observe(canvas);
     new IntersectionObserver(entries => {
       this.visible = entries[0].isIntersecting;
@@ -53,6 +66,7 @@ class ArtField {
         canvas.setPointerCapture(event.pointerId); canvas.classList.add('dragging-object'); return;
       }
       this.pulse(point.x, point.y);
+      if (this.music) return;
       if (event.pointerType === 'mouse' || this.pad) {
         this.down = true; this.previous = null; canvas.setPointerCapture(event.pointerId);
       }
@@ -94,6 +108,26 @@ class ArtField {
     });
   }
   point(event) { const rect = this.canvas.getBoundingClientRect(); return { x: event.clientX - rect.left, y: event.clientY - rect.top }; }
+  updateTextRegions() {
+    if (!this.spins) return;
+    const canvasRect = this.canvas.getBoundingClientRect();
+    this.copyBottom = document.querySelector('.hero-copy').getBoundingClientRect().bottom - canvasRect.top;
+    this.textRegions = [...document.querySelectorAll('.hero-copy h1,.hero-copy .location,.hero-copy .bio,.hero-copy .text-link,.profile-links a,.site-header nav a,.hero .art-hint')].flatMap(element => {
+      const range = document.createRange(); range.selectNodeContents(element);
+      return [...range.getClientRects()].filter(rect => rect.width && rect.height).map(rect => ({ left: rect.left - canvasRect.left, right: rect.right - canvasRect.left, top: rect.top - canvasRect.top, bottom: rect.bottom - canvasRect.top }));
+    });
+  }
+  textOpacity(x, y) {
+    let opacity = 1;
+    for (const rect of this.textRegions) {
+      const dx = Math.max(rect.left - x, 0, x - rect.right), dy = Math.max(rect.top - y, 0, y - rect.bottom);
+      if (dx > 35 || dy > 35) continue;
+      const t = Math.max(0, Math.min(1, (Math.hypot(dx, dy) - 7) / 28));
+      opacity = Math.min(opacity, t * t * (3 - 2 * t));
+      if (!opacity) break;
+    }
+    return opacity;
+  }
   hitsObject(point) { return this.spins && this.objectGeometry && Math.hypot(point.x - this.objectGeometry.cx, point.y - this.objectGeometry.cy) < this.objectGeometry.size * 1.1; }
   pulse(x, y) {
     const time = performance.now(); this.events.push({ x, y, time, type: this.pad ? clickEffect : 'wave' });
@@ -117,12 +151,13 @@ class ArtField {
   objectField(now, cell) {
     const width = this.width, height = this.height, cols = Math.ceil(width / cell), rows = Math.ceil(height / cell);
     const light = new Float32Array(cols * rows), depth = new Float32Array(cols * rows).fill(-10);
-    const narrow = width < 600 && !this.pad;
+    const narrow = width <= 700 && !this.pad;
     const cx = this.pad ? width * .54 : narrow ? width * .55 : width / 2 + Math.min(width, 1500) * .25;
     const navigationHeight = this.spins ? document.querySelector('.site-header').offsetHeight : 0;
     const artHeight = height - navigationHeight;
-    const cy = navigationHeight + artHeight * (narrow ? .68 : .46);
-    const size = this.pad ? Math.min(width * .25, artHeight * .52) : narrow ? Math.min(width * .38, artHeight * .23) : Math.min(width * .25, artHeight * .42);
+    const desiredSize = this.pad ? Math.min(width * .25, artHeight * .52) : narrow ? Math.max(28, Math.min(width * .38, (height - this.copyBottom - 50) / 2.3)) : Math.min(width * .25, artHeight * .42);
+    const size = Math.min(desiredSize, (width - cx - 16) / 1.05, (cx - 16) / 1.05);
+    const cy = narrow ? this.copyBottom + 25 + size * 1.15 : navigationHeight + artHeight * .46;
     const elapsed = Math.max(0, Math.min(100, now - (this.lastSpinFrame || now)));
     this.lastSpinFrame = now;
     if (!this.objectDrag) this.spinPhase += elapsed / (reducedMotion.matches ? 12000 : 3600);
@@ -158,8 +193,45 @@ class ArtField {
     const width = this.width, height = this.height, style = getComputedStyle(document.body);
     const ink = style.getPropertyValue('--accent').trim(), copper = style.getPropertyValue('--copper').trim();
     ctx.clearRect(0, 0, width, height); ctx.strokeStyle = ink; ctx.fillStyle = ink; ctx.lineWidth = 1;
+    if (this.music) {
+      // Before a track's waveform loads (or if SoundCloud is unavailable), a low resting band keeps the line across the section.
+      const wave = musicWaveform || { samples: [.3, .3], progress: 0 };
+      this.events = this.events.filter(event => now - event.time < 2500);
+      const samples = wave.samples, center = wave.progress * (samples.length - 1);
+      const span = Math.min(samples.length, 600), baseline = this.playerY;
+      ctx.font = '9px Departure, monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      for (let x = 4; x < width; x += 7) {
+        const point = Math.max(0, Math.min(samples.length - 1, center + (x / width - .5) * span));
+        const left = Math.floor(point), amplitude = samples[left] + (samples[Math.min(samples.length - 1, left + 1)] - samples[left]) * (point - left);
+        const extent = 5 + amplitude ** 1.7 * Math.min(height * .38, 240);
+        const edge = Math.min(1, x / 90, (width - x) / 90);
+        for (let y = 4; y < height; y += 9) {
+          const distance = Math.abs(y - baseline);
+          let density = Math.max(0, 1 - distance / extent), ripple = 0;
+          for (const event of this.events) {
+            const age = (now - event.time) / 1000, radius = age * 250;
+            const delta = Math.hypot(x - event.x, y - event.y) - radius;
+            const envelope = Math.exp(-((delta / 38) ** 2)) * Math.max(0, 1 - age / 2.5);
+            ripple += (Math.cos(delta / 10) * .65 + .35) * envelope;
+          }
+          density = Math.max(0, Math.min(1, density + ripple));
+          if (density <= 0) continue;
+          const grain = ((Math.floor(x / 7) * 127 + Math.floor(y / 9) * 311) % 97) / 97;
+          if (grain > .2 + density * .8) continue;
+          ctx.globalAlpha = edge * (.12 + audioLevel * .42) * (.25 + density * .75);
+          const lens = this.pointer && Math.hypot(x - this.pointer.x, y - this.pointer.y) < 105;
+          const dither = renderMode === 'dither' || (renderMode === 'hybrid' && lens);
+          if (dither) {
+            const threshold = (bayer[(Math.floor(y / 9) % 4) * 4 + Math.floor(x / 7) % 4] + .5) / 16;
+            if (density > threshold) cross(ctx, x, y, 4);
+          } else ctx.fillText('.:+*#'[Math.min(4, Math.floor(density * 5))], x, y);
+        }
+      }
+      ctx.globalAlpha = 1; return;
+    }
     if (this.header || this.ambient) {
       const cell = this.header ? 8 : 16;
+      const hoverBrightness = document.body.dataset.theme === 'forest' ? .045 : .22;
       const time = now / (reducedMotion.matches ? 9000 : 3000);
       const elapsed = Math.min(100, now - (this.lastPointerFrame || now));
       this.lastPointerFrame = now;
@@ -175,7 +247,7 @@ class ArtField {
           ctx.globalAlpha = (.14 + noise * .10 + influence * .28) * fade * breath;
         } else {
           const threshold = (bayer[(Math.floor(y / cell) % 4) * 4 + Math.floor(x / cell) % 4] + .5) / 16;
-          ctx.globalAlpha = (noise > threshold ? .035 * breath : .008) + influence * .045;
+          ctx.globalAlpha = (noise > threshold ? .035 * breath : .008) * (1 + audioLevel * .14) + influence * hoverBrightness;
         }
         if (ctx.globalAlpha > .005) cross(ctx, x, y, this.header ? 2 + influence * 2 : 2.5);
       }
@@ -187,7 +259,7 @@ class ArtField {
     const object = this.footer ? null : this.objectField(now, cell);
     if (object) this.objectGeometry = object;
     const walleColumn = Math.floor((width / cell - Math.max(0, ...this.walleLines.map(line => line.length))) / 2);
-    const footerPointer = this.footer ? this.pointer || (document.activeElement === this.canvas ? { x: width / 2, y: 140 } : null) : null;
+    const footerPointer = this.footer ? this.pointer || (this.canvas.matches(':focus-visible') ? { x: width / 2, y: 140 } : null) : null;
     const navigationHeight = this.spins ? document.querySelector('.site-header').offsetHeight : 0;
     if (this.spins) {
       const elapsed = Math.min(100, now - (this.lastPointerFrame || now)); this.lastPointerFrame = now;
@@ -227,15 +299,17 @@ class ArtField {
       ctx.fillStyle = characterPart ? '#ffffff' : ink; ctx.strokeStyle = ctx.fillStyle;
       const quietBackground = this.spins && objectValue < .08 && value < .18;
       ctx.globalAlpha = this.footer ? (characterPart ? .30 + .65 * reveal : .30) : quietBackground ? .055 : .88;
+      if (this.spins) ctx.globalAlpha *= this.textOpacity(x + cell / 2, y + rowHeight / 2);
       const breathe = .035 * Math.sin(x * .013 + y * .017 + now / 1800);
       value += breathe * Math.min(1, value * 4);
+      value *= 1 + audioLevel * (this.spins ? .08 : .05);
       if (characters && value > .08) ctx.fillText(characterPart && value > .4 ? literal : glyphs[Math.min(glyphs.length - 1, Math.floor(Math.min(1, value) * glyphs.length))], x + cell / 2, y + rowHeight / 2);
       else if (!characters && value > threshold) cross(ctx, x + cell / 2, y + rowHeight / 2, cell - 3);
     }
     ctx.strokeStyle = copper; ctx.fillStyle = copper;
     for (const [key, mark] of this.marks) {
       if (mark.expires <= now) { this.marks.delete(key); continue; }
-      ctx.globalAlpha = Math.min(1, (mark.expires - now) / 700); cross(ctx, mark.x * cell + cell / 2, mark.y * rowHeight + rowHeight / 2, cell - 3);
+      ctx.globalAlpha = Math.min(1, (mark.expires - now) / 700) * (this.spins ? this.textOpacity(mark.x * cell + cell / 2, mark.y * rowHeight + rowHeight / 2) : 1); cross(ctx, mark.x * cell + cell / 2, mark.y * rowHeight + rowHeight / 2, cell - 3);
     }
     for (const event of this.events) {
       if (event.type === 'wave') continue;
@@ -251,6 +325,8 @@ class ArtField {
   }
 }
 for (const canvas of document.querySelectorAll('.art-field')) fields.push(new ArtField(canvas));
+document.addEventListener('music-waveform', event => { musicWaveform = event.detail; wake(); });
+document.addEventListener('audio-waveform', event => { audioTarget = Number.isFinite(event.detail) ? Math.max(0, Math.min(1, event.detail)) : 0; wake(); });
 document.addEventListener('pointermove', event => {
   const hero = fields.find(field => field.spins);
   if (hero) {
@@ -283,9 +359,17 @@ for (const button of document.querySelectorAll('[data-click-effect]')) button.ad
   for (const sibling of document.querySelectorAll('[data-click-effect]')) sibling.setAttribute('aria-pressed', String(sibling === button));
   const pad = fields.find(field => field.pad); pad.pulse(pad.width * .5, pad.height * .5);
 });
-document.getElementById('clear-drawing')?.addEventListener('click', () => { for (const field of fields) { field.events = []; field.marks.clear(); field.objectRotation = { yaw: 0, pitch: 0 }; } refreshFields(); });
+if (!document.getElementById('note-board')) document.getElementById('clear-drawing')?.addEventListener('click', () => { for (const field of fields) { field.events = []; field.marks.clear(); field.objectRotation = { yaw: 0, pitch: 0 }; } refreshFields(); });
 
 const themeToggle = document.getElementById('theme-toggle');
+try {
+  const theme = localStorage.getItem('lf.theme.v1');
+  if (theme === 'oled' || theme === 'forest') document.body.dataset.theme = theme;
+} catch { /* Theme choice still works for this visit. */ }
+if (themeToggle) {
+  themeToggle.setAttribute('aria-label', `Switch to ${document.body.dataset.theme === 'oled' ? 'forest green' : 'OLED black'}`);
+  themeToggle.title = themeToggle.getAttribute('aria-label');
+}
 themeToggle?.addEventListener('click', event => {
   if (document.documentElement.classList.contains('theme-switching')) return;
   const next = document.body.dataset.theme === 'oled' ? 'forest' : 'oled';
@@ -294,6 +378,7 @@ themeToggle?.addEventListener('click', event => {
   document.documentElement.style.setProperty('--switch-y', `${event.clientY || rect.top + rect.height / 2}px`);
   const update = () => {
     document.body.dataset.theme = next;
+    try { localStorage.setItem('lf.theme.v1', next); } catch { /* Nonessential preference. */ }
     themeToggle.setAttribute('aria-label', `Switch to ${next === 'oled' ? 'forest green' : 'OLED black'}`);
     themeToggle.title = themeToggle.getAttribute('aria-label');
     refreshFields();

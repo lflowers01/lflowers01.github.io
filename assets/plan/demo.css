@@ -73,9 +73,10 @@ body{overflow-x:clip}.hero>#hero-art{left:calc(50% - 50vw);right:auto;width:100v
 :root{scroll-behavior:smooth;scroll-padding-top:24px}
 .site-header nav a{position:relative;text-decoration:none;padding:5px 0}
 .site-header nav a:after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.2,.7,.2,1)}
-.site-header nav a:hover{text-decoration:none}.site-header nav a:hover:after,.site-header nav a[aria-current=location]:after{transform:scaleX(1)}
+.site-header nav a:hover{text-decoration:none}.site-header nav a:hover:after,.site-header nav a[aria-current=location]:after,.site-header nav a[aria-current=page]:after{transform:scaleX(1)}
 .sticky{transition:box-shadow .2s ease,transform .24s cubic-bezier(.2,.8,.2,1)}
 .sticky[data-dragging=true]{transition:box-shadow .2s ease}
 .outline-button,.quiet-button,.profile-links a,.footer-content a{transition:color .2s ease,border-color .2s ease,opacity .2s ease}
 .outline-button:active,.site-stamp:active{transform:translateY(1px)}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}.sticky,.site-header nav a:after,.outline-button,.quiet-button,.profile-links a,.footer-content a{transition:none}}
+@media(max-width:700px){.hero{min-height:0;padding-bottom:calc(80vw + 70px)}}

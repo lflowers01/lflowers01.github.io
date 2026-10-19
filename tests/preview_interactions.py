@@ -107,14 +107,14 @@ async def main():
         # A real click must visibly progress, including with reduced motion.
         photo = page.locator("#photo-reveal")
         await photo.click()
-        await page.wait_for_timeout(180)
-        early = await photo.evaluate("e=>e.toDataURL()")
-        assert await photo.get_attribute("data-reveal") == "transition"
-        await page.wait_for_timeout(380)
-        middle = await photo.evaluate("e=>e.toDataURL()")
-        assert early != middle
+        await page.wait_for_function("document.querySelector('#photo-reveal').dataset.reveal==='transition'")
+        assert await page.evaluate("""()=>{
+          const saved=photoProgress,snapshots=[];
+          try{for(const progress of [.2,.6,1]){photoProgress=progress;drawPhoto();snapshots.push(photoCanvas.toDataURL())}}
+          finally{photoProgress=saved;drawPhoto()}
+          return new Set(snapshots).size===3;
+        }""")
         await page.wait_for_function("document.querySelector('#photo-reveal').dataset.reveal==='visible'")
-        assert middle != await photo.evaluate("e=>e.toDataURL()")
         assert await photo.evaluate("""e=>{
           const d=e.getContext('2d').getImageData(0,0,260,300).data;
           let equalPairs=0,differentNextPair=0;
@@ -175,10 +175,17 @@ async def main():
         await page.mouse.move(2, 2)
         await page.wait_for_timeout(180)
         assert not await page.evaluate(capture)
+        await page.keyboard.press('Shift')  # keyboard modality, so programmatic focus is focus-visible
         await footer.focus()
         await page.wait_for_timeout(180)
         calls = await page.evaluate(capture)
         assert calls and all((c["x"]-px)**2+(c["y"]-py)**2 < 105**2 for c in calls)
+        # Mouse focus from a click must not keep the character revealed after the pointer leaves.
+        await footer.evaluate("e=>e.blur()")
+        await footer.click(position={"x": px, "y": py})
+        await page.mouse.move(2, 2)
+        await page.wait_for_timeout(180)
+        assert not await page.evaluate(capture)
         await page.emulate_media(reduced_motion="no-preference")
         assert await page.evaluate("getComputedStyle(document.documentElement).scrollBehavior") == "smooth"
 

@@ -1,0 +1,72 @@
+'use strict';
+const noteBoard = document.getElementById('note-board');
+if (noteBoard) {
+  const status = document.getElementById('board-status');
+  const canvas = document.getElementById('note-drawing'), ctx = canvas.getContext('2d');
+  const clear = document.getElementById('clear-drawing');
+  let positions = {}, strokes = [], layer = 1, activeStroke = null;
+  let cards = [...noteBoard.querySelectorAll('.sticky')];
+  function saved(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } }
+  function persist(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); }
+    catch { status.textContent = 'Browser storage is unavailable. Changes last for this visit.'; }
+  }
+  const validPoint = p => p && Number.isFinite(p.x) && Number.isFinite(p.y) && p.x >= 0 && p.x <= 1 && p.y >= 0 && p.y <= 1;
+  const storedPositions = saved('lf.board.positions.v1');
+  if (storedPositions && typeof storedPositions === 'object' && !Array.isArray(storedPositions)) {
+    for (const id of cards.map(c => c.dataset.id)) if (validPoint(storedPositions[id])) positions[id] = storedPositions[id];
+  }
+  const storedInk = saved('lf.notes.ink.v1');
+  if (Array.isArray(storedInk) && storedInk.length <= 200 && storedInk.every(s => Array.isArray(s) && s.length && s.every(validPoint)) && storedInk.reduce((sum, s) => sum + s.length, 0) <= 6000) strokes = storedInk;
+  function place(card) {
+    const point = positions[card.dataset.id] || { x: Number(card.dataset.x), y: Number(card.dataset.y) };
+    card.style.left = `${12 + Math.max(0, noteBoard.clientWidth - card.offsetWidth - 24) * point.x}px`;
+    card.style.top = `${12 + Math.max(0, noteBoard.clientHeight - card.offsetHeight - 24) * point.y}px`;
+  }
+  function enhance(card) {
+    const handle = card.querySelector('.note-handle'); handle.hidden = false;
+    let drag = null;
+    const point = () => positions[card.dataset.id] ||= { x: Number(card.dataset.x), y: Number(card.dataset.y) };
+    handle.addEventListener('keydown', event => {
+      if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+      event.preventDefault(); const value = point(), step = event.shiftKey ? .01 : .04;
+      value.x = Math.max(0, Math.min(1, value.x + (event.key === 'ArrowRight' ? step : event.key === 'ArrowLeft' ? -step : 0)));
+      value.y = Math.max(0, Math.min(1, value.y + (event.key === 'ArrowDown' ? step : event.key === 'ArrowUp' ? -step : 0)));
+      card.style.zIndex = String(++layer); place(card); persist('lf.board.positions.v1', positions);
+    });
+    handle.addEventListener('pointerdown', event => {
+      if (event.button !== 0) return;
+      event.preventDefault(); handle.focus(); point(); card.style.zIndex = String(++layer); card.dataset.dragging = 'true';
+      drag = { x: event.clientX, y: event.clientY, left: parseFloat(card.style.left), top: parseFloat(card.style.top) }; handle.setPointerCapture(event.pointerId);
+    });
+    handle.addEventListener('pointermove', event => {
+      if (!drag) return;
+      positions[card.dataset.id] = { x: Math.max(0, Math.min(1, (drag.left + event.clientX - drag.x - 12) / Math.max(1, noteBoard.clientWidth - card.offsetWidth - 24))), y: Math.max(0, Math.min(1, (drag.top + event.clientY - drag.y - 12) / Math.max(1, noteBoard.clientHeight - card.offsetHeight - 24))) }; place(card);
+    });
+    const finish = () => { if (drag) { drag = null; card.dataset.dragging = 'false'; persist('lf.board.positions.v1', positions); } };
+    for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) handle.addEventListener(event, finish);
+  }
+  function segment(a, b) {
+    const width = noteBoard.clientWidth, height = noteBoard.clientHeight, ax = a.x * width, ay = a.y * height, bx = b.x * width, by = b.y * height;
+    const steps = Math.max(1, Math.ceil(Math.hypot(bx - ax, by - ay) / 2));
+    for (let i = 0; i <= steps; i++) ctx.fillRect(Math.floor((ax + (bx - ax) * i / steps) / 4) * 4, Math.floor((ay + (by - ay) * i / steps) / 4) * 4, 4, 4);
+  }
+  function drawInk() {
+    ctx.clearRect(0, 0, noteBoard.clientWidth, noteBoard.clientHeight); ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim();
+    for (const stroke of strokes) stroke.forEach((point, index) => segment(stroke[Math.max(0, index - 1)], point));
+  }
+  function addInk(event) {
+    if (!activeStroke || strokes.reduce((sum, s) => sum + s.length, 0) >= 6000) return;
+    const rect = canvas.getBoundingClientRect(), point = { x: Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)), y: Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height)) }, previous = activeStroke.at(-1);
+    if (previous && Math.hypot((point.x - previous.x) * rect.width, (point.y - previous.y) * rect.height) < 3) return;
+    activeStroke.push(point); ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim(); segment(previous || point, point);
+  }
+  canvas.addEventListener('pointerdown', event => { if (event.button !== 0 || strokes.length >= 200) return; event.preventDefault(); activeStroke = []; strokes.push(activeStroke); canvas.setPointerCapture(event.pointerId); addInk(event); });
+  canvas.addEventListener('pointermove', addInk);
+  const finishInk = () => { if (activeStroke) { activeStroke = null; strokes = strokes.filter(s => s.length); persist('lf.notes.ink.v1', strokes); } };
+  for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) canvas.addEventListener(event, finishInk);
+  clear.addEventListener('click', () => { activeStroke = null; strokes = []; persist('lf.notes.ink.v1', strokes); drawInk(); });
+  noteBoard.classList.add('is-interactive'); canvas.hidden = clear.hidden = false; cards.forEach(enhance);
+  new ResizeObserver(() => { const ratio = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(noteBoard.clientWidth * ratio); canvas.height = Math.round(noteBoard.clientHeight * ratio); ctx.setTransform(ratio, 0, 0, ratio, 0, 0); cards.forEach(place); drawInk(); }).observe(noteBoard);
+  new MutationObserver(drawInk).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+}
