@@ -1,0 +1,90 @@
+{
+  "record_kind": "Read-only repository ref snapshot",
+  "checked_date": "2026-10-18",
+  "origin": "https://github.com/lflowers01/lflowers01.github.io.git",
+  "active_branch": "codex/webring-research",
+  "local_heads": {
+    "main": "8b8de307a3bc8cf8e89e295f1edb59fd88a0a762",
+    "deployment": "43d6e4fcbffb4ea251c29ad269f88dd9d140b048",
+    "codex/webring-research": "f5c1de7d9852a214d84edd9450a095f5d17db500"
+  },
+  "remote_heads_from_git_ls_remote": {
+    "main": "8b8de307a3bc8cf8e89e295f1edb59fd88a0a762",
+    "deployment": "43d6e4fcbffb4ea251c29ad269f88dd9d140b048"
+  },
+  "remote_tracking_refs": {
+    "origin/HEAD": "origin/main",
+    "origin/main": "8b8de307a3bc8cf8e89e295f1edb59fd88a0a762",
+    "origin/deployment": "43d6e4fcbffb4ea251c29ad269f88dd9d140b048"
+  },
+  "stash_ref": "a2588e0e0c7421ae6336d612d29ebb0fcef914d4",
+  "stash_difference_from_deployment": [
+    "node_modules/.package-lock.json",
+    "node_modules/.vite/deps/_metadata.json",
+    "node_modules/.vite/deps/package.json",
+    "package-lock.json"
+  ],
+  "selected_milestones": [
+    {
+      "sha": "e6a086a761105364419df7288e7ef65a6de281e0",
+      "author_date": "2023-05-18T03:26:04-07:00",
+      "committer_date": "2023-05-18T03:26:04-07:00",
+      "subject": "Create index.html",
+      "finding": "TurboWarp packaged Squirrel Simulator index.html"
+    },
+    {
+      "sha": "887beba77ab987f7e0eaf4d6435be39e07067d00",
+      "author_date": "2023-08-31T22:39:32-07:00",
+      "committer_date": "2023-08-31T22:39:32-07:00",
+      "subject": "new terminal look"
+    },
+    {
+      "sha": "4003915e9274e5ee5ce00304e0909b4517a5a4b9",
+      "author_date": "2025-04-01T02:50:57-07:00",
+      "committer_date": "2025-04-01T02:50:57-07:00",
+      "subject": "V2"
+    },
+    {
+      "sha": "893cac9fdbb6dffe5aa34f5610e2c9226a5381ec",
+      "author_date": "2025-12-27T00:03:36-07:00",
+      "committer_date": "2025-12-27T00:03:36-07:00",
+      "subject": "three themes! and more"
+    },
+    {
+      "sha": "9f715fd9e08b811ac7fc577031ccb364526af1e3",
+      "author_date": "2026-07-16T22:09:08-07:00",
+      "committer_date": "2026-07-16T22:09:08-07:00",
+      "subject": "updated v2"
+    },
+    {
+      "sha": "63ef821ab0937d02ffe5af5fd9fe255364bd63fe",
+      "author_date": "2026-08-10T11:57:46-07:00",
+      "committer_date": "2026-08-10T11:57:46-07:00",
+      "subject": "site in progress page"
+    },
+    {
+      "sha": "83ef83ac299544e818b4d672250b8acfd842be05",
+      "author_date": "2026-08-29T17:40:49-04:00",
+      "committer_date": "2026-08-29T17:40:49-04:00",
+      "subject": "Update archive.html"
+    }
+  ],
+  "inspection_methods": [
+    "git branch -a -v",
+    "git log --all --graph --oneline",
+    "git log --all --format author and committer timestamps --reverse",
+    "git ls-tree -r --name-only REF",
+    "git show REF:path",
+    "git for-each-ref refs/heads refs/remotes refs/stash",
+    "git ls-remote --heads origin",
+    "git diff --name-status deployment refs/stash"
+  ],
+  "limitations": [
+    "Source-only; old pages not executed or visually rendered.",
+    "PDF files inventoried only; detailed narrative read from existing plainText-portfolio.txt and HTML.",
+    "No fetch required because remote heads matched cached refs.",
+    "No checkout/reset/stash apply/staging/commit/deployment performed.",
+    "No claim that deployment branch is currently live.",
+    "Project/role status is dated self-description, not independently current verification."
+  ]
+}

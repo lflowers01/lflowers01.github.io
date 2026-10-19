@@ -1,0 +1,226 @@
+{
+  "source": "https://ring.purduehackers.com/",
+  "checked_at_utc": "2026-10-18T22:30:11.4514810Z",
+  "displayed_count": 31,
+  "parsed_unique_count": 31,
+  "method": "Ordered data-umami member name/site pairs in live HTML, deduplicated preserving first carousel order; direct HTTPS URLs chosen for checks without ring tracking redirect",
+  "members": [
+    {
+      "order": 1,
+      "name": "anish",
+      "host": "eightlegman.neocities.org",
+      "direct_check_url": "https://eightlegman.neocities.org/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=eightlegman.neocities.org"
+    },
+    {
+      "order": 2,
+      "name": "manitej",
+      "host": "www.manitej.com",
+      "direct_check_url": "https://www.manitej.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=www.manitej.com"
+    },
+    {
+      "order": 3,
+      "name": "charlie kim",
+      "host": "imasepan.github.io",
+      "direct_check_url": "https://imasepan.github.io/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=imasepan.github.io"
+    },
+    {
+      "order": 4,
+      "name": "dbmaindex",
+      "host": "dbmaindex.org",
+      "direct_check_url": "https://dbmaindex.org/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=dbmaindex.org"
+    },
+    {
+      "order": 5,
+      "name": "kira",
+      "host": "kchynayev.com",
+      "direct_check_url": "https://kchynayev.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=kchynayev.com"
+    },
+    {
+      "order": 6,
+      "name": "ethankawley",
+      "host": "ethankawley.com",
+      "direct_check_url": "https://ethankawley.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=ethankawley.com"
+    },
+    {
+      "order": 7,
+      "name": "neel",
+      "host": "neels.page",
+      "direct_check_url": "https://neels.page/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=neels.page"
+    },
+    {
+      "order": 8,
+      "name": "ishan",
+      "host": "quackduck.github.io",
+      "direct_check_url": "https://quackduck.github.io/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=quackduck.github.io"
+    },
+    {
+      "order": 9,
+      "name": "amber",
+      "host": "amberzeng.com",
+      "direct_check_url": "https://amberzeng.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=amberzeng.com"
+    },
+    {
+      "order": 10,
+      "name": "artus",
+      "host": "artusmosquet.com",
+      "direct_check_url": "https://artusmosquet.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=artusmosquet.com"
+    },
+    {
+      "order": 11,
+      "name": "TheDarkLynx",
+      "host": "thedarklynx.com",
+      "direct_check_url": "https://thedarklynx.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=thedarklynx.com"
+    },
+    {
+      "order": 12,
+      "name": "habiboi",
+      "host": "habiboi.neocities.org",
+      "direct_check_url": "https://habiboi.neocities.org/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=habiboi.neocities.org"
+    },
+    {
+      "order": 13,
+      "name": "angela",
+      "host": "angelazqian.github.io",
+      "direct_check_url": "https://angelazqian.github.io/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=angelazqian.github.io"
+    },
+    {
+      "order": 14,
+      "name": "alicia",
+      "host": "www.alicias.page",
+      "direct_check_url": "https://www.alicias.page/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=www.alicias.page"
+    },
+    {
+      "order": 15,
+      "name": "jadden",
+      "host": "www.jaddens.page",
+      "direct_check_url": "https://www.jaddens.page/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=www.jaddens.page"
+    },
+    {
+      "order": 16,
+      "name": "aryan",
+      "host": "www.aboutsharma.com",
+      "direct_check_url": "https://www.aboutsharma.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=www.aboutsharma.com"
+    },
+    {
+      "order": 17,
+      "name": "kimjammer",
+      "host": "kimjammer.com",
+      "direct_check_url": "https://kimjammer.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=kimjammer.com"
+    },
+    {
+      "order": 18,
+      "name": "theshadoweevee",
+      "host": "shad.moe",
+      "direct_check_url": "https://shad.moe/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=shad.moe"
+    },
+    {
+      "order": 19,
+      "name": "kian",
+      "host": "kasad.com",
+      "direct_check_url": "https://kasad.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=kasad.com"
+    },
+    {
+      "order": 20,
+      "name": "grace",
+      "host": "grace.pink",
+      "direct_check_url": "https://grace.pink/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=grace.pink"
+    },
+    {
+      "order": 21,
+      "name": "arhan",
+      "host": "arhan.sh",
+      "direct_check_url": "https://arhan.sh/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=arhan.sh"
+    },
+    {
+      "order": 22,
+      "name": "henry",
+      "host": "rovnyak.net",
+      "direct_check_url": "https://rovnyak.net/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=rovnyak.net"
+    },
+    {
+      "order": 23,
+      "name": "rayhanadev",
+      "host": "rayhanadev.com",
+      "direct_check_url": "https://rayhanadev.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=rayhanadev.com"
+    },
+    {
+      "order": 24,
+      "name": "jack",
+      "host": "jackhogan.me",
+      "direct_check_url": "https://jackhogan.me/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=jackhogan.me"
+    },
+    {
+      "order": 25,
+      "name": "kartavya",
+      "host": "blog.vashishtha.in",
+      "direct_check_url": "https://blog.vashishtha.in/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=blog.vashishtha.in"
+    },
+    {
+      "order": 26,
+      "name": "Big John",
+      "host": "johnzeng.me",
+      "direct_check_url": "https://johnzeng.me/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=johnzeng.me"
+    },
+    {
+      "order": 27,
+      "name": "ericswpark",
+      "host": "ericswpark.com",
+      "direct_check_url": "https://ericswpark.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=ericswpark.com"
+    },
+    {
+      "order": 28,
+      "name": "julian",
+      "host": "trev3d.com",
+      "direct_check_url": "https://trev3d.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=trev3d.com"
+    },
+    {
+      "order": 29,
+      "name": "trey",
+      "host": "trey.build",
+      "direct_check_url": "https://trey.build/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=trey.build"
+    },
+    {
+      "order": 30,
+      "name": "sriram",
+      "host": "ramaway.com",
+      "direct_check_url": "https://ramaway.com/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=ramaway.com"
+    },
+    {
+      "order": 31,
+      "name": "odker",
+      "host": "odker.dev",
+      "direct_check_url": "https://odker.dev/",
+      "ring_visit_url": "https://ring.purduehackers.com/visit?member=odker.dev"
+    }
+  ]
+}

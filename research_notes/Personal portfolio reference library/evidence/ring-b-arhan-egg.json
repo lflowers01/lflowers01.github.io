@@ -1,0 +1,194 @@
+{
+  "record_kind": "Analyst-selected extract, not complete canonical REA Evidence",
+  "capture_date": "2026-10-18",
+  "evidence_id": "ev_4315ad553bb0886f393a609f124f0cb238afffc5e6074860d6daaf312c64a8e5",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://arhan.sh/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 500
+      },
+      {
+        "step_id": "click_prompt",
+        "action": "click",
+        "locator": {
+          "kind": "css",
+          "selector": "#ssh-text"
+        },
+        "button": "left",
+        "click_count": 1
+      },
+      {
+        "step_id": "observe_typed_text",
+        "action": "wait_for_timeout",
+        "duration_ms": 5000
+      },
+      {
+        "step_id": "observe_erase",
+        "action": "wait_for_timeout",
+        "duration_ms": 16000
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [
+        "dom"
+      ],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url"
+      ],
+      "events": [
+        "page-errors"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "2e4d449b6e51ed3690f3a299794a7f7455f3aa7b3a23304774c5c142b7234881"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://arhan.sh/",
+        "origin": "https://arhan.sh",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_sha256": "42682e768f4118f3503bec3f4cba2aec9a32cb9e3f53be8b0e3c1577575df4d7",
+      "dom_bytes": 9726,
+      "selected_html": "<main data-astro-cid-ju4pidww=\"\"><template id=\"troll-text\" data-astro-cid-lcdefpme=\"\"><div id=\"troll-flex-wrapper\" class=\"input-mono\" data-astro-cid-lcdefpme=\"\"><span data-astro-cid-lcdefpme=\"\">🤨 We are sorry. This page has been made unavailable under... mysterious circumstances.<br data-astro-cid-lcdefpme=\"\">Please click <span id=\"reload-text\" onclick=\"window.location.reload()\" data-astro-cid-lcdefpme=\"\">here</span> to reload.</span></div></template><script type=\"module\">var e=!1;function t(t){if(t.preventDefault(),e)return;e=!0,document.getElementById(`cursor`).classList.ad"
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://arhan.sh/",
+        "origin": "https://arhan.sh",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_sha256": "42682e768f4118f3503bec3f4cba2aec9a32cb9e3f53be8b0e3c1577575df4d7",
+      "dom_bytes": 9726,
+      "selected_html": "<main data-astro-cid-ju4pidww=\"\"><template id=\"troll-text\" data-astro-cid-lcdefpme=\"\"><div id=\"troll-flex-wrapper\" class=\"input-mono\" data-astro-cid-lcdefpme=\"\"><span data-astro-cid-lcdefpme=\"\">🤨 We are sorry. This page has been made unavailable under... mysterious circumstances.<br data-astro-cid-lcdefpme=\"\">Please click <span id=\"reload-text\" onclick=\"window.location.reload()\" data-astro-cid-lcdefpme=\"\">here</span> to reload.</span></div></template><script type=\"module\">var e=!1;function t(t){if(t.preventDefault(),e)return;e=!0,document.getElementById(`cursor`).classList.ad"
+    },
+    {
+      "step_id": "click_prompt",
+      "action": "click",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://arhan.sh/",
+        "origin": "https://arhan.sh",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_sha256": "9c6ea184359506fcbabb1ff6fbe6386a4f30bac0b313ae7c07536491b71c7bc8",
+      "dom_bytes": 9743,
+      "selected_html": "<main data-astro-cid-ju4pidww=\"\"><template id=\"troll-text\" data-astro-cid-lcdefpme=\"\"><div id=\"troll-flex-wrapper\" class=\"input-mono\" data-astro-cid-lcdefpme=\"\"><span data-astro-cid-lcdefpme=\"\">🤨 We are sorry. This page has been made unavailable under... mysterious circumstances.<br data-astro-cid-lcdefpme=\"\">Please click <span id=\"reload-text\" onclick=\"window.location.reload()\" data-astro-cid-lcdefpme=\"\">here</span> to reload.</span></div></template><script type=\"module\">var e=!1;function t(t){if(t.preventDefault(),e)return;e=!0,document.getElementById(`cursor`).classList.ad"
+    },
+    {
+      "step_id": "observe_typed_text",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://arhan.sh/",
+        "origin": "https://arhan.sh",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_sha256": "ed072f2404d3c44a4cf2993d2972c0f8de96b7f38e4d28bd915c87f0da951969",
+      "dom_bytes": 9751,
+      "selected_html": "<main data-astro-cid-ju4pidww=\"\"><template id=\"troll-text\" data-astro-cid-lcdefpme=\"\"><div id=\"troll-flex-wrapper\" class=\"input-mono\" data-astro-cid-lcdefpme=\"\"><span data-astro-cid-lcdefpme=\"\">🤨 We are sorry. This page has been made unavailable under... mysterious circumstances.<br data-astro-cid-lcdefpme=\"\">Please click <span id=\"reload-text\" onclick=\"window.location.reload()\" data-astro-cid-lcdefpme=\"\">here</span> to reload.</span></div></template><script type=\"module\">var e=!1;function t(t){if(t.preventDefault(),e)return;e=!0,document.getElementById(`cursor`).classList.ad"
+    },
+    {
+      "step_id": "observe_erase",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://arhan.sh/",
+        "origin": "https://arhan.sh",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_sha256": "094cb63349610543c0f1677c56bd22d670bae8d27e7f3b38f35414c99ebbb9eb",
+      "dom_bytes": 5466,
+      "selected_html": "<main data-astro-cid-ju4pidww=\"\"><div id=\"troll-flex-wrapper\" class=\"input-mono\" data-astro-cid-lcdefpme=\"\"><span data-astro-cid-lcdefpme=\"\">🤨 We are sorry. This page has been made unavailable under... mysterious circumstances.<br data-astro-cid-lcdefpme=\"\">Please click <span id=\"reload-text\" onclick=\"window.location.reload()\" data-astro-cid-lcdefpme=\"\">here</span> to reload.</span></div></main><div id=\"copyright\" class=\"input-mono\" data-astro-cid-ju4pidww=\"\">© 2026 Arhan Chaudhary • <a href=\"mailto:arhan.ch@gmail.com\" data-astro-cid-ju4pidww=\"\">contact</a> • <a href=\"/rss.xm",
+      "accessibility_excerpt": "- document:\n  - link \"home@arhan.sh:~$ █\":\n    - /url: /\n  - main: 🤨 We are sorry. This page has been made unavailable under... mysterious circumstances. Please click here to reload.\n  - text: © 2026 Arhan Chaudhary •\n  - link \"contact\":\n    - /url: mailto:arhan.ch@gmail.com\n  - text: •\n  - link \"rss\":\n    - /url: /rss.xml\n  - navigation:\n    - link \"Home\":\n      - /url: /\n    - link \"Blog\":\n      - /url: /blog/\n    - link \"Projects\":\n      - /url: /projects/\n    - link \"Cubing\":\n      - /url: /cubing/\n    - link \"CTFing\":\n      - /url: /ctfing/\n    - link \"Reading\":\n      - /url: /reading/\n    - link \"Resume\":\n      - /url: https://resume.arhan.sh\n    - img"
+    }
+  ],
+  "page_errors": [],
+  "selected_source_facts": [
+    "Prompt handler prevents anchor navigation, toggles cursor blinking, types theatrical command as text, recursively removes local main DOM, replaces main with template. No shell execution present in inspected handler. Final erasure observed in egg scenario."
+  ],
+  "unknowns": [
+    "No screenshot or complete visual/keyboard/mobile audit.",
+    "No network bodies requested; no backing database inferred.",
+    "Only declared local interaction was performed; normal page GETs may produce service logs.",
+    "Selected extracts exclude most original DOM; canonical REA record ID identifies full capture."
+  ]
+}

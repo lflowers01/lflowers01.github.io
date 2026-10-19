@@ -1,0 +1,184 @@
+{
+  "record_kind": "Analyst-selected REA evidence extract; not a portable Evidence bundle",
+  "research_date": "2026-10-18",
+  "evidence_id": "ev_3e397fa5b864df8d4edc367703b272d7ad4e2484b53f8ff4763e4f57ef4490f2",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://tilde.town/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "hide-text",
+        "action": "click",
+        "locator": {
+          "kind": "role",
+          "role": "button",
+          "name": "hide all this text"
+        },
+        "button": "left",
+        "click_count": 1
+      },
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 400
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [
+        "dom"
+      ],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url",
+        "screenshot"
+      ],
+      "events": [
+        "page-errors"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "3c982c4faab5a783cd6349d709614a5ee4575ed8d24bee67a5b900cb634f7ee3"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "after_url": {
+        "url": "https://tilde.town/",
+        "origin": "https://tilde.town",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "2e1e5162c6d2e607824db6c82063bd716d7a7f8e32849d9a6e596ff0a165a166",
+        "bytes": 216914,
+        "selected_facts": [
+          "function toggleDots() {\n\tdocument.getElementsByTagName(\"main\")[0].classList.toggle(\"dotted\");\n}\n\t</script>\n</head>\n\n<body",
+          "<main>"
+        ]
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "step_id": "hide-text",
+      "action": "click",
+      "status": "completed",
+      "error": null,
+      "after_url": {
+        "url": "https://tilde.town/",
+        "origin": "https://tilde.town",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "6c5db067ac5fd0899bae652936f9e20a81b415e690d144732396d1de84290c36",
+        "bytes": 216929,
+        "selected_facts": [
+          "function toggleDots() {\n\tdocument.getElementsByTagName(\"main\")[0].classList.toggle(\"dotted\");\n}\n\t</script>\n</head>\n\n<body",
+          "<main class=\"dotted\">"
+        ]
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "after_url": {
+        "url": "https://tilde.town/",
+        "origin": "https://tilde.town",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "6c5db067ac5fd0899bae652936f9e20a81b415e690d144732396d1de84290c36",
+        "bytes": 216929,
+        "selected_facts": [
+          "function toggleDots() {\n\tdocument.getElementsByTagName(\"main\")[0].classList.toggle(\"dotted\");\n}\n\t</script>\n</head>\n\n<body",
+          "<main class=\"dotted\">"
+        ]
+      },
+      "accessibility": {
+        "sha256": "f31c93a5e1b6e39db406c7c9e9786b07d8cf1b927ff88174e880a860c3f0efc1",
+        "selected_text": "- document:\n  - main:\n    - link:\n      - /url: /~cmr\n    - link:\n      - /url: /~robert\n    - link:\n      - /url: /~theanalyst\n    - link:\n      - /url: /~pique\n    - link:\n      - /url: /~cwcowellshah\n    - link:\n      - /url: /~silentbicycle\n    - link:\n      - /url: /~max\n    - link:\n      - /url: /~englishm\n    - link:\n      - /url: /~jcaudle\n    - link:\n      - /url: /~mortonfox\n    - link:\n      - /url: /~sanqui\n    - link:\n      - /url: /~veatch\n    - link:\n      - /url: /~antic\n    - link:\n      - /url: /~ironfroggy\n    - link:\n      - /url: /~undeadcactus\n    - link:\n      - /url: /~busb\n    - link:\n      - /url: /~MichalBryxi\n    - link:\n      - /url: /~zaren\n    - link:\n      - /url: /~rll\n    - link:\n      - /url: /~gobbldyg00k\n    - link:\n      - /url: /~ilesinge\n    - link:\n      - /url: /~spook\n    - link:\n      - /url: /~peter\n    - link:\n      - /url: /~skk\n    - link:\n      - /url: /~selfsame\n    - link:\n      - /url: /~xmc\n    - link:\n      - /url: /~monstrologer\n    - link:\n      - /url: /~objelisks\n    - link:\n      - /url: /~thramp\n    - link:\n      - /url: /~audiodude\n    - link:\n      - /url: /~bt\n    - link:\n      - /url: /~emiltayl\n    - link:\n      - /url: /~tullyhansen\n    - link:\n      - /url: /~ahava\n    - link:\n      - /url: /~magical\n    - link:\n      - /url: /~joshumax\n    - link:\n      - /url: /~sigveseb\n    - link:\n      - /url: /~abundantmussel\n    - link:\n      - /url: /~ags\n    - link:\n      - /url: /~quephird\n    - link:\n      - /url: /~folio\n    - link:\n      - /url: /~grb\n    - link:\n      - /url: /~mgoh\n    - link:\n      - /url: /~"
+      },
+      "screenshot": {
+        "sha256": "10a7f00a6dc9536052c9dc4945203dab11675a16a3289521effc64d62b5147f3",
+        "bytes": 79989,
+        "media_type": "image/png",
+        "visually_reviewed": true
+      }
+    }
+  ],
+  "events": {
+    "retained": 0,
+    "dropped": 0,
+    "items": []
+  },
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "unknowns": [
+    "No mobile, Safari, keyboard-complete or assistive-technology audit.",
+    "No source repository audit or backend inspection.",
+    "Screenshot is a single frame; it does not establish animation behavior."
+  ]
+}

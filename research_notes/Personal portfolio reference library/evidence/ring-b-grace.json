@@ -1,0 +1,124 @@
+{
+  "record_kind": "Analyst-selected extract, not complete canonical REA Evidence",
+  "capture_date": "2026-10-18",
+  "evidence_id": "ev_44f9301d44180a7057234f3c43ddc7f5a49d9aaf7c4b5ee2cdf640128a697838",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://grace.pink/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 2000
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url"
+      ],
+      "events": [
+        "page-errors"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "e79c5013c5cd8de1c0ed6b3e29326eaed1310ec94ae157bd2fbff946238e3b50"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://grace.pink/",
+        "origin": "https://grace.pink",
+        "query_parameter_names": [],
+        "redacted": false
+      }
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://grace.pink/",
+        "origin": "https://grace.pink",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_sha256": "bb37075ac06ef3675a0c25cb536052f60c264e192ea5d95ed564f183efa5c87a",
+      "dom_bytes": 19970,
+      "selected_html": "<canvas id=\"tree-background\" aria-hidden=\"true\" width=\"1280\" height=\"900\">",
+      "accessibility_excerpt": "- document:\n  - navigation \"Main navigation\":\n    - link \"grace.pink\":\n      - /url: /\n    - link \"Blog\":\n      - /url: /blog.html\n    - link \"Art\":\n      - /url: /art.html\n  - main:\n    - heading \"Hi!\" [level=1]\n    - paragraph: I am Grace and I am an Tinkerer. I love computer, electronics, pretty much anything that processes information. I also like to mess around with art of various types. I knit and crochet occasionally and sometimes draw stuff even if I am not great at it.\n    - paragraph: I have some links down below if you want to find me other places. Reach out! I love to talk.\n  - contentinfo:\n    - heading \"Friends\" [level=1]\n    - link \"grace.pink\":\n      - /url: https://grace.pink\n      - img \"grace.pink\"\n    - link \"Armbordy's site\":\n      - /url: https://armbordy.neocities.org\n      - img \"Armbordy's site\"\n    - link \"Charbroil's site\":\n      - /url: https://charbroil.me\n      - img \"Charbroil's site\"\n    - link \"Ersei and Stuff\":\n      - /url: https://ersei.net\n      - img \"Ersei and Stuff\"\n    - link \"Mint's site\":\n      - /url: https://www.freshlygrown.me\n      - img \"Mint's site\"\n    - link \"Lumi's site\":\n      - /url: https://shad.moe\n      - img \"Lumi's site\"\n  "
+    }
+  ],
+  "page_errors": [],
+  "selected_source_facts": [
+    "Canvas tree-background aria-hidden true; 2D context, Path2D branches/crown; bounded devicePixelRatio; seeded random stored under sessionStorage key grace.pink.tree-seed; requestAnimationFrame; reduced-motion draw(0) and cancellation. Source presence is not proof every branch executed."
+  ],
+  "unknowns": [
+    "No screenshot or complete visual/keyboard/mobile audit.",
+    "No network bodies requested; no backing database inferred.",
+    "Only declared local interaction was performed; normal page GETs may produce service logs.",
+    "Selected extracts exclude most original DOM; canonical REA record ID identifies full capture."
+  ]
+}

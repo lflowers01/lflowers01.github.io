@@ -1,0 +1,138 @@
+{
+  "record_kind": "Analyst-selected evidence extract, not complete REA Evidence",
+  "captured_date": "2026-10-18",
+  "evidence_id": "ev_76cb1d2e1b0d8c600cc9a624d0770cf6fa7db204f5b40fb6f63a25ccee4cce67",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://nekodir.nekoweb.org/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 2000
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url"
+      ],
+      "events": [
+        "page-errors",
+        "network"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "989f5ac116d5c91dfd991d5be4a1746fb4d35ee098e295ae4ed8ef6673685a0e"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://nekodir.nekoweb.org/",
+        "origin": "https://nekodir.nekoweb.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": null,
+      "storage": {
+        "state": "not_requested"
+      }
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://nekodir.nekoweb.org/",
+        "origin": "https://nekodir.nekoweb.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "ef6881ff7a9623afa9930d0cf6ceadc8e6d5ef5057d4eee86410731c4277e6b1",
+        "bytes": 141179,
+        "html_root": "<html lang=\"en\">",
+        "first_article_title": "Love Dove"
+      },
+      "storage": {
+        "state": "not_requested"
+      }
+    }
+  ],
+  "selected_dom_excerpt": "<input id=\"q\" placeholder=\"Search titles or tags...\">\n                  </div>\n                  <button class=\"btn\" id=\"clearBtn\">Clear</button>\n                  <button class=\"btn\" id=\"shuffleBtn\">Shuffle</button>\n               </div>\n               <div id=\"tagCategories\"><div class=\"tag-category\"><h4>Language</h4><div class=\"tagbar\"><button class=\"tag neutral\">English (178)</button><button class=\"tag neutral\">Spanish (1)</button><button class=\"tag neutral\">Japanese (17)</button><button class=\"tag neutral\">Korean (5)</button><button class=\"ta",
+  "events_summary": {
+    "count": 809,
+    "page_errors": [],
+    "network_methods": [
+      "GET"
+    ]
+  },
+  "unknowns": [
+    "No screenshots retained; no visual/device/accessibility audit.",
+    "Storage persistence after browser/profile deletion was not tested.",
+    "No server implementation, database or unique-user semantics established.",
+    "Page loads may cause normal remote access logging; no submission or deliberate shared-state mutation performed."
+  ]
+}

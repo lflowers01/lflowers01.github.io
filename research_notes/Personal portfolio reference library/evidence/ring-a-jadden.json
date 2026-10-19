@@ -1,0 +1,149 @@
+{
+  "record_kind": "Analyst-selected extract, not portable full REA Evidence",
+  "research_date": "2026-10-18",
+  "evidence_id": "ev_8ac6fb5af7deaa4fabbce968888cbddf9c3033875682deaa11c659f8925c643d",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://www.jaddens.page/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "theme",
+        "action": "click",
+        "locator": {
+          "kind": "role",
+          "role": "button",
+          "name": "Dark Mode"
+        },
+        "button": "left",
+        "click_count": 1
+      },
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 300
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url"
+      ],
+      "events": [],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "677e031f7bc5120fd95d2da923f15c95697ef02fed7ae9041f08480a0cd6b6a3"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://www.jaddens.page/",
+        "origin": "https://www.jaddens.page",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": null,
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "theme",
+      "action": "click",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://www.jaddens.page/",
+        "origin": "https://www.jaddens.page",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": null,
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://www.jaddens.page/",
+        "origin": "https://www.jaddens.page",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "8bab38d6e612d0a9308fe218b3de2afff90e0b99fcb9dc07742bba518d950148",
+        "bytes": 39795,
+        "root": "<html lang=\"en\" data-theme=\"dark\">"
+      },
+      "accessibility": {
+        "sha256": "48fa38fdba7ae88d039ef824a6e0629f098100429a8fda18c7cf0d6473355b99",
+        "selected_text": "- document:\n  - text: Page loaded\n  - navigation \"Primary\":\n    - text: Home\n    - link \"About\":\n      - /url: /about\n    - link \"Now\":\n      - /url: /now\n  - main:\n    - paragraph: Hi, I'm Jadden Picardal (she/her)\n    - paragraph:\n      - text: I'm a programmer and designer, studying computer engineering at\n      - link \"Purdue\":\n        - /url: https://www.purdue.edu/\n      - text: (Fall 2026)\n    - paragraph:\n      - text: I love\n      - link \"motion design\":\n        - /url: https://x.com/igarakii/status/2034432270375801233\n      - text: and making things move\n    - paragraph:\n      - text: I'm a design engineer at\n      - link \"Infisical\":\n        - /url: https://infisical.com\n      - text: \"& I'm making corners of the world wide web stick with\"\n      - link \"jamms\":\n        - /url: https://jam.ms\n    - paragraph: \"For project inquiries: jadden [at] jam [dot] ms I'm booked for Q3, booking for Q4\"\n    - paragraph:\n      - text: Links...\n      - link \"GitHub\":\n        - /url: https://github.com/jaddenki\n      - text: \",\"\n      - link \"LinkedIn\":\n        - /url: https://www.linkedin.com/in/jadden-picardal\n      - text: \",\"\n      - link \"Are.na\":\n        - /url: https://www.are.na"
+      },
+      "screenshot": null
+    }
+  ],
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "unknowns": [
+    "No mobile, comprehensive accessibility, browser compatibility or performance audit.",
+    "No audio listened to; no private or backend data audited.",
+    "Snapshot visual metadata does not establish animation."
+  ]
+}

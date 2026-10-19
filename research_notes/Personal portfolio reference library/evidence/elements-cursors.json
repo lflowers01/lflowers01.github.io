@@ -1,0 +1,214 @@
+{
+  "record_kind": "Analyst-selected evidence receipt; not complete REA Evidence",
+  "captured_date": "2026-10-18",
+  "evidence_id": "ev_f4bbc081f027493a7f497089ec96c141bce68b64d2f4397090f648499e3b1ea2",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://tholman.com/cursor-effects/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "no-preference",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 1500
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url"
+      ],
+      "events": [
+        "network",
+        "page-errors"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "0eff28a84a121d3c2693cb5ae45776477d9a9c77a32e6296411fdd917a0053cd"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://tholman.com/cursor-effects/",
+        "origin": "https://tholman.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": null
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://tholman.com/cursor-effects/",
+        "origin": "https://tholman.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "e13207b2cc53401a9c8197dc8f3c5cc32bcbac88a6ff90c0e12d704da8ec7416",
+        "bytes": 11206,
+        "selected_extracts": [
+          "<div id=\"ants\" class=\"effect\"><canvas width=\"1214\" style=\"top: 0px; left: 0px; pointer-events: none; z-index: 2147483647; position: absolute;\" height=\"307\"></canvas></div>",
+          "<div id=\"rainbow\" class=\"effect\"><canvas width=\"1214\" style=\"top: 0px; left: 0px; pointer-events: none; position: absolute;\" height=\"307\"></canvas></div>",
+          "<div id=\"clock\" class=\"effect\"><canvas width=\"1214\" style=\"top: 0px; left: 0px; pointer-events: none; position: absolute;\" height=\"307\"></canvas></div>",
+          "<div id=\"fairyDust\" class=\"effect\"><canvas width=\"1214\" style=\"top: 0px; left: 0px; pointer-events: none; position: absolute;\" height=\"307\"></canvas></div>",
+          "<div id=\"textFlag\" class=\"effect\"><canvas width=\"1214\" style=\"top: 0px; left: 0px; pointer-events: none; position: absolute;\" height=\"307\"></canvas></div>"
+        ]
+      }
+    }
+  ],
+  "selected_network": [
+    {
+      "url": "https://tholman.com/cursor-effects/",
+      "status": 200,
+      "resource_type": "document"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/style.css",
+      "status": 200,
+      "resource_type": "stylesheet"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/rainbowCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/ghostCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/trailingCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/fairyDustCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/emojiCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/snowflakeCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/followingDotCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/antsCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/springyEmojiCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/bubbleCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/textFlag.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/characterCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/src/clockCursor.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://tholman.com/cursor-effects/index.js",
+      "status": 200,
+      "resource_type": "script"
+    },
+    {
+      "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-Y6742VNR4P&gtm=45je6ae1v9100761143za208zd9100761143xf1&_p=1792362287825&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=282414815.1792362288&frm=0&ngs=1&pscdl=noapi&rcb=6&sr=1280x900&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B8.0.0.0%7CChromium%3B156.0.8078.4&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=en-us&_s=1&tag_exp=115938466~115938468~118897920~118897930~119404697~120213116~120385423~120469145~120469153~121246026~121246034&sid=1792362288&sct=1&seg=0&dl=https%3A%2F%2Ftholman.com%2Fcursor-effects%2F&dt=90%27s%20Cursor%20Effects&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=881",
+      "status": 204,
+      "resource_type": "fetch"
+    }
+  ],
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "unknowns": [
+    "No screenshots, audio or performance profile captured.",
+    "DOM and resource evidence does not establish perceived animation smoothness or accessibility.",
+    "No backend/private state inspected or external content submitted."
+  ]
+}

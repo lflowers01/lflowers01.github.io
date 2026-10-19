@@ -1,0 +1,215 @@
+{
+  "record_kind": "Analyst-selected REA evidence extract; not a portable Evidence bundle",
+  "research_date": "2026-10-18",
+  "evidence_id": "ev_cb00a8f2375402d8509b761416d0ab4d5e32b70397d06efb1065768fbe86128c",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://cinni.net/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "theme",
+        "action": "click",
+        "locator": {
+          "kind": "css",
+          "selector": "button.toggle"
+        },
+        "button": "left",
+        "click_count": 1
+      },
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 500
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [
+        "dom"
+      ],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url",
+        "screenshot"
+      ],
+      "events": [
+        "page-errors"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "60d83e4cdfb64cc38361705c059251a1904ddccf1cd148f653ec46d3494b9395"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "after_url": {
+        "url": "https://cinni.net/",
+        "origin": "https://cinni.net",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "6e36bbbc164d8ba5f8d4cc79ccd9511771b83a6315a116b82261d459033fde8e",
+        "bytes": 7292,
+        "selected_facts": [
+          "<html data-theme=\"null\">",
+          "<button class=\"toggle\" onclick=\"toggleTheme();window.location.reload();\" style=\"margin:5px auto\">",
+          "<iframe src=\"/home\" width=\"565\" height=\"530\" frameborder=\"0\" scrolling=\"yes\" name=\"frame\" id=\"mainframe\">"
+        ]
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "step_id": "theme",
+      "action": "click",
+      "status": "completed",
+      "error": null,
+      "after_url": {
+        "url": "https://cinni.net/",
+        "origin": "https://cinni.net",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "c0729176682b0298939357dd8830e2f9e0c7c0596cf96f90180d017709d39833",
+        "bytes": 7292,
+        "selected_facts": [
+          "<html data-theme=\"dark\">",
+          "<button class=\"toggle\" onclick=\"toggleTheme();window.location.reload();\" style=\"margin:5px auto\">",
+          "<iframe src=\"/home\" width=\"565\" height=\"530\" frameborder=\"0\" scrolling=\"yes\" name=\"frame\" id=\"mainframe\">"
+        ]
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "after_url": {
+        "url": "https://cinni.net/",
+        "origin": "https://cinni.net",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "c0729176682b0298939357dd8830e2f9e0c7c0596cf96f90180d017709d39833",
+        "bytes": 7292,
+        "selected_facts": [
+          "<html data-theme=\"dark\">",
+          "<button class=\"toggle\" onclick=\"toggleTheme();window.location.reload();\" style=\"margin:5px auto\">",
+          "<iframe src=\"/home\" width=\"565\" height=\"530\" frameborder=\"0\" scrolling=\"yes\" name=\"frame\" id=\"mainframe\">"
+        ]
+      },
+      "accessibility": {
+        "sha256": "f73ec2afd409225f4a89de1f4220d70aa0b22fc774753bab2b8e46c691af7b97",
+        "selected_text": "- document:\n  - link:\n    - /url: https://cinni.net/\n  - img\n  - text: welcome to cinni's dream home... we hope you enjoy your stay!\n  - img\n  - link \"my piclog!\":\n    - /url: https://piclog.blue/profile.php?id=130\n    - img \"my piclog!\"\n  - link:\n    - /url: https://www.imood.com/users/cinni\n    - img\n  - paragraph\n  - button \"change theme\"\n  - link \"Furcadia!\":\n    - /url: https://www.furcadia.com/\n    - img \"Furcadia!\"\n  - link:\n    - /url: https://99gifshop.neocities.org/\n    - img\n  - link:\n    - /url: https://entranceorexit.net/\n    - img\n  - link:\n    - /url: https://oekaki.cinni.net/\n    - img\n  - link:\n    - /url: https://cinni.net/rss.xml\n    - img\n  - iframe\n  - navigation:\n    - heading \"Nav\" [level=2]:\n      - img\n      - text: Nav\n      - img\n    - list:\n      - listitem:\n        - img\n        - link \"about\":\n          - /url: about.html\n      - listitem:\n        - img\n        - link \"art\":\n          - /url: https://cinni.net/art/\n      - listitem:\n        - img\n        - link \"games\":\n          - /url: games.html\n      - listitem:\n        - img\n        - link \"music\":\n          - /url: https://cinni.net/music.html\n      - listitem:\n        - img\n        - link \"library\":\n          - /url: https://cinni.net/books/\n      - listitem:\n        - img\n        - link \"shrines\":\n          - /url: https://cinni.net/shrine.html\n      - listitem:\n        - img\n        - link \"furcadia\":\n          - /url: https://cinni.net/furc/\n      - listitem:\n        - img\n        - link \"petz\":\n          - /url: https://cinni.net/petz/\n      - listitem:\n        - img\n        - link \""
+      },
+      "screenshot": {
+        "sha256": "713ea39a298acc8bf2083b915c7284c77d08c7411185a97468ddacc5474cf358",
+        "bytes": 371199,
+        "media_type": "image/png",
+        "visually_reviewed": true
+      }
+    }
+  ],
+  "events": {
+    "retained": 4,
+    "dropped": 0,
+    "items": [
+      {
+        "sequence": 1,
+        "step_index": 0,
+        "kind": "page-error",
+        "message": "Weather is not defined",
+        "stack": "ReferenceError: Weather is not defined\n    at https://cinni.net/js/myweather.js:2:2"
+      },
+      {
+        "sequence": 2,
+        "step_index": 0,
+        "kind": "page-error",
+        "message": "Weather is not defined",
+        "stack": "ReferenceError: Weather is not defined\n    at https://cinni.net/weather/myweather.js:2:2"
+      },
+      {
+        "sequence": 3,
+        "step_index": 1,
+        "kind": "page-error",
+        "message": "Weather is not defined",
+        "stack": "ReferenceError: Weather is not defined\n    at https://cinni.net/js/myweather.js:2:2"
+      },
+      {
+        "sequence": 4,
+        "step_index": 1,
+        "kind": "page-error",
+        "message": "Weather is not defined",
+        "stack": "ReferenceError: Weather is not defined\n    at https://cinni.net/weather/myweather.js:2:2"
+      }
+    ]
+  },
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "unknowns": [
+    "No mobile, Safari, keyboard-complete or assistive-technology audit.",
+    "No source repository audit or backend inspection.",
+    "Screenshot is a single frame; it does not establish animation behavior."
+  ]
+}

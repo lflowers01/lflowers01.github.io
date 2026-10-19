@@ -1,0 +1,94 @@
+{
+  "record_kind": "Analyst-selected REA evidence extract, not complete Evidence",
+  "research_date": "2026-10-18",
+  "evidence_id": "ev_1d5526f19df05f35389f3ceee1bd7a7906f5d1d22cb8f8beb15dfa3771a8b3cd",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://98.js.org/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "start-menu",
+        "action": "click",
+        "locator": {
+          "kind": "css",
+          "selector": ".start-button"
+        },
+        "button": "left",
+        "click_count": 1
+      },
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 300
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [],
+      "at_end": [
+        "screenshot",
+        "url"
+      ],
+      "events": [],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "1ae5815ed3ed437b2dcf038c27bc0ec64ac474281d48e66ef21e53ea51289afa"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "screenshot": {
+    "sha256": "affeb032e24eaf4328c8549fac850bd499d6044a939b3857b9c8a6ccaaf96967",
+    "bytes": 470349,
+    "media_type": "image/png",
+    "visually_reviewed": true
+  },
+  "observed": [
+    "Cloud wallpaper fills desktop; icon columns at upper left; grey taskbar at bottom.",
+    "Start click exposes a grey novelty strawberry-tart panel."
+  ],
+  "unknowns": [
+    "Full OS programs not exercised.",
+    "No mobile or keyboard audit."
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "record_kind": "Analyst-selected extract, not portable full REA Evidence",
+  "research_date": "2026-10-18",
+  "evidence_id": "ev_4591357b7f6c229084f68e450788f2b9ad2753ea87d9d5a9503191c093c9dd7a",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://artusmosquet.com/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "theme",
+        "action": "click",
+        "locator": {
+          "kind": "role",
+          "role": "button",
+          "name": "Toggle dark mode"
+        },
+        "button": "left",
+        "click_count": 1
+      },
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 300
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [
+        "dom"
+      ],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url",
+        "screenshot"
+      ],
+      "events": [],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "532037e7ceb7156554166b2f2308dafbe03004f24231ebf36c428549d2ce795b"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://artusmosquet.com/en/",
+        "origin": "https://artusmosquet.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "20f5cd7787ec72bd479605969bbdd2ca23910d4a35bda0b2ff8a635fa5f5fdd6",
+        "bytes": 49268,
+        "root": "<html lang=\"en\" data-furigana=\"off\" data-theme=\"light\">",
+        "h1_plain": "Hello There!"
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "theme",
+      "action": "click",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://artusmosquet.com/en/",
+        "origin": "https://artusmosquet.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "cfff0bc6c8cf80af1aee09f9056664c76e20a9cf81a533ccb0f2901bb5eca3ae",
+        "bytes": 49266,
+        "root": "<html lang=\"en\" data-furigana=\"off\" data-theme=\"dark\">",
+        "h1_plain": "Hello There!"
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://artusmosquet.com/en/",
+        "origin": "https://artusmosquet.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "cfff0bc6c8cf80af1aee09f9056664c76e20a9cf81a533ccb0f2901bb5eca3ae",
+        "bytes": 49266,
+        "root": "<html lang=\"en\" data-furigana=\"off\" data-theme=\"dark\">",
+        "h1_plain": "Hello There!"
+      },
+      "accessibility": {
+        "sha256": "f31054e80d0d9fad9fb935ffa06098dd7ffa55a514dff91bb3e519b946b7f915",
+        "selected_text": "- document:\n  - navigation:\n    - text: Artus Mosquet\n    - link \"Home\":\n      - /url: /en/\n    - link \"Blog\":\n      - /url: /en/blog/\n    - link \"About\":\n      - /url: /en/about/\n    - link \"Projects\":\n      - /url: /en/projects/\n    - link \"Reading List\":\n      - /url: /en/reading/\n    - link \"Status\":\n      - /url: https://status.amcloud.dev\n    - button \"Toggle dark mode\" [pressed]\n    - button \"en\"\n  - main:\n    - heading \"Hello There!\" [level=1]\n    - paragraph: I'm a Full-Time ECE Student at Purdue. I speak French and English, and I enjoy working on my servers and projects.\n    - link \"GitHub\":\n      - /url: https://github.com/amosquet\n      - img\n    - link \"LinkedIn\":\n      - /url: https://www.linkedin.com/in/artusmosquet\n      - img\n    - link \"Email\":\n      - /url: mailto:contact@amcloud.dev\n      - img\n    - link \"Resume (PDF)\":\n      - /url: /Artus_Mosquet_Resume.pdf\n      - img\n    - link \"About\":\n      - /url: /en/about\n      - text: About\n      - img\n    - text: What I'm Doing Now Now\n    - list:\n      - listitem: 🎓 Studying Electrical Engineering at Purdue University\n      - listitem: ⚡ Organising workshops and data archiving at Purdue Hackers\n      - listitem: 🖥"
+      },
+      "screenshot": {
+        "sha256": "554aaab3c5fcbf1b18a198bb5f66df25c3375549134a1085ae62538a48fdab51",
+        "bytes": 132410,
+        "media_type": "image/png",
+        "visually_reviewed": true
+      }
+    }
+  ],
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "unknowns": [
+    "No mobile, comprehensive accessibility, browser compatibility or performance audit.",
+    "No audio listened to; no private or backend data audited.",
+    "Snapshot visual metadata does not establish animation."
+  ]
+}

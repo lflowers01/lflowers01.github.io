@@ -1,0 +1,201 @@
+{
+  "record_kind": "Analyst-selected extract, not portable full REA Evidence",
+  "research_date": "2026-10-18",
+  "evidence_id": "ev_0e66a4bd06d7aeea81ff53d31558b9290f46e6787a906102e9c474f065029246",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://www.alicias.page/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "early",
+        "action": "wait_for_timeout",
+        "duration_ms": 500
+      },
+      {
+        "step_id": "later",
+        "action": "wait_for_timeout",
+        "duration_ms": 2200
+      },
+      {
+        "step_id": "mute-effects",
+        "action": "click",
+        "locator": {
+          "kind": "role",
+          "role": "button",
+          "name": "Sound effects"
+        },
+        "button": "left",
+        "click_count": 1
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [
+        "dom"
+      ],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url",
+        "screenshot"
+      ],
+      "events": [],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "e00511ab2121583b3830bc9d8d576fa7c2c73704a75264cbaa944afe280ec171"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://www.alicias.page/",
+        "origin": "https://www.alicias.page",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "b8c06d3450cda8b69621fd247ec1193c8547fad83a36b3641f42aab720e6a329",
+        "bytes": 58868,
+        "root": "<html class=\"scroll-smooth dark theme-applied has-square-cursor\" lang=\"en\" style=\"scroll-behavior: smooth;\">",
+        "sound": "<button aria-label=\"Sound effects\" class=\"items-center flex text-primary data-[state=off]:hover:text-ds-blue data-[state=off]:text-ds-gray-100 duration-200 hover:text-ds-blue transition-colors\" data-sfx=\"list\" aria-pressed=\"true\" data-state=\"on\" id=\"sound-toggle\" type=\"button\">",
+        "h1_plain": "&nbsp;&nbsp;DH&nbsp;Q ▒&nbsp;&nbsp;&nbsp;",
+        "pre_plain": "&nbsp;&nbsp;&nbsp;!&nbsp;&nbsp;,&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;G&nbsp;&nbsp;U&nbsp;L/}I&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P&nbsp;&nbsp;U&nbsp;4&nbsp;(O&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;J&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3E&nbsp;&nbsp;&nbsp;8&gt;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;E&nbsp;&nbsp;Q!&nbsp;&nbsp;6&nbsp;&nbsp;]0&nbsp;&nbsp;T}@&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QHX&nbsp;K&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;W&n"
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "early",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://www.alicias.page/",
+        "origin": "https://www.alicias.page",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "ad157dbfe6a56c81b810fb454122580c10437864af64c0b5e7abf08466e927f7",
+        "bytes": 58684,
+        "root": "<html class=\"scroll-smooth dark theme-applied has-square-cursor\" lang=\"en\" style=\"scroll-behavior: smooth;\">",
+        "sound": "<button aria-label=\"Sound effects\" class=\"items-center flex text-primary data-[state=off]:hover:text-ds-blue data-[state=off]:text-ds-gray-100 duration-200 hover:text-ds-blue transition-colors\" data-sfx=\"list\" aria-pressed=\"true\" data-state=\"on\" id=\"sound-toggle\" type=\"button\">",
+        "h1_plain": "D8UJ{* E&nbsp;&nbsp;0",
+        "pre_plain": "#L&nbsp;X&nbsp;T-X&nbsp;&nbsp;A&nbsp;&nbsp;=&nbsp;&nbsp;+0CF7V!&nbsp;&nbsp;H&nbsp;A&nbsp;&nbsp;T,P&nbsp;@=&nbsp;&nbsp;&nbsp;$&nbsp;0QB8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;]&nbsp;}&nbsp;!A&nbsp;&nbsp;&nbsp;&nbsp;J&nbsp;!&nbsp;K&amp;LF&nbsp;&nbsp;4J&nbsp;&nbsp;1&nbsp;&nbsp;ZC2&nbsp;Z(2&nbsp;+H[&nbsp;&nbsp;_;ROUF&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;$&nbsp;K*&nbsp;A&nbsp;&nbsp;R1K&nbsp;&lt;]&nbsp;&nbsp;&nbsp;E&nbsp;TC&nbsp;&nbsp;LW&nbsp;&lt;&nbsp;&nbs"
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "later",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://www.alicias.page/",
+        "origin": "https://www.alicias.page",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "e405a6e433f64ff9ec3526ea4ab10ffb2ec271066d92d5dde6a31cfbbbb000ef",
+        "bytes": 58839,
+        "root": "<html class=\"scroll-smooth dark theme-applied has-square-cursor\" lang=\"en\" style=\"scroll-behavior: smooth;\">",
+        "sound": "<button aria-label=\"Sound effects\" class=\"items-center flex text-primary data-[state=off]:hover:text-ds-blue data-[state=off]:text-ds-gray-100 duration-200 hover:text-ds-blue transition-colors\" data-sfx=\"list\" aria-pressed=\"true\" data-state=\"on\" id=\"sound-toggle\" type=\"button\">",
+        "h1_plain": "alicia zhou",
+        "pre_plain": "▐▓█▀▀▀▀▀▀▀▀▀█▓▌&nbsp;▄▄▄▄▄▐▓█░░░░░░░░░█▓▌&nbsp;█████▐▓█░░▀░░▀▄░░█▓▌&nbsp;█▄▄▄█▐▓█░░▄░░▄▀░░█▓▌&nbsp;█▄▄▄█▐▓█░░░░░░░░░█▓▌&nbsp;█████▐▓█▄▄▄▄▄▄▄▄▄█▓▌&nbsp;█████&nbsp;&nbsp;&nbsp;&nbsp;▄▄███▄▄&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;█████ "
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "mute-effects",
+      "action": "click",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://www.alicias.page/",
+        "origin": "https://www.alicias.page",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "30b435df5a1c867c8057f40ebd1622cb99942ef1745c4ac622aa6180a60c97bd",
+        "bytes": 58916,
+        "root": "<html class=\"scroll-smooth dark theme-applied has-square-cursor\" lang=\"en\" style=\"scroll-behavior: smooth;\">",
+        "sound": "<button aria-label=\"Sound effects\" class=\"items-center flex text-primary data-[state=off]:hover:text-ds-blue data-[state=off]:text-ds-gray-100 duration-200 hover:text-ds-blue transition-colors\" data-sfx=\"list\" aria-pressed=\"false\" data-state=\"off\" id=\"sound-toggle\" type=\"button\">",
+        "h1_plain": "alicia zhou",
+        "pre_plain": "▐▓█▀▀▀▀▀▀▀▀▀█▓▌&nbsp;▄▄▄▄▄▐▓█░░░░░░░░░█▓▌&nbsp;█████▐▓█░░▀░░▀▄░░█▓▌&nbsp;█▄▄▄█▐▓█░░▄░░▄▀░░█▓▌&nbsp;█▄▄▄█▐▓█░░░░░░░░░█▓▌&nbsp;█████▐▓█▄▄▄▄▄▄▄▄▄█▓▌&nbsp;█████&nbsp;&nbsp;&nbsp;&nbsp;▄▄███▄▄&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;█████ "
+      },
+      "accessibility": {
+        "sha256": "686d80fa6fc826c47e6ebfffabcd7001faa03b7691e0f8c2c287f3bb7dcd5dd9",
+        "selected_text": "- document:\n  - img\n  - banner:\n    - link \"Home\":\n      - /url: /\n    - navigation:\n      - list:\n        - listitem:\n          - link \"projects\":\n            - /url: /projects/\n        - listitem:\n          - link \"art\":\n            - /url: /art/\n        - listitem:\n          - link \"now\":\n            - /url: /now/\n        - listitem:\n          - link \"about\":\n            - /url: /about/\n        - listitem:\n          - button \"⏾\":\n            - img\n        - listitem:\n          - button \"Sound effects\"\n  - main:\n    - term:\n      - heading \"a l i c i a z h o u\" [level=1]\n      - text: ▐ ▓ █ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ ▀ █ ▓ ▌ ▄ ▄ ▄ ▄ ▄ ▐ ▓ █ ░ ░ ░ ░ ░ ░ ░ ░ ░ █ ▓ ▌ █ █ █ █ █ ▐ ▓ █ ░ ░ ▀ ░ ░ ▀ ▄ ░ ░ █ ▓ ▌ █ ▄ ▄ ▄ █ ▐ ▓ █ ░ ░ ▄ ░ ░ ▄ ▀ ░ ░ █ ▓ ▌ █ ▄ ▄ ▄ █ ▐ ▓ █ ░ ░ ░ ░ ░ ░ ░ ░ ░ █ ▓ ▌ █ █ █ █ █ ▐ ▓ █ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ ▄ █ ▓ ▌ █ █ █ █ █ ▄ ▄ █ █ █ ▄ ▄ █ █ █ █ █\n      - link \"<\":\n        - /url: https://ring.purduehackers.com/previous\n      - link \"Purdue Hackers Webring\":\n        - /url: https://ring.purduehackers.com/\n        - img \"Purdue Hackers Webring\"\n      - link \">\":\n        - /url: https://ring.purduehackers.com/next\n    - definition:\n      - paragraph: Hi!\n      - paragraph:\n        - te"
+      },
+      "screenshot": {
+        "sha256": "43b32319ce2e74fa1c1778b3f52e994c8d9eaffc7b709a35b1815ed522854fa0",
+        "bytes": 426791,
+        "media_type": "image/png",
+        "visually_reviewed": true
+      }
+    }
+  ],
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "unknowns": [
+    "No mobile, comprehensive accessibility, browser compatibility or performance audit.",
+    "No audio listened to; no private or backend data audited.",
+    "Snapshot visual metadata does not establish animation."
+  ]
+}

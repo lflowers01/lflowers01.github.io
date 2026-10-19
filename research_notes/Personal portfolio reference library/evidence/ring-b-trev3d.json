@@ -1,0 +1,125 @@
+{
+  "record_kind": "Analyst-selected extract, not complete canonical REA Evidence",
+  "capture_date": "2026-10-18",
+  "evidence_id": "ev_8756949b60975052481e0a8e4f3cdae8b793a9fcfbb6210b963196a42fd37c18",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://trev3d.com/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 2000
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url"
+      ],
+      "events": [
+        "page-errors"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "56b226728beb730ddd52411d08dc5695d83c520c208e7aee744eb5928198a7ab"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://trev3d.com/",
+        "origin": "https://trev3d.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "selected_html": ""
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://trev3d.com/",
+        "origin": "https://trev3d.com",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom_sha256": "c0861b76ac1a0a7ade59c6b88781b73660709d45f36c53d946c1b2fc6741a21f",
+      "dom_bytes": 2857,
+      "selected_html": "<!DOCTYPE html><html lang=\"en\"><head>\n\t\t<meta charset=\"UTF-8\">\n\t\t<title>Julian Triveri Portfolio</title>\n\t\t<link rel=\"stylesheet\" href=\"/resources/style.css\">\n\t\t<meta name=\"viewport\" content=\"width=device-width, height=device-height\">\n\t</head>\n\t<body>\n\t\t<div id=\"backgroundGlyph\"></div>\n\n\t\t<a href=\"/mobilenav.html\" id=\"navmobile\"> Menu </a>\n\n\t\t<iframe id=\"navframe\" src=\"/nav.html\"></iframe>\n\n\t\t<main>\n\t\t\t<div class=\"circlesPacked\">\n\t\t\t\t<a class=\"packedCircle\" href=\"/portfolio/lasertag.html\">\n\t\t\t\t\t<video class=\"thumbnail\" autoplay=\"\" muted=\"\" playsinline=\"\" loop=\"\" src=\"/portfolio/lasertag/thumb.mp4\"></video>\n\n\t\t\t\t\t<div class=\"thumbtext\">Lasertag</div>\n\t\t\t\t</a>\n\n\t\t\t\t<a class=\"packedCircle\" href=\"/portfolio/wizardtag.html\">\n\t\t\t\t\t<video class=\"thumbnail\" autoplay=\"\" muted=\"\" playsinline=\"\" loop=\"\" src=\"/portfolio/wizardtag/thumb.mp4\"></video>\n\n\t\t\t\t\t<div class=\"thumbtext\">Wizardtag</div>\n\t\t\t\t</a>\n\n\t\t\t\t<a class=\"packedCircle\" href=\"/portfolio/virtuallab.html\">\n\t\t\t\t\t<video class=\"thumbnail\" autoplay=\"\" muted=\"\" playsinline=\"\" loop=\"\" src=\"/portfolio/virtuallab/thumb.mp4\"></video>\n\n\t\t\t\t\t<div class=\"thumbtext\">Nuclear engineering web simulation</div>\n\t\t\t\t</a>\n\n\t\t\t\t<a class=\"packedCircle\" href=\"/portfolio/collab.html\">\n\t\t\t\t\t<video class=\"thumbnail\" autoplay=\"\" muted=\"\" playsinline=\"\" loop=\"\" src=\"/portfolio/collab/thumb.mp4\"></video>\n\n\t\t\t\t\t<div class=\"thumbtext\">Mixed reality classroom</div>\n\t\t\t\t</a>\n\n\t\t\t\t<a class=\"packedCircle\" href=\"/portfolio/courthouse.html\">\n\t\t\t\t\t<video class=\"thumbnail\" autoplay=\"\" muted=\"\" playsinline=\"\" loop=\"\" src=\"/portfolio/courthouse/thumb.mp4\"></video>\n\n\t\t\t\t\t<div class=\"thumbtext\">Projection mapping</div>\n\t\t\t\t</a>\n\n\t\t\t\t<a class=\"packedCircle\" href=\"/portfolio/surveymeter.html\">\n\t\t\t\t\t<video class=\"thumbnail\" autoplay=\"\" muted=\"\" playsinline=\"\" loop=\"\" ",
+      "accessibility_excerpt": "- document:\n  - iframe\n  - main:\n    - link:\n      - /url: /portfolio/lasertag.html\n    - link:\n      - /url: /portfolio/wizardtag.html\n    - link:\n      - /url: /portfolio/virtuallab.html\n    - link:\n      - /url: /portfolio/collab.html\n    - link:\n      - /url: /portfolio/courthouse.html\n    - link:\n      - /url: /portfolio/surveymeter.html\n    - link:\n      - /url: /portfolio/mocap.html\n    - link:\n      - /url: /portfolio/snowman.html"
+    }
+  ],
+  "page_errors": [],
+  "selected_source_facts": [
+    "Eight real project anchors with muted autoplay playsinline loop video thumbnails; iframe nav plus separate mobile menu anchor. Runtime video playback not established."
+  ],
+  "unknowns": [
+    "No screenshot or complete visual/keyboard/mobile audit.",
+    "No network bodies requested; no backing database inferred.",
+    "Only declared local interaction was performed; normal page GETs may produce service logs.",
+    "Selected extracts exclude most original DOM; canonical REA record ID identifies full capture."
+  ]
+}

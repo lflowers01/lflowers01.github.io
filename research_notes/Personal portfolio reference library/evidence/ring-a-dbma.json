@@ -1,0 +1,164 @@
+{
+  "record_kind": "Analyst-selected extract, not portable full REA Evidence",
+  "research_date": "2026-10-18",
+  "evidence_id": "ev_1abfb74de67eab000fd2659bd4d13918330db6e5bffefc6c57d906a3893bb3a4",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://dbmaindex.org/blog.html",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "readable-font",
+        "action": "click",
+        "locator": {
+          "kind": "css",
+          "selector": "#status-toggle-font"
+        },
+        "button": "left",
+        "click_count": 1
+      },
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 200
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [
+        "dom"
+      ],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url",
+        "screenshot"
+      ],
+      "events": [],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "b808d3444fddfe0643b0d88206f658bae231513c7f7e1b84f9798fcb2c3a924c"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://dbmaindex.org/blog.html",
+        "origin": "https://dbmaindex.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "eb4539770c684f295991119afd8f2326a1c8187781ff78c8de588443a848f2d5",
+        "bytes": 2827,
+        "root": "<html style=\"--font-family: mainFont, serif;\">"
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "readable-font",
+      "action": "click",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://dbmaindex.org/blog.html",
+        "origin": "https://dbmaindex.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "8073e4d4d01c44d6226337e65843c15ae03f3fbb8e7458a40bcef0f5662fca3c",
+        "bytes": 2817,
+        "root": "<html style=\"--font-family: serif;\">"
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://dbmaindex.org/blog.html",
+        "origin": "https://dbmaindex.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "8073e4d4d01c44d6226337e65843c15ae03f3fbb8e7458a40bcef0f5662fca3c",
+        "bytes": 2817,
+        "root": "<html style=\"--font-family: serif;\">"
+      },
+      "accessibility": {
+        "sha256": "40be3f603b2a8188da52bc3c51e9a2706b3e2f3848e770223db6a649e7e7cff0",
+        "selected_text": "- document:\n  - link \"dbmaindex\":\n    - /url: index.html\n  - link \"Projects\":\n    - /url: projects.html\n  - link \"Blog\":\n    - /url: blog.html\n  - link \"About\":\n    - /url: about.html\n  - button \"toggle font readability\":\n    - img \"toggle font readability\"\n  - link \"RSS\":\n    - /url: /rss.xml\n    - img \"RSS\"\n  - paragraph: 2026-10-18 - 22:31:54\n  - link \"2026-09-19 Switching From C++ to C For My Game Engine\":\n    - /url: blogs/game-engine-in-c.html\n    - heading \"2026-09-19\" [level=3]\n    - heading \"Switching From C++ to C For My Game Engine\" [level=3]\n  - link \"2026-08-13 Switching to Void Linux\":\n    - /url: blogs/switching-to-void.html\n    - heading \"2026-08-13\" [level=3]\n    - heading \"Switching to Void Linux\" [level=3]\n  - link \"2026-08-10 First Blog\":\n    - /url: blogs/first-blog.html\n    - heading \"2026-08-10\" [level=3]\n    - heading \"First Blog\" [level=3]"
+      },
+      "screenshot": {
+        "sha256": "c26ff775177563dc843889232d4f95b2afd9dd1a6e540b7a0feb6c2fe9f988e0",
+        "bytes": 29564,
+        "media_type": "image/png",
+        "visually_reviewed": true
+      }
+    }
+  ],
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "unknowns": [
+    "No mobile, comprehensive accessibility, browser compatibility or performance audit.",
+    "No audio listened to; no private or backend data audited.",
+    "Snapshot visual metadata does not establish animation."
+  ]
+}

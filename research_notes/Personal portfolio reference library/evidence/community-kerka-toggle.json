@@ -1,0 +1,206 @@
+{
+  "record_kind": "Analyst-selected evidence extract, not complete REA Evidence",
+  "captured_date": "2026-10-18",
+  "evidence_id": "ev_213cfbf1c21b6ad91283854d10142ff911422d63bc0acfc7a99b104f76100448",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://kerka.neocities.org/log/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 1000
+      },
+      {
+        "step_id": "theme_toggle",
+        "action": "click",
+        "locator": {
+          "kind": "css",
+          "selector": "#themeToggle"
+        },
+        "button": "left",
+        "click_count": 1
+      },
+      {
+        "step_id": "settle_theme",
+        "action": "wait_for_timeout",
+        "duration_ms": 300
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [
+        "dom"
+      ],
+      "at_end": [
+        "dom",
+        "url",
+        "storage"
+      ],
+      "events": [
+        "page-errors"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "f93ceb2b0b37677b5f7d4db933a3120e03c35def81d7a069117d23d0fb62b632"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://kerka.neocities.org/log/",
+        "origin": "https://kerka.neocities.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "0cd6fb4319516d114a61b2a8625dd20e21df2b4e498b5b38118d2cd34fcc18ef",
+        "bytes": 58015,
+        "html_root": "<html lang=\"en\">"
+      },
+      "storage": {
+        "state": "not_requested"
+      }
+    },
+    {
+      "step_id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://kerka.neocities.org/log/",
+        "origin": "https://kerka.neocities.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "0cd6fb4319516d114a61b2a8625dd20e21df2b4e498b5b38118d2cd34fcc18ef",
+        "bytes": 58015,
+        "html_root": "<html lang=\"en\">"
+      },
+      "storage": {
+        "state": "not_requested"
+      }
+    },
+    {
+      "step_id": "theme_toggle",
+      "action": "click",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://kerka.neocities.org/log/",
+        "origin": "https://kerka.neocities.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "fe7cea84ecd45591300d7a7e3222e1842748efca00ee209e2de36ffa0639e4d4",
+        "bytes": 58028,
+        "html_root": "<html lang=\"en\" class=\"dark\">"
+      },
+      "storage": {
+        "state": "not_requested"
+      }
+    },
+    {
+      "step_id": "settle_theme",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://kerka.neocities.org/log/",
+        "origin": "https://kerka.neocities.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "fe7cea84ecd45591300d7a7e3222e1842748efca00ee209e2de36ffa0639e4d4",
+        "bytes": 58028,
+        "html_root": "<html lang=\"en\" class=\"dark\">"
+      },
+      "storage": {
+        "state": "captured",
+        "value": {
+          "cookies": [],
+          "local_storage": [
+            {
+              "name": "theme",
+              "value_state": "hashed",
+              "value_sha256": "e6bb5689beec52c4672bd4df92c3613d128d30cdc2b704f76953fe43d89c4ae8"
+            }
+          ],
+          "session_storage": []
+        }
+      }
+    }
+  ],
+  "selected_dom_excerpt": "<script>\n  const theme = (() => {\n    const localStorageTheme = localStorage?.getItem(\"theme\") ?? '';\n    if (['dark', 'light'].includes(localStorageTheme)) {\n      return localStorageTheme;\n    }\n    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {\n      return 'dark';\n    }\n      return 'light';\n  })();\n\n  if (theme === 'light') {\n    document.documentElement.classList.remove('dark');\n  } else {\n    document.documentElement.classList.add('dark');\n  }\n\n  window.localStorage.setItem('theme', theme);\n\n  const handleToggleClick = () => {\n    const element = document.documentElement;\n    element.classList.toggle(\"dark\");\n\n    const isDark = element.classList.contains(\"dark\");\n    localStorage.setItem(\"theme\", isDark ? \"dark\" : \"light\");\n  }\n\n  document.getElementById(\"themeToggle\")?.addEventListener(\"click\", handleToggleClick);\n</script>",
+  "events_summary": {
+    "count": 0,
+    "page_errors": [],
+    "network_methods": []
+  },
+  "unknowns": [
+    "No screenshots retained; no visual/device/accessibility audit.",
+    "Storage persistence after browser/profile deletion was not tested.",
+    "No server implementation, database or unique-user semantics established.",
+    "Page loads may cause normal remote access logging; no submission or deliberate shared-state mutation performed."
+  ]
+}

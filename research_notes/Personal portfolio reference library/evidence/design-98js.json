@@ -1,0 +1,150 @@
+{
+  "record_kind": "Analyst-selected REA evidence extract; not a portable Evidence bundle",
+  "research_date": "2026-10-18",
+  "evidence_id": "ev_a74dab61c1441ccbcdca996a770e652fe331dcbec31f498d2794425887551722",
+  "operation": "capture_browser_scenario",
+  "authority": "controlled-replay",
+  "confidence": "observed",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://98.js.org/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "start-menu",
+        "action": "click",
+        "locator": {
+          "kind": "css",
+          "selector": ".start-button"
+        },
+        "button": "left",
+        "click_count": 1
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [
+        "dom"
+      ],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url"
+      ],
+      "events": [
+        "page-errors"
+      ],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "8a12e0c880bf2cb9fb69d4b23af8f15a972cf8fbf307b502289236e023f38190"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "step_id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "after_url": {
+        "url": "https://98.js.org/",
+        "origin": "https://98.js.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "62d07f69689201082416b3cc8550fa54526a38c0bc65d7cf4953dd4056dbab51",
+        "bytes": 16494,
+        "selected_facts": [
+          "<button class=\"start-button toggle\" title=\"Click here to begin.\">",
+          "<div class=\"start-menu outset-deep\" hidden=\"\" style=\"display: none; z-index: 5001;\">"
+        ]
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "step_id": "start-menu",
+      "action": "click",
+      "status": "completed",
+      "error": null,
+      "after_url": {
+        "url": "https://98.js.org/",
+        "origin": "https://98.js.org",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "bc3c3899900036e1ac6b2e1efdc30535808e342b4f39738e616b63da5090e8f3",
+        "bytes": 16600,
+        "selected_facts": [
+          "<button class=\"start-button toggle selected\" title=\"Click here to begin.\">",
+          "<div class=\"start-menu outset-deep\" style=\"z-index: 5007; overflow: hidden; height: 58.4076px; padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;\">"
+        ]
+      },
+      "accessibility": {
+        "sha256": "cdf86ab4eff79ad02f5b10d3f513359cebed80bc3f080a3e566019b217ea67a0",
+        "selected_text": "- document:\n  - img\n  - text: My Computer\n  - img\n  - text: My Documents\n  - img\n  - text: Network Neighborhood\n  - img\n  - text: Recycle Bin\n  - img\n  - text: My Pictures\n  - img\n  - text: Internet Explorer\n  - img\n  - text: Paint\n  - img\n  - text: Minesweeper\n  - img\n  - text: Sound Recorder\n  - img\n  - text: Solitaire\n  - img\n  - text: Notepad\n  - img\n  - text: Winamp\n  - img\n  - text: 3D Pipes\n  - img\n  - text: 3D Flower Box\n  - img\n  - text: MS-DOS Prompt\n  - img\n  - text: Calculator\n  - img\n  - text: Pinball\n  - img\n  - text: CREDITS.txt\n  - img\n  - text: Themes\n  - button \"Start\":\n    - img\n    - text: Start\n  - img \"Task Scheduler is not ready.\"\n  - img \"Volume\"\n  - text: 10:24 PM\n  - heading \"’S tart\" [level=1]\n  - heading \"’s a strawberry tart\" [level=2]\n  - img\n  - img"
+      },
+      "screenshot": null
+    }
+  ],
+  "events": {
+    "retained": 0,
+    "dropped": 0,
+    "items": []
+  },
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "unknowns": [
+    "No mobile, Safari, keyboard-complete or assistive-technology audit.",
+    "No source repository audit or backend inspection.",
+    "Screenshot is a single frame; it does not establish animation behavior."
+  ]
+}

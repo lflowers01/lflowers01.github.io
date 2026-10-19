@@ -1,0 +1,167 @@
+{
+  "record_kind": "Analyst-selected extract, not portable full REA Evidence",
+  "research_date": "2026-10-18",
+  "evidence_id": "ev_fc6d1fbfea616a8fa84b764b1467877471d0d746ad0d224ed709f617e07f5ccd",
+  "parameters": {
+    "browser": {
+      "mode": "launch",
+      "executable_path": "C:/Users/fartpad/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+      "headless": true
+    },
+    "start_url": {
+      "url": "https://imasepan.github.io/",
+      "query": []
+    },
+    "environment": {
+      "viewport": {
+        "width": 1280,
+        "height": 900,
+        "device_scale_factor": 1
+      },
+      "locale": "en-US",
+      "timezone": "UTC",
+      "color_scheme": "light",
+      "reduced_motion": "reduce",
+      "service_workers": "block"
+    },
+    "actions": [
+      {
+        "step_id": "clouds",
+        "action": "click",
+        "locator": {
+          "kind": "css",
+          "selector": "[data-appearance-mode=frutiger]"
+        },
+        "button": "left",
+        "click_count": 1
+      },
+      {
+        "step_id": "settle",
+        "action": "wait_for_timeout",
+        "duration_ms": 800
+      }
+    ],
+    "storage": {
+      "cookies": [],
+      "local_storage": [],
+      "session_storage": []
+    },
+    "secrets": [],
+    "capture": {
+      "after_each_step": [
+        "dom"
+      ],
+      "at_end": [
+        "dom",
+        "accessibility",
+        "url",
+        "screenshot"
+      ],
+      "events": [],
+      "network": {
+        "request_body": false,
+        "response_body": false,
+        "header_values": false
+      }
+    },
+    "scenario_sha256": "5a1b722db45732c54acbd560305f3c1a9b6d263cee3e5f4c16369d41506fd53e"
+  },
+  "browser": {
+    "mode": "launch",
+    "process_ownership": "provider-owned",
+    "cleanup": "terminated-owned-process",
+    "product": "Chromium",
+    "version": "156.0.8078.4"
+  },
+  "completeness": {
+    "status": "complete",
+    "equality_eligible": true,
+    "missing_sections": [],
+    "truncated_sections": []
+  },
+  "steps": [
+    {
+      "id": "scenario_start",
+      "action": "goto_start",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://imasepan.github.io/",
+        "origin": "https://imasepan.github.io",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "e5738490dd9610b783b8daa93b0581ebb51644ee4aa1bddeac10449404f16a33",
+        "bytes": 243388,
+        "root": "<html lang=\"en\" data-appearance=\"default\" data-weather=\"clear\" data-theme=\"light\">",
+        "cloud_button": "<button class=\"appearance-button\" type=\"button\" data-appearance-mode=\"frutiger\" aria-pressed=\"false\">"
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "clouds",
+      "action": "click",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://imasepan.github.io/",
+        "origin": "https://imasepan.github.io",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "77e2e0eea7890fb290f86bde04c1622347d9ceed6375fd3c3eec7bd6f200ccf5",
+        "bytes": 243478,
+        "root": "<html lang=\"en\" data-appearance=\"frutiger\" data-weather=\"clear\" data-theme=\"light\" class=\"theme-is-transitioning\">",
+        "cloud_button": "<button class=\"appearance-button\" type=\"button\" data-appearance-mode=\"frutiger\" aria-pressed=\"true\" disabled=\"\">"
+      },
+      "accessibility": null,
+      "screenshot": null
+    },
+    {
+      "id": "settle",
+      "action": "wait_for_timeout",
+      "status": "completed",
+      "error": null,
+      "url": {
+        "url": "https://imasepan.github.io/",
+        "origin": "https://imasepan.github.io",
+        "query_parameter_names": [],
+        "redacted": false
+      },
+      "dom": {
+        "sha256": "f88fce61f30945061a07a9e2b8df8c3f0b5f332693ce66deb3e6c48e5ab13a74",
+        "bytes": 243556,
+        "root": "<html lang=\"en\" data-appearance=\"frutiger\" data-weather=\"clear\" data-theme=\"light\" class=\"\">",
+        "cloud_button": "<button class=\"appearance-button\" type=\"button\" data-appearance-mode=\"frutiger\" aria-pressed=\"true\">"
+      },
+      "accessibility": {
+        "sha256": "e718a0f3db9857bb0fb3234328c2e7b73982bc82b09f1773af6fc999550697b9",
+        "selected_text": "- document:\n  - banner:\n    - button \"Clouds\" [pressed]\n  - main \"Home\":\n    - navigation \"Main navigation\":\n      - link \"About\":\n        - /url: /about.html\n      - link \"Work\":\n        - /url: /work.html\n      - link \"Blog\":\n        - /url: /blog/\n      - link \"Guestbook\":\n        - /url: /guestbook.html\n    - complementary \"Featured Spotify album\":\n      - iframe\n    - navigation \"Purdue Hackers webring\":\n      - link \"<-\":\n        - /url: https://ring.purduehackers.com/previous\n      - link \"Purdue Hackers webring\":\n        - /url: https://ring.purduehackers.com/\n      - link \"->\":\n        - /url: https://ring.purduehackers.com/next"
+      },
+      "screenshot": {
+        "sha256": "2577c1356781ab403d1614894c7839bec4014587d20c6c3371113e7bb1b1820a",
+        "bytes": 998074,
+        "media_type": "image/png",
+        "visually_reviewed": true
+      }
+    }
+  ],
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "Event sequence records provider receipt order; simultaneous browser causality is not inferred.",
+    "Network content is retained only when selected; Playwright response-body bytes are API results and are not guaranteed to match wire bytes.",
+    "Request bytes are limited to what Playwright exposes; not_exposed does not establish body absence or multipart file coverage.",
+    "Network content reads settle within 5 seconds each and the observer does not request bodies from unfinished responses.",
+    "Playwright scenario events do not expose request initiator stacks; receipt order does not prove causality.",
+    "Storage values are hashed only after declared-secret redaction.",
+    "Browser host platform and architecture were not observed."
+  ],
+  "unknowns": [
+    "No mobile, comprehensive accessibility, browser compatibility or performance audit.",
+    "No audio listened to; no private or backend data audited.",
+    "Snapshot visual metadata does not establish animation."
+  ]
+}
