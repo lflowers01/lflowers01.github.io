@@ -16,6 +16,9 @@ async def main():
         await page.goto('http://127.0.0.1:49280/home-study.html')
         await page.evaluate('document.fonts.ready')
         await page.wait_for_timeout(800)
+        assert await page.locator('#projects-title').inner_text() == 'Projects'
+        assert await page.locator('.bench-now,.study-next').count() == 0
+        assert (await page.locator('#photo-reveal').bounding_box())['width'] >= 190
         main_keys = {'desk.items.v1': {'ipod': {'x': .8, 'y': .7}}, 'lf.photos.layout.v1': {'0': {'x': .2, 'y': .1}}, 'desk.lf.notes.ink.v1': []}
         await page.evaluate('(keys) => { for (const [k,v] of Object.entries(keys)) localStorage.setItem(k,JSON.stringify(v)) }', main_keys)
         cards = page.locator('.study-project-list .project-card')
@@ -57,6 +60,21 @@ async def main():
         await fresh.locator('#draw-mode').tap()
         assert await fresh.locator('#note-drawing').get_attribute('data-touch-drawing') == 'true'
         await fresh.close()
+        # The full character fits in the footer, stays secret, and reveals only in the lens.
+        for width in [390, 1092]:
+            await page.set_viewport_size({'width': width, 'height': 900})
+            await page.locator('#footer-art').scroll_into_view_if_needed()
+            await page.wait_for_timeout(150)
+            result = await page.evaluate('''() => {
+              const f=fields.find(f=>f.footer),cell=f.width<700?8:10,row=Math.round(cell*1.8);
+              const bottom=(f.walleLines.length+1)*row;
+              const original=f.ctx.fillText,seen=[];
+              f.ctx.fillText=function(text,x,y){if(this.fillStyle==='#ffffff'&&this.globalAlpha>.2)seen.push({x,y});return original.call(this,text,x,y)};
+              f.pointer={x:f.width/2,y:130};f.draw(performance.now());
+              f.ctx.fillText=original;
+              return {fits:bottom<=f.height,visible:seen.length,inside:seen.every(p=>Math.hypot(p.x-f.pointer.x,p.y-f.pointer.y)<106)};
+            }''')
+            assert result['fits'] and result['visible'] and result['inside'], result
         assert not errors, errors
         assert 'home-study.html' not in (ROOT / 'dist/sitemap.xml').read_text()
         print('Preview, photo dialog, isolated storage, touch controls and default desk spacing passed.')

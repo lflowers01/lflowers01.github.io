@@ -5,27 +5,21 @@ body[data-home-study]{--study-width:1200px}
 [data-home-study] .site-header{max-width:var(--study-width);height:88px;padding:0 30px}
 [data-home-study] .site-header nav{gap:26px}
 [data-home-study] .homepage-study{max-width:var(--study-width);margin:auto}
-[data-home-study] .hero{min-height:680px;overflow:visible}
+[data-home-study] .hero{min-height:570px;overflow:visible}
 [data-home-study] .hero-copy{padding:36px 30px 48px;width:55%}
 [data-home-study] .hero .location{font-size:10px;letter-spacing:0;margin-bottom:24px}
 [data-home-study] .hero h1{font:clamp(80px,8.8vw,118px)/.94 Arial,sans-serif;letter-spacing:-.075em;margin:0 0 28px -6px}
 [data-home-study] .study-intro{font-size:15px;line-height:1.8;color:var(--ink);margin:0 0 24px}
 [data-home-study] .profile-links{gap:22px;margin:0;font-size:12px;flex-wrap:wrap}
 [data-home-study] .hero-webring{margin-top:22px}
-[data-home-study] .bench-now{margin-top:36px;max-width:370px}
-[data-home-study] .bench-now .location{color:var(--copper);margin:0 0 8px}
-[data-home-study] .bench-now .bio{font-size:12px;line-height:1.8;margin-bottom:8px}
-[data-home-study] .bench-now a{font-size:11px;color:var(--soft)}
-[data-home-study] .study-next{position:absolute;right:30px;bottom:32px;font:10px/1.6 Departure,monospace;color:var(--soft);text-decoration:none}
-[data-home-study] .study-next span{display:inline-block;margin-left:16px;color:var(--accent)}
-[data-home-study] .study-about{display:grid;grid-template-columns:1fr 1.2fr;gap:8%;padding:76px 30px 80px;align-items:center}
+[data-home-study] .study-about{display:grid;grid-template-columns:1.35fr 1fr;gap:5%;padding:54px 30px 75px;align-items:center}
+[data-home-study] .study-about-copy{display:grid;grid-template-columns:260px minmax(0,1fr);gap:30px;align-items:start}
 [data-home-study] h2{font:23px/1.35 Departure,monospace;letter-spacing:-.045em}
 [data-home-study] .study-about h2{margin-bottom:26px}
-[data-home-study] .study-about-copy>p{font-size:13px;line-height:1.95;color:var(--soft);margin:0 0 16px;max-width:52ch}
-[data-home-study] .study-about-foot{display:flex;gap:25px;align-items:center;margin-top:26px}
-[data-home-study] .study-about-foot .photo-study{width:78px;flex:none;margin:0}
-[data-home-study] #photo-reveal{width:78px;height:90px;display:block}
-[data-home-study] .study-about-foot>div{display:grid;gap:12px}
+[data-home-study] .study-about-text>p{font-size:12px;line-height:1.95;color:var(--soft);margin:0 0 16px;max-width:52ch}
+[data-home-study] .study-about-foot{display:grid;justify-items:start;gap:12px;margin-top:24px}
+[data-home-study] .study-about-copy .photo-study{width:260px;max-width:100%;margin:12px 0 0}
+[data-home-study] #photo-reveal{width:260px;height:auto;aspect-ratio:260/300;max-width:100%;display:block}
 [data-home-study] .study-about-foot a{font-size:11px}
 [data-home-study] .about-photos{margin:0;min-width:0}
 [data-home-study] .about-photos .photo-drawer{height:370px;align-items:center;padding:36px 4px 60px;gap:0;justify-content:space-evenly}
@@ -54,15 +48,15 @@ body[data-home-study]{--study-width:1200px}
 [data-home-study] .project-card:hover h3{text-decoration-color:var(--accent)}
 [data-home-study] .study-archive{display:inline-block;color:var(--soft);font-size:10px;margin-top:22px}
 [data-home-study] .desk-study{position:relative;margin:0 14px 65px;padding:0}
-[data-home-study] .desk-study .desk-surface{--desk-height:730px;border-radius:12px;background:radial-gradient(#b7c6a318 .65px,transparent .8px) 0 0/12px 12px,linear-gradient(120deg,#11170f,#080b07);box-shadow:inset 0 1px #ffffff08,0 24px 50px #0003}
+[data-home-study] .desk-study .desk-surface{--desk-height:625px;border-radius:12px;background:radial-gradient(#b7c6a318 .65px,transparent .8px) 0 0/12px 12px,linear-gradient(120deg,#11170f,#080b07);box-shadow:inset 0 1px #ffffff08,0 24px 50px #0003}
 [data-home-study][data-theme=forest] .desk-study .desk-surface{background:radial-gradient(#d0ddae16 .65px,transparent .8px) 0 0/12px 12px,linear-gradient(120deg,#244431,#193324)}
 [data-home-study] .desk-heading{position:absolute;top:22px;left:28px;right:28px;z-index:5;align-items:center;gap:20px;pointer-events:none}
 [data-home-study] .desk-heading h2{font-size:18px;line-height:1.4}
 [data-home-study] .desk-heading .note-tools{pointer-events:auto;gap:12px}
 [data-home-study] .desk-heading .text-link{font-size:10px;margin-right:10px}
-[data-home-study] .desk-study .desk-player{width:270px}
+[data-home-study] .desk-study .desk-player{width:250px}
 [data-home-study] .desk-study .sticky{width:220px}
-[data-home-study] .site-footer{max-width:var(--study-width);padding:44px 30px 24px;min-height:0}
+[data-home-study] .site-footer{max-width:var(--study-width);padding:44px 30px 24px;min-height:360px}
 [data-home-study] .footer-content{min-height:135px;padding:0;align-items:start}
 [data-home-study] .footer-content>div:last-child{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:end;gap:13px 22px;max-width:440px}
 [data-home-study] .footer-content>div:last-child a{margin:0;font-size:11px}
@@ -74,14 +68,16 @@ body[data-home-study]{--study-width:1200px}
   [data-home-study] .study-project-list:not(:has(.is-selected)) .project-card:first-child .project-visual{opacity:1;transform:none}
 }
 @media(max-width:1000px) and (min-width:701px){
-  [data-home-study] .study-about{gap:5%;grid-template-columns:1fr 1fr}
+  [data-home-study] .study-about{gap:4%;grid-template-columns:1.3fr 1fr}
+  [data-home-study] .study-about-copy{grid-template-columns:1fr;gap:28px}
+  [data-home-study] .study-about-copy .photo-study{margin:0}
   [data-home-study] .study-projects{min-height:590px}
   [data-home-study] .study-project-list .project-card{margin-right:53%}
   [data-home-study] .study-project-list .project-visual{left:51%;height:280px}
   [data-home-study] .desk-heading{left:22px;right:22px;gap:12px}
   [data-home-study] .desk-heading h2{font-size:15px}
   [data-home-study] .desk-heading .note-tools{gap:6px}
-  [data-home-study] .desk-study .desk-surface{--desk-height:790px}
+  [data-home-study] .desk-study .desk-surface{--desk-height:660px}
 }
 @media(max-width:700px){
   [data-home-study] .study-banner{padding:9px 20px;font-size:8px}
@@ -92,13 +88,13 @@ body[data-home-study]{--study-width:1200px}
   [data-home-study] .hero h1{font-size:100px;line-height:.94;margin-bottom:25px}
   [data-home-study] .hero .location{font-size:9px}
   [data-home-study] .study-intro{font-size:13px}
-  [data-home-study] .bench-now{margin-top:25px}
-  [data-home-study] .bench-now .bio{font-size:11px}
   [data-home-study] .profile-links{font-size:11px;gap:22px}
   [data-home-study] .hero-webring{margin-top:18px}
-  [data-home-study] .study-next{right:24px;bottom:15px;font-size:9px}
   [data-home-study] .study-about{grid-template-columns:1fr;gap:18px;padding:46px 24px 55px}
-  [data-home-study] .study-about-copy>p{font-size:12px;max-width:58ch}
+  [data-home-study] .study-about-copy{grid-template-columns:1fr;gap:32px}
+  [data-home-study] .study-about-copy .photo-study{width:210px;justify-self:center;margin:0}
+  [data-home-study] #photo-reveal{width:210px}
+  [data-home-study] .study-about-text>p{font-size:12px;max-width:58ch}
   [data-home-study] .study-about h2{font-size:21px;margin-bottom:23px}
   [data-home-study] .about-photos .photo-drawer{height:300px;padding:30px 0 36px}
   [data-home-study] .photo-drawer figure{width:29%;padding:5px 5px 12px}
@@ -120,7 +116,7 @@ body[data-home-study]{--study-width:1200px}
   [data-home-study] .desk-heading h2{font-size:17px}
   [data-home-study] .desk-heading>.note-tools{width:100%;justify-content:start;gap:8px}
   [data-home-study] .desk-heading .text-link{display:none}
-  [data-home-study] .desk-study .desk-surface{--desk-height:1160px}
+  [data-home-study] .desk-study .desk-surface{--desk-height:1010px}
   [data-home-study] .desk-study .desk-player{width:245px;max-width:calc(100% - 40px)}
   [data-home-study] .site-footer{padding:35px 24px 25px}
   [data-home-study] .footer-content{min-height:195px;flex-direction:column;gap:25px;margin:0 0 25px}

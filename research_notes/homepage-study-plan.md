@@ -53,3 +53,7 @@ Rejected: copying Alicia’s smoke shader, adding a fake terminal/status dashboa
 ## Scope and verification
 
 New template, scoped stylesheet and a small project-preview controller; reuse the real builder/content and shared interactive components. A noindex comparison link leads back to the current homepage. Separate storage keys for desk, notes, drawings and photo arrangement; theme remains shared. Do not overwrite current content or make this the domain homepage. Verify 360/390/768/1440px, both themes, keyboard previews, photo dialog, desk interaction, reduced motion, no overflow, and unchanged current homepage output.
+
+## Review revision
+
+The owner preferred the photos beside About but wanted the full-size portrait back. The follow-up removes the current-activity block and scroll cue, labels the mat simply “Projects,” and restores a 260px desktop / 210px phone portrait. The desk is shorter, with a closer default arrangement, keeping blank space for drawing rather than adding unrelated objects. Footer height accommodates the complete hidden WALL-E, still revealed only inside the mouse circle. The 88×31 badge now embeds lettering rendered in the actual Departure Mono pixel font. The production counter was separately authorized and connected to free durable Redis; this does not promote the experimental homepage.
