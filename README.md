@@ -1,5 +1,7 @@
 # Personal portfolio reference library
 
+Current design review: [build.html](build.html). Try the [OLED / ASCII / sticky-note interaction study](design-demo.html), with [Purdue Hackers REA findings](research_notes/purdue-hackers-interaction-study.md). The new-site plan focuses on college/current content; historical project research below is archival context.
+
 A Markdown idea library for a **Web 1.0 personal portfolio**: many possible worlds, small interactive toys, personal writing, music and connections to other people. This is research for choosing and recreating a site later; no website has been implemented here.
 
 Checked October 18, 2026. Start with a visual language, choose content you want to maintain, then add one signature toy. The chapters distinguish public-page observations, author documentation, REA browser evidence and our proposed reconstruction recipes.
