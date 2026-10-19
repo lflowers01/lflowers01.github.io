@@ -1,0 +1,11 @@
+<section class="desk-study" aria-labelledby="desk-title">
+<div class="desk-heading"><h2 id="desk-title">Music &amp; notes.</h2><div class="note-tools"><a class="text-link" href="/notes/">All notes ↗</a><button id="clear-drawing" class="icon-button" type="button" aria-label="Clear drawing" title="Clear drawing" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 14 10-10h4l6 6-10 10H7zm3 0 4 4h2l4-4-5-5zM13 22h10v-2H13z"/></svg></button></div></div>
+<div class="board desk-surface" id="note-board" data-storage-prefix="preview.desk." aria-label="Desk with notes, music and drawing surface">
+<canvas id="music-art" class="art-field" aria-hidden="true"></canvas><canvas id="note-drawing" aria-label="Pixel drawing surface" hidden></canvas>
+<div class="music-layout desk-player" data-desk-item="ipod" data-x=".04" data-y=".14"><button type="button" class="desk-grip" data-desk-handle aria-label="Move iPod. Use arrow keys.">···</button>{{music}}</div>
+{{notes}}
+<button type="button" class="desk-object desk-pencil" data-desk-item="pencil" data-x=".3" data-y=".7" aria-label="Move pencil. Use arrow keys."><img src="/assets/desk-pencil.svg" alt="" draggable="false"></button>
+<button type="button" class="desk-object desk-pencil desk-pencil-dark" data-desk-item="second-pencil" data-x=".35" data-y=".65" aria-label="Move second pencil. Use arrow keys."><img src="/assets/desk-pencil-dark.svg" alt="" draggable="false"></button>
+<button type="button" class="desk-object desk-ruler" data-desk-item="ruler" data-x=".08" data-y=".94" aria-label="Move ruler. Use arrow keys."><img src="/assets/desk-ruler.svg" alt="" draggable="false"></button>
+</div><p id="board-status" class="sr-only" role="status"></p><svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="note-pixels" x="0" y="0" width="100%" height="100%"><feFlood x="0" y="0" width="1" height="1"/><feComposite width="2" height="2"/><feTile result="grid"/><feComposite in="SourceGraphic" in2="grid" operator="in"/><feComponentTransfer result="dot"><feFuncA type="discrete" tableValues="0 1 1"/></feComponentTransfer><feOffset in="dot" dx="1" result="r"/><feOffset in="dot" dy="1" result="d"/><feOffset in="dot" dx="1" dy="1" result="rd"/><feMerge><feMergeNode in="dot"/><feMergeNode in="r"/><feMergeNode in="d"/><feMergeNode in="rd"/></feMerge></filter></svg>
+</section>

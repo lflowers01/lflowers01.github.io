@@ -1,3 +1,14 @@
+---
+title: PaintedDesktop
+date: '2026-10-04'
+status: Released v2.1.0
+summary: A Windows tray app that sets a new public-domain oil landscape as your wallpaper every day.
+role: Design and development
+repo: https://github.com/lflowers01/PaintedDesktop
+image: /assets/projects/painted-desktop.jpg
+image_alt: A Claude Lorrain landscape as the desktop wallpaper, with PaintedDesktop's history and painting details windows open
+---
+
 ## The idea
 
 A new oil painting on the Windows desktop every day: landscapes, seascapes and cityscapes from public museum collections, at full resolution and with no text over the image.

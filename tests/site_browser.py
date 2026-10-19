@@ -42,6 +42,21 @@ async def main():
         browser = await playwright.chromium.launch(**options)
         print(f"Browser: {browser.version} / {CHROME}", flush=True)
         page = await browser.new_page(viewport={"width":1440,"height":1000}, reduced_motion="reduce")
+        # Verify random initial selection at the start, middle and end of the station.
+        tracks = json.loads((ROOT/'content/site.json').read_text(encoding='utf-8'))['tracks']
+        for random_value in [0, .5, .999999]:
+            fresh = await browser.new_page()
+            await fresh.add_init_script(f'Math.random=()=>{random_value}')
+            await fresh.route('**/api/visits', lambda route: route.fulfill(json={'visits':123}))
+            await fresh.goto(BASE+'/', wait_until='networkidle')
+            index = int(random_value*len(tracks))
+            assert await fresh.locator('#music-title').inner_text() == tracks[index]['title']
+            assert await fresh.locator('#music-index').inner_text() == f'{index+1:02} / {len(tracks):02}'
+            assert await fresh.locator('#music-shuffle').get_attribute('aria-pressed') == 'true'
+            assert await fresh.locator('#music-prev').is_disabled()
+            assert await fresh.locator('.soundcloud-engine').count() == 0
+            await fresh.close()
+        await page.add_init_script('Math.random=()=>0')
         errors = []
         page.on("pageerror", lambda error: errors.append(str(error)))
         await page.route("**/api/visits", lambda route: route.fulfill(json={"visits":123}))
@@ -205,7 +220,17 @@ async def main():
         await page.wait_for_function("document.querySelector('.dap').dataset.playing==='true'")
         assert await page.locator("#music-time").inner_text() == "0:12"
         assert await page.locator("#music-duration").inner_text() == "2:13"
+        # Fresh sessions start shuffled; switching off restores the sequential checks below.
+        assert await page.locator('#music-shuffle').get_attribute('aria-pressed') == 'true'
+        assert await page.locator('.shuffle-strike').evaluate("e=>getComputedStyle(e).display") == 'none'
+        assert await page.locator('#music-prev').is_disabled()
+        await page.locator('#music-menu').click()
+        await page.locator('[data-ipod-view="settings"]').click()
+        await page.locator('#music-shuffle').click()
+        assert await page.locator('#music-shuffle').get_attribute('aria-pressed') == 'false'
         assert await page.locator('.shuffle-strike').evaluate("e=>getComputedStyle(e).display") != 'none'
+        await page.locator('#music-menu').click()
+        await page.locator('#music-menu').click()
         await page.wait_for_function("[...document.querySelectorAll('.dap-meter i')].every(e=>parseFloat(e.style.height)>=3) && new Set([...document.querySelectorAll('.dap-meter i')].map(e=>e.style.height)).size>1")
         assert len(waveform_requests)>=2, 'Temporary waveform failures must retry'
         before_bars = await page.locator('.dap-meter i').evaluate_all('(es)=>es.map(e=>e.style.height)')

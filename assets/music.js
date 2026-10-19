@@ -18,8 +18,8 @@ if (dap) {
   const menu = document.getElementById('music-menu'), settings = document.getElementById('music-settings');
   const sourceLink = document.querySelector('.music-source'), defaultSource = sourceLink.href, defaultLabel = sourceLink.textContent;
   const linkForm = document.getElementById('music-link'), linkStatus = document.getElementById('music-link-status');
-  let current = 0, widget = null, duration = 0, lastPosition = 0, loading = false, timeout, playbackTimeout;
-  let shuffle = false, bag = [], history = [0], historyPosition = 0;
+  let current = Math.floor(Math.random() * tracks.length), widget = null, duration = 0, lastPosition = 0, loading = false, timeout, playbackTimeout;
+  let shuffle = true, bag = [], history = [current], historyPosition = 0;
   let waveform = null, waveformRequest = null, waveformRetry;
   let seekTarget = null, seekTime = 0;
   const clock = milliseconds => `${Math.floor(milliseconds / 60000)}:${String(Math.floor(milliseconds / 1000) % 60).padStart(2, '0')}`;
@@ -120,7 +120,7 @@ if (dap) {
     if (pendingSource) { pendingSource = null; linkStatus.textContent = 'That link could not be loaded. Try a public track or playlist.'; }
     clearTimeout(timeout); clearTimeout(playbackTimeout); busy(false); setPlaying(false); seek.disabled = true;
     state.textContent = 'Unavailable';
-    status.textContent = 'SoundCloud could not start playback in this browser. Try another track or open the station below.';
+    status.textContent = 'SoundCloud could not start playback in this browser. Try another track or open SoundCloud in Extras.';
     if (widget) {
       for (const event of Object.values(SC.Widget.Events)) widget.unbind(event);
       widget.pause(); widget = null;
@@ -332,5 +332,5 @@ if (dap) {
     seekTarget = Number(seek.value) / 1000 * duration; seekTime = performance.now();
     widget.seekTo(seekTarget);
   });
-  busy(false);
+  updateTrack(); busy(false);
 }

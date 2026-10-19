@@ -1,3 +1,14 @@
+---
+title: Academic Dashboard
+date: '2026-10-09'
+status: Released v1.6.4
+summary: 'A private, local dashboard for Purdue Brightspace: one calendar, one to-do list, and a daily Windows notification.'
+role: Design and development
+repo: https://github.com/lflowers01/academic-dashboard
+image: /assets/projects/academic-dashboard.png
+image_alt: The dashboard with a to-do list grouped by due date next to a color-coded month calendar, using made-up demo courses
+---
+
 ## The problem
 
 Coursework at Purdue is spread across Brightspace, publisher sites, announcements and syllabi. I wanted one place that shows everything due, without handing my login to a hosted service.

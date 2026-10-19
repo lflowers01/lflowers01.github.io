@@ -6,59 +6,6 @@
   "soundcloud": "https://soundcloud.com/discover/sets/artist-stations:249606516",
   "musicTitle": "Dean Blunt station",
   "counterEndpoint": "/api/visits",
-  "notes": [
-    {
-      "id": "a-place-to-leave-things",
-      "title": "Website redesign",
-      "date": "2026-10-18",
-      "excerpt": "Rebuilding my portfolio around current work at Purdue.",
-      "x": 0.08,
-      "y": 0.08,
-      "color": 0
-    },
-    {
-      "id": "pixels-without-moving-the-grid",
-      "title": "Rendering on a fixed grid",
-      "date": "2026-10-18",
-      "excerpt": "How the ASCII torus, pointer lens, and water ripple share one grid.",
-      "x": 0.85,
-      "y": 0.16,
-      "color": 1
-    },
-    {
-      "id": "black-and-green",
-      "title": "Color and typography",
-      "date": "2026-10-18",
-      "excerpt": "An OLED palette, a forest theme, and a mix of smooth and pixel type.",
-      "x": 0.42,
-      "y": 0.83,
-      "color": 2
-    }
-  ],
-  "projects": [
-    {
-      "id": "academic-dashboard",
-      "title": "Academic Dashboard",
-      "date": "2026-10-09",
-      "status": "Released v1.6.4",
-      "summary": "A private, local dashboard for Purdue Brightspace: one calendar, one to-do list, and a daily Windows notification.",
-      "role": "Design and development",
-      "repo": "https://github.com/lflowers01/academic-dashboard",
-      "image": "/assets/projects/academic-dashboard.png",
-      "imageAlt": "The dashboard with a to-do list grouped by due date next to a color-coded month calendar, using made-up demo courses"
-    },
-    {
-      "id": "painted-desktop",
-      "title": "PaintedDesktop",
-      "date": "2026-10-04",
-      "status": "Released v2.1.0",
-      "summary": "A Windows tray app that sets a new public-domain oil landscape as your wallpaper every day.",
-      "role": "Design and development",
-      "repo": "https://github.com/lflowers01/PaintedDesktop",
-      "image": "/assets/projects/painted-desktop.jpg",
-      "imageAlt": "A Claude Lorrain landscape as the desktop wallpaper, with PaintedDesktop's history and painting details windows open"
-    }
-  ],
   "tracks": [
     {
       "id": 315867410,

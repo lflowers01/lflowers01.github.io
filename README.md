@@ -2,6 +2,67 @@
 
 The full site is now implemented alongside this research library. [Build, run, edit content, and hosting notes](SITE.md). Source content is in `content/`; `python scripts/build.py` generates `dist/`. The design-review pages remain available separately.
 
+## Edit the website
+
+These are the folders you edit; `dist/` is generated output.
+
+| Content | Folder | How it appears |
+| --- | --- | --- |
+| Photos | [`assets/photos/`](assets/photos/) | Add/remove JPG, JPEG, PNG or WebP files. Three distinct photos are randomly chosen on refresh, shown as draggable portrait prints. Saved positions persist independently of the images. Click focuses the original; Escape or X closes it. |
+| Notes / blog posts | [`content/notes/`](content/notes/) | Drop in a Markdown file. The newest three become pinned notes; every published post gets a reading page and appears in the notebook index, RSS and sitemap. |
+| Projects | [`content/projects/`](content/projects/) | Drop in a Markdown report. The newest three appear on the homepage; all published projects get cards and report pages in `/projects/`. |
+
+The full photo-folder path is `C:\Users\fartpad\Documents\GitHub\lflowers01.github.io\assets\photos`. Optional photo captions and alt text are keyed by filename in [`content/photos.json`](content/photos.json); otherwise the caption comes from the filename. The original files are kept unchanged; portrait cropping happens in CSS.
+
+Put optional YAML front matter at the top of a note:
+
+```markdown
+---
+title: A new experiment
+date: 2026-10-19
+summary: A short description for the pinned note.
+---
+
+Write your post here. **Bold**, lists, links, images, quotes and fenced code blocks work.
+```
+
+Projects use the same format, with optional extra fields:
+
+```markdown
+---
+title: My project
+date: 2026-10-19
+summary: What I built and why.
+status: In progress
+role: Design and development
+repo: https://github.com/lflowers01/my-project
+image: /assets/projects/my-project.png
+image_alt: A useful description of the screenshot
+---
+
+## The problem
+
+Write the project report here.
+```
+
+`repo`, `image` and `image_alt` are optional. You can also drop in plain Markdown: a leading `# Heading` supplies the title, the first paragraph supplies the summary, and the date comes from a `YYYY-MM-DD` filename prefix or the file's modified date. Explicit dates are recommended so Git checkouts do not change publication dates. Filenames determine URLs; keep them stable after publishing.
+
+Set `draft: true` to exclude a file from every page, RSS and sitemap. Files starting with `_` are ignored. Copy-ready templates live in [`content/_templates/`](content/_templates/); move a copy into the appropriate folder, rename it, and remove `draft: true` when ready. Deleting a Markdown file removes its generated page on the next build. No notes/projects registry in `site.json` is needed. High-school projects remain separate in [`content/archive.json`](content/archive.json), off the homepage.
+
+After changing files:
+
+```powershell
+python -m pip install -r requirements.txt  # first setup only
+python scripts/build.py
+python scripts/serve.py --port 49280      # if the preview server isn't running
+```
+
+Refresh [the local preview](http://127.0.0.1:49280/). If the server is already running, rebuild and refresh; there is no file watcher or automatic deployment. Build errors name the Markdown file to fix and leave the last successful output intact. See [SITE.md](SITE.md) for hosting, saved browser data, music and the research provenance.
+
+## Desk layout preview
+
+Try [the interactive desk version](http://127.0.0.1:49280/desk-demo.html). It combines music, notes and drawing on one surface, with draggable pixel pencils, a ruler and an iPod. The music waveform is drawn into the surface underneath the objects. Use the grip above the iPod to move it; its player controls keep their normal behavior. Desk positions and drawings use separate browser-storage keys, so trying it does not rearrange the current homepage. The “Current layout” link returns to `/`. This version is a preview, excluded from the sitemap and marked noindex; the normal homepage is unchanged. Source: `templates/desk.html`, `assets/desk.css`, `assets/desk.js`.
+
 Current design review: [build.html](build.html). Try the [OLED / ASCII / sticky-note interaction study](design-demo.html), with [Purdue Hackers REA findings](research_notes/purdue-hackers-interaction-study.md). The new-site plan focuses on college/current content; historical project research below is archival context.
 
 A Markdown idea library for a **Web 1.0 personal portfolio**: many possible worlds, small interactive toys, personal writing, music and connections to other people. This preserves the research that informed the website.

@@ -6,9 +6,10 @@ if (noteBoard) {
   const clear = document.getElementById('clear-drawing');
   let positions = {}, strokes = [], layer = 1, activeStroke = null;
   let cards = [...noteBoard.querySelectorAll('.sticky')];
-  function saved(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } }
+  const storagePrefix = noteBoard.dataset.storagePrefix || '';
+  function saved(key) { try { return JSON.parse(localStorage.getItem(storagePrefix + key)); } catch { return null; } }
   function persist(key, value) {
-    try { localStorage.setItem(key, JSON.stringify(value)); }
+    try { localStorage.setItem(storagePrefix + key, JSON.stringify(value)); }
     catch { status.textContent = 'Browser storage is unavailable. Changes last for this visit.'; }
   }
   const validPoint = p => p && Number.isFinite(p.x) && Number.isFinite(p.y) && p.x >= 0 && p.x <= 1 && p.y >= 0 && p.y <= 1;

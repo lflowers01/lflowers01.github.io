@@ -1,3 +1,11 @@
+---
+title: Website redesign
+date: '2026-10-18'
+x: 0.08
+y: 0.08
+summary: Rebuilding my portfolio around current work at Purdue.
+---
+
 This site is moving into a new chapter. I'm at Purdue studying Robotics Engineering Technology, and I want a place for what I'm working on now.
 
 That includes things that don't need a full project report: a short thought, an experiment, or something I want to come back to. That's what this notebook is for.
