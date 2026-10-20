@@ -42,6 +42,10 @@ class ArtField {
     this.header = canvas.id === 'navigation-art'; this.ambient = canvas.id === 'ambient-art';
     this.music = canvas.id === 'music-art';
     this.spins = canvas.id === 'hero-art';
+    this.multiForm = this.spins && canvas.hasAttribute('data-object-forms') && typeof studyForms !== 'undefined';
+    this.objectType = this.multiForm ? Math.floor(Math.random() * studyForms.length) : 0;
+    this.objectTransition = null;
+    if (this.multiForm) this.describeObject();
     this.textRegions = []; this.copyBottom = 0;
     new ResizeObserver(() => {
       const rect = canvas.getBoundingClientRect(); this.width = rect.width || 1; this.height = rect.height || 1;
@@ -91,7 +95,11 @@ class ArtField {
     });
     const finish = event => {
       if (this.objectDrag) {
-        if (event.type === 'pointerup' && !this.objectDrag.moved) { const point = this.point(event); this.pulse(point.x, point.y); }
+        if (event.type === 'pointerup' && !this.objectDrag.moved) {
+          const point = this.point(event), object = this.objectGeometry;
+          if (this.multiForm && Math.hypot(point.x-object.cx,point.y-object.cy)<object.size*.38) this.changeObject();
+          else this.pulse(point.x, point.y);
+        }
         this.objectDrag = null; canvas.classList.remove('dragging-object');
       }
       this.down = false; this.previous = null;
@@ -101,7 +109,10 @@ class ArtField {
     canvas.addEventListener('focus', wake); canvas.addEventListener('blur', wake);
     canvas.addEventListener('pointerleave', () => { this.pointer = null; this.activeUntil = Math.max(this.activeUntil, performance.now() + 100); wake(); });
     canvas.addEventListener('keydown', event => {
-      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.pulse(this.width * .65, this.height * .48); }
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        if (this.multiForm) this.changeObject(); else this.pulse(this.width * .65, this.height * .48);
+      }
       if (this.spins && ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
         event.preventDefault();
         this.objectRotation.yaw += event.key === 'ArrowLeft' ? -.12 : event.key === 'ArrowRight' ? .12 : 0;
@@ -111,6 +122,17 @@ class ArtField {
     });
   }
   point(event) { const rect = this.canvas.getBoundingClientRect(); return { x: event.clientX - rect.left, y: event.clientY - rect.top }; }
+  describeObject() {
+    this.canvas.dataset.objectForm = String(this.objectType);
+    this.canvas.setAttribute('aria-label', `Interactive ASCII ${studyForms[this.objectType].name}. Drag or use arrow keys to rotate. Click the center or press Enter to change the object. Hover for X dithering.`);
+  }
+  changeObject() {
+    if (this.objectTransition) return;
+    const next = (this.objectType + 1 + Math.floor(Math.random() * (studyForms.length-1))) % studyForms.length;
+    if (reducedMotion.matches) { this.objectType = next; this.describeObject(); }
+    else this.objectTransition = { start: performance.now(), next, swapped: false };
+    wake();
+  }
   updateTextRegions() {
     if (!this.spins && !this.footer) return;
     const canvasRect = this.canvas.getBoundingClientRect();
@@ -164,7 +186,7 @@ class ArtField {
     const cy = narrow ? this.copyBottom + 25 + size * 1.15 : navigationHeight + artHeight * .46;
     const elapsed = Math.max(0, Math.min(100, now - (this.lastSpinFrame || now)));
     this.lastSpinFrame = now;
-    if (!this.objectDrag) this.spinPhase += elapsed / (reducedMotion.matches ? 12000 : 3600);
+    if (!this.objectDrag && !this.objectTransition) this.spinPhase += elapsed / (reducedMotion.matches ? 12000 : 3600);
     const angle = this.spinPhase + this.objectRotation.yaw;
     const ca = Math.cos(angle), sa = Math.sin(angle), tilt = .8 + this.objectRotation.pitch;
     const project = (x, y, z, value, outer = false) => {
@@ -179,7 +201,13 @@ class ArtField {
       const index = py * cols + px;
       if (d > depth[index]) { depth[index] = d; light[index] = value; }
     };
-    for (let ring = 0; ring < 2; ring++) {
+    if (this.multiForm && this.objectType) {
+      for (const [x,y,z,nx,ny,nz,outer] of studyForms[this.objectType].points) {
+        const normalX = nx*ca+nz*sa, normalZ = -nx*sa+nz*ca;
+        const shade = outer ? .48+.22*(z+.9)/1.8 : .22+.72*Math.max(0,normalX*.35+ny*.45+normalZ*.65);
+        project(x,y,z,shade,outer);
+      }
+    } else for (let ring = 0; ring < 2; ring++) {
       for (let u = 0; u < Math.PI * 2; u += .055) {
         for (let v = 0; v < Math.PI * 2; v += .20) {
           const radius = ring ? .91 : .64, tube = ring ? .055 : .23;
@@ -195,6 +223,15 @@ class ArtField {
   draw(now) {
     const ctx = this.ctx; if (!ctx) return;
     const width = this.width, height = this.height, style = getComputedStyle(document.body);
+    let scramble = 0;
+    if (this.objectTransition) {
+      const transition = this.objectTransition, progress = Math.max(0,(now-transition.start)/1150);
+      if (progress >= .5 && !transition.swapped) {
+        this.objectType = transition.next; transition.swapped = true; this.describeObject();
+      }
+      if (progress >= 1) this.objectTransition = null;
+      else scramble = Math.sin(progress*Math.PI);
+    }
     const ink = style.getPropertyValue('--accent').trim(), copper = style.getPropertyValue('--copper').trim();
     ctx.clearRect(0, 0, width, height); ctx.strokeStyle = ink; ctx.fillStyle = ink; ctx.lineWidth = 1;
     if (this.music) {
@@ -273,6 +310,10 @@ class ArtField {
     for (let y = 0, row = 0; y < height; y += rowHeight, row++) for (let x = 0, col = 0; x < width; x += cell, col++) {
       let value = object ? object.light[row * object.cols + col] || 0 : 0;
       const objectValue = value;
+      const morphZone = scramble > 0 && Math.hypot(x-object.cx,y-object.cy)<object.size*1.08;
+      const random = morphZone ? Math.abs(Math.sin(col*12.9898+row*78.233+Math.floor(now/65)*37.719)*43758.5453)%1 : 0;
+      const decode = morphZone && random < scramble*.84;
+      if (decode) value = Math.max(value,.18+random*.65);
       if (this.spins) value = Math.max(value, .11 + .025 * Math.sin(x * .012 + y * .009 + now / 4000));
       let navigationFade = 1;
       if (y < navigationHeight) {
@@ -299,7 +340,7 @@ class ArtField {
       }
       const threshold = (bayer[(row % 4) * 4 + col % 4] + .5) / 16;
       const lens = this.pointer && Math.hypot(x - this.pointer.x, y - this.pointer.y) < 105;
-      const characters = characterPart || renderMode === 'ascii' || (renderMode === 'hybrid' && !lens);
+      const characters = decode || characterPart || renderMode === 'ascii' || (renderMode === 'hybrid' && !lens);
       ctx.fillStyle = characterPart ? '#ffffff' : ink; ctx.strokeStyle = ctx.fillStyle;
       const quietBackground = this.spins && objectValue < .08 && value < .18;
       ctx.globalAlpha = this.footer ? (characterPart ? .30 + .65 * reveal : .30) : quietBackground ? .055 : .88;
@@ -307,7 +348,7 @@ class ArtField {
       const breathe = .035 * Math.sin(x * .013 + y * .017 + now / 1800);
       value += breathe * Math.min(1, value * 4);
       value *= 1 + audioLevel * (this.spins ? .08 : .05);
-      if (characters && value > .08) ctx.fillText(characterPart && value > .4 ? literal : glyphs[Math.min(glyphs.length - 1, Math.floor(Math.min(1, value) * glyphs.length))], x + cell / 2, y + rowHeight / 2);
+      if (characters && value > .08) ctx.fillText(decode ? '01<>/+=:*#%'[Math.floor(random*10)] : characterPart && value > .4 ? literal : glyphs[Math.min(glyphs.length - 1, Math.floor(Math.min(1, value) * glyphs.length))], x + cell / 2, y + rowHeight / 2);
       else if (!characters && value > threshold) cross(ctx, x + cell / 2, y + rowHeight / 2, cell - 3);
     }
     ctx.strokeStyle = copper; ctx.fillStyle = copper;
@@ -352,7 +393,15 @@ document.addEventListener('pointermove', event => {
 document.addEventListener('pointerleave', () => { for (const field of fields) { field.pointerTarget = 0; field.pointer = null; } refreshFields(); });
 document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshFields(); });
 document.fonts.ready.then(refreshFields);
-reducedMotion.addEventListener('change', () => { for (const field of fields) { field.events = []; field.marks.clear(); } refreshFields(); });
+reducedMotion.addEventListener('change', () => {
+  for (const field of fields) {
+    field.events = []; field.marks.clear();
+    if (reducedMotion.matches && field.objectTransition) {
+      field.objectType = field.objectTransition.next; field.objectTransition = null; field.describeObject();
+    }
+  }
+  refreshFields();
+});
 for (const button of document.querySelectorAll('[data-render]')) button.addEventListener('click', () => {
   renderMode = button.dataset.render;
   for (const sibling of document.querySelectorAll('[data-render]')) sibling.setAttribute('aria-pressed', String(sibling === button));

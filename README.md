@@ -4,6 +4,8 @@ The full site is now implemented alongside this research library. [Build, run, e
 
 The [alternate homepage study](https://lucasflowers.net/home-study.html) is a separate, noindex experiment; `/` remains the approved homepage. Its [design decisions](research_notes/homepage-study-plan.md), `templates/home-study.html` and `assets/home-study.css` describe the comparison. Project rows select a shared image preview on desktop and show individual images on mobile. Photos, desk positions and drawings use separate `study.*` browser storage; theme and music use the existing behavior. Nothing from the study is promoted to the homepage automatically.
 
+The study’s hero randomly starts with one of four original 3D forms: nested torus, octahedron/cube cage, globe/gyroscope, or framed double helix. Click near its center (or press Enter/Space while focused) to scramble fixed grid cells and resolve to a different form. Drag rotates the inner object; the outer frame responds more gently. Click farther out for a ripple. Reduced motion changes forms immediately. Meshes are in `assets/home-study-objects.js`; the current homepage retains its original torus.
+
 ## Edit the website
 
 These are the folders you edit; `dist/` is generated output.

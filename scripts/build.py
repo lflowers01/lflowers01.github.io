@@ -116,6 +116,7 @@ def build():
     study_values['desk'] = desk.replace('data-storage-prefix="desk."', 'data-storage-prefix="study.desk." data-item-storage="study.desk.items.v1"')
     page('home-study.html', 'Homepage study — Lucas Flowers', 'An alternate composition for Lucas Flowers’s homepage.', fill(read('templates/home-study.html'), study_values), True)
     pages['home-study.html'] = (pages['home-study.html']
+        .replace('<script src="/assets/plan/demo-art.js"', '<script src="/assets/home-study-objects.js" defer></script><script src="/assets/plan/demo-art.js"')
         .replace('</head>', '<meta name="robots" content="noindex"><link rel="stylesheet" href="/assets/desk.css"><link rel="stylesheet" href="/assets/home-study.css"><script src="/assets/desk.js" defer></script><script src="/assets/home-study.js" defer></script></head>')
         .replace('<body data-theme=', '<body data-home-study data-theme=')
         .replace('data-home="true"', 'data-home="false"')
