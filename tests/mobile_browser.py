@@ -110,9 +110,11 @@ async def main():
         assert await badge.locator('.site-badge-back').is_hidden()
         await page.emulate_media(reduced_motion='reduce')
         await badge.tap()
-        assert await badge.get_attribute('aria-pressed')=='true'
-        assert not await badge.evaluate("e=>e.classList.contains('is-turning')")
+        assert await badge.locator('.site-badge-turn').evaluate('e=>e.getAnimations().length===1')
+        await page.wait_for_function("document.getElementById('site-badge').getAttribute('aria-pressed')==='true'&&!document.getElementById('site-badge').classList.contains('is-turning')")
+        assert await badge.locator('.site-badge-back').is_visible()
         await badge.tap()
+        await page.wait_for_function("document.getElementById('site-badge').getAttribute('aria-pressed')==='false'&&!document.getElementById('site-badge').classList.contains('is-turning')")
         await badge.screenshot(path=str(ROOT/'.git/mobile-badge-fixed.png'))
         for width in [320,360,390,430,768,844]:
             await page.set_viewport_size({'width':width,'height':844})

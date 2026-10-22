@@ -56,7 +56,7 @@ body[data-home-study]{--study-width:1200px}
 [data-home-study] .desk-heading .text-link{font-size:10px;margin-right:10px}
 [data-home-study] .desk-study .desk-player{width:250px}
 [data-home-study] .desk-study .sticky{width:220px}
-[data-home-study] .site-footer{max-width:var(--study-width);padding:44px 30px 24px;min-height:360px}
+[data-home-study] .site-footer{max-width:none;padding:44px max(30px,calc((100% - var(--study-width))/2 + 30px)) 24px;min-height:360px}
 [data-home-study] .footer-content{min-height:135px;padding:0;align-items:start}
 [data-home-study] .footer-content>div:last-child{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:end;gap:13px 22px;max-width:440px}
 [data-home-study] .footer-content>div:last-child a{margin:0;font-size:11px}

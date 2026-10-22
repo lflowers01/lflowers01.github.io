@@ -163,4 +163,4 @@ The existing notes are currently `draft: true`. With no published notes, the des
 
 The Purdue Hackers Previous / directory / Next strip uses the official Purdue Hackers logo and small borderless arrows directly beneath the hero’s profile links (`templates/webring.html`). Traversal links stay in the same tab and send the normal browser referrer. `ringNavigation` enables the strip; the footer keeps a directory link. Enrollment is a separate step through the Purdue Hackers #webring channel.
 
-Footer ASCII uses the same soft text-clearance fade as the hero, including links, the site badge and visit count. The fade refreshes when footer text changes.
+Footer ASCII extends across the full homepage width, with copy aligned to the main content. It uses the same soft text-clearance fade as the hero, including links, the site badge and visit count. The fade refreshes when footer text changes. The site badge’s click-triggered 3D flip also plays with reduced motion enabled, as requested; other reduced-motion behavior is unchanged.

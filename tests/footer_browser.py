@@ -9,13 +9,15 @@ ROOT=Path(__file__).resolve().parents[1]
 async def main():
     async with async_playwright() as p:
         browser=await p.chromium.launch(executable_path=str(ROOT/'.local/chrome-for-testing/chrome-win64/chrome.exe'))
-        for width in [390,1440]:
+        for width in [390,1440,2560]:
             page=await browser.new_page(viewport={'width':width,'height':900},reduced_motion='reduce')
             errors=[]
             page.on('pageerror',lambda e:errors.append(str(e)))
             await page.route('**/api/visits',lambda r:r.fulfill(json={'visits':123}))
             await page.goto('http://127.0.0.1:49280/',wait_until='networkidle')
             await page.evaluate('document.fonts.ready')
+            assert await page.locator('.site-footer').evaluate('e=>{const r=e.getBoundingClientRect();return Math.abs(r.left)<1&&Math.abs(r.right-document.documentElement.clientWidth)<1}')
+            assert await page.locator('.study-about-foot a').last.inner_text() == 'Contact me about Summer 2027 opportunities'
             for theme in ['oled','forest']:
                 if await page.locator('body').get_attribute('data-theme')!=theme:
                     await page.locator('#theme-toggle').click()
@@ -43,7 +45,7 @@ async def main():
             assert not errors,errors
             await page.close()
         await browser.close()
-        print('PASS: footer copy clears ASCII through ripples in OLED/forest at 390/1440px; art remains visible, live counter changes refresh the fade, and reading pages work.')
+        print('PASS: footer copy clears ASCII through ripples in OLED/forest at 390/1440/2560px with full-width footer; art remains visible, live counter changes refresh the fade, and reading pages work.')
 
 
 asyncio.run(main())

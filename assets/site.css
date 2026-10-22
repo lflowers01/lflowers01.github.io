@@ -107,7 +107,6 @@
 .site-badge.is-turning .site-badge-turn{animation:badge-turn .32s ease-in-out}
 /* Swap readable faces at the edge; no face stays rotated or depends on backface compositing. */
 @keyframes badge-turn{0%,100%{transform:perspective(320px) rotateY(0deg)}49.999%{transform:perspective(320px) rotateY(90deg)}50%{transform:perspective(320px) rotateY(-90deg)}}
-@media(prefers-reduced-motion:reduce){.site-badge-turn{animation:none!important}}
 .footer-stamp{display:flex;align-items:center;gap:20px}
 .project-visual img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top left;border:1px solid var(--mat-edge,var(--line));filter:saturate(.85)}.project-card:hover .project-visual img{filter:none}
 /* High-school archive: list at the bottom of /projects/, entries on /projects/archive.html. */
