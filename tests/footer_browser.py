@@ -34,6 +34,13 @@ async def main():
                   return {covered:under.length,clear:under.every(p=>p.alpha<.001),art:calls.some(p=>p.alpha>.2)};
                 }''')
                 assert result['covered'] and result['clear'] and result['art'],(width,theme,result)
+            row = await page.locator('.footer-bottom').bounding_box()
+            x, y = row['x'] + row['width'] / 2, row['y'] + row['height'] / 2
+            await page.mouse.move(x, y)
+            assert await page.evaluate('''({x,y})=>{
+              const f=fields.find(f=>f.footer),r=f.canvas.getBoundingClientRect();
+              return f.pointer&&Math.abs(f.pointer.x-(x-r.left))<1&&Math.abs(f.pointer.y-(y-r.top))<1;
+            }''', {'x':x,'y':y}), 'Footer row blocked the WALL-E pointer'
             await page.locator('#visit-count').evaluate("e=>e.textContent='Unavailable'")
             await page.wait_for_function('''()=>{
               const f=fields.find(f=>f.footer),c=f.canvas.getBoundingClientRect(),r=document.getElementById('visit-count').getBoundingClientRect();

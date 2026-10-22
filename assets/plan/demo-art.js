@@ -381,10 +381,11 @@ document.addEventListener('pointermove', event => {
     if (overNavigation) hero.navigationPointer = point;
     hero.pointerTarget = overNavigation ? 1 : 0;
   }
-  for (const field of fields.filter(field => field.header || field.ambient)) {
+  for (const field of fields.filter(field => field.header || field.ambient || field.footer)) {
     const point = field.point(event);
     const inside = point.x >= 0 && point.y >= 0 && point.x < field.width && point.y < field.height;
     if (inside) field.pointer = point;
+    else if (field.footer) field.pointer = null;
     field.pointerTarget = inside ? 1 : 0;
     field.activeUntil = performance.now() + 100;
   }
