@@ -95,7 +95,8 @@ async def main():
         assert await badge.locator('.site-badge-turn').evaluate('''e=>{
           const animation=e.getAnimations()[0];if(!animation)return false;
           animation.pause();animation.currentTime=80;
-          const threeD=getComputedStyle(e).transform.startsWith('matrix3d(');
+          const matrix=new DOMMatrix(getComputedStyle(e).transform);
+          const threeD=Math.abs(matrix.m23)>.1&&Math.abs(matrix.m13)<.001;
           animation.play();return threeD;
         }''')
         await badge.tap()
