@@ -1,21 +1,23 @@
-<p>I enjoy figuring out how things work, but I also care about how they look and feel. Building this site gave me a chance to work on both. I wanted somewhere to share my projects, photos, and music, and to keep adding things as I learn.</p>
-<p>I tend to spend a lot of time on small details. Here, that has meant getting the text to sit between the lines on a note, making the sand pile up properly, and figuring out how much the ASCII should react when you move your mouse. I like being able to try an idea, see what feels wrong, and keep changing it until it works.</p>
+<h2>Build and hosting</h2>
+<p>A Python build script converts Markdown in <code>content/notes/</code> and <code>content/projects/</code> into HTML pages. It also generates the RSS feed and sitemap and copies assets into <code>dist/</code>. Vercel builds and deploys the site from GitHub.</p>
 
-<h2>The design</h2>
-<p>The cutting mat, notes, and iPod came from wanting the page to feel a little like a desk. You can move things around, put on music, and draw in the empty space. The sand and Game of Life grew out of experimenting with what else those same pixels could do.</p>
-<p>I kept the colors simple: black or dark green, muted green, warm white, and a little brown. The flower is from my previous website. Looking through the <a href="https://www.purduehackers.com/">Purdue Hackers</a> site and its <a href="https://ring.purduehackers.com/">webring</a> gave me ideas for the ASCII and dither effects. The artwork and rendering here are separate implementations.</p>
-<p>The pixel font is <a href="https://departuremono.com/">Departure Mono</a> by Helena Zhang. The handwriting on the notes is <a href="https://fonts.google.com/specimen/Kalam">Kalam</a> by Indian Type Foundry, rendered as pixels. Both use the SIL Open Font License: <a href="/assets/plan/DepartureMono-LICENSE.txt">Departure Mono license</a> and <a href="/assets/fonts/Kalam-LICENSE.txt">Kalam license</a>. The larger headings use Arial, and the reading text uses Verdana with system fallbacks.</p>
-<p>The rings in the hero are a 3D shape drawn with characters on a fixed grid. You can rotate them and make ripples through the background. There is also a WALL-E hidden in the footer, using the ASCII reference I chose for the site. WALL-E belongs to Pixar/Disney.</p>
+<h2>Rendering and interaction</h2>
+<p>The hero projects a rotating 3D torus onto a fixed character grid using the Canvas API. Dragging changes its orientation. Pointer movement changes the dithering, and clicks generate radial waves. The footer uses the same renderer, with a circular hover reveal for the WALL-E ASCII artwork. Background characters fade around visible text.</p>
+<p>The desk supports draggable notes and an iPod-style SoundCloud player. Its drawing canvas has pen, falling-sand, and Conway’s Game of Life modes. The sand simulation uses a fixed timestep. Note text is rasterized from Kalam and rendered as pixels.</p>
+<p>The player loads SoundCloud when used. The visualizer samples the track’s saved amplitude envelope at the playback position; it does not analyze live audio frequencies. Shuffle plays through the track list before repeating. Track availability, previews, and ads are controlled by SoundCloud and the artists.</p>
 
-<h2>What gets saved</h2>
-<p>Your theme, drawings, and the positions of the photos, notes, and iPod are saved in your browser. The drawings stay on your device; they are not uploaded or published. The clear button clears the drawing surface and leaves your arrangement alone. The published notes are the ones I add to the site.</p>
-<p>The visit count is a shared total of accepted homepage visits, not a count of individual people. The counter stores the total and uses short-lived hashes to limit repeated requests, without saving raw IP addresses in its database. If it cannot load, it says “Unavailable.”</p>
-<p>The player connects to SoundCloud when you use it. SoundCloud and the artists control which tracks are available, along with previews and ads. The waveform follows the track’s saved amplitude data at the current playback position. Shuffle works through the tracks before repeating; the playlist is a snapshot of the linked station, whose live recommendations can change.</p>
+<h2>Storage</h2>
+<p>Theme preferences, drawings, simulation state, and object positions are saved in <code>localStorage</code>. Drawings are not uploaded. Clearing the drawing surface leaves object positions intact. Published notes and projects come from the repository’s Markdown files.</p>
+<p>The visit counter uses a Python Vercel function and Upstash Redis. It counts accepted homepage visits, not unique visitors. Short-lived hashed identifiers limit repeated requests; the counter database does not store raw IP addresses. Failed requests display “Unavailable.”</p>
 
-<h2 id="site-button">Linking here</h2>
+<h2>Type and credits</h2>
+<p>The themes use black or forest-green backgrounds with muted green, warm white, and brown. Pixel text uses <a href="https://departuremono.com/">Departure Mono</a> by Helena Zhang. Notes use <a href="https://fonts.google.com/specimen/Kalam">Kalam</a> by Indian Type Foundry. Both are licensed under the SIL Open Font License: <a href="/assets/plan/DepartureMono-LICENSE.txt">Departure Mono license</a> and <a href="/assets/fonts/Kalam-LICENSE.txt">Kalam license</a>. Large headings use Arial; body text uses Verdana with system fallbacks.</p>
+<p>The flower is retained from the previous site. Dither interactions were informed by <a href="https://www.purduehackers.com/">Purdue Hackers</a> and its <a href="https://ring.purduehackers.com/">webring</a>. Rendering and artwork are implemented separately. WALL-E belongs to Pixar/Disney.</p>
+
+<h2 id="site-button">Site button</h2>
 <p><img src="/assets/site-button.svg" width="88" height="31" alt="Lucas Flowers site button"></p>
-<p>If you want to link to my site, you can use this 88 × 31 button. You can also save the image and host it yourself.</p>
+<p>An 88 × 31 button for linking to this site. The image can also be hosted locally.</p>
 <pre class="copy-code"><code>&lt;a href="https://lucasflowers.net"&gt;&lt;img src="https://lucasflowers.net/assets/site-button.svg" width="88" height="31" alt="Lucas Flowers"&gt;&lt;/a&gt;</code></pre>
 
-<h2>How it is built</h2>
-<p>The site uses HTML, CSS, JavaScript, and a small Python build step. I have been developing and refining it with help from Codex. The <a href="https://github.com/lflowers01/lflowers01.github.io">source and older versions are on GitHub</a>, and my <a href="/projects/archive.html">high-school projects</a> have their own archive. This site is another ongoing project, so I will keep working on it as I have more ideas.</p>
+<h2>Source</h2>
+<p><a href="https://github.com/lflowers01/lflowers01.github.io">Source code and version history</a> · <a href="/projects/archive.html">High-school project archive</a></p>
