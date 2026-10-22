@@ -110,7 +110,9 @@ def build():
     home_values = {"ring-navigation": ring_navigation, "notes": notes_html, "photos": photo_html, "photo-data": data_json(photos), "note-list": "".join(f'<li><a href="/notes/{n["id"]}.html"><time>{n["date"]}</time><h3>{escape(n["title"])}</h3><p>{escape(n["excerpt"])}</p></a></li>' for n in site["notes"][:3]), "projects": "".join(map(project_card, site["projects"][:3])), "music": music}
     home_values['desk'] = desk
     page('index.html', 'Lucas Flowers', 'Robotics Engineering Technology at Purdue. Projects, notes, photographs and music.', fill(read('templates/home.html'), home_values), True)
-    pages['index.html'] = pages['index.html'].replace('</head>', '<link rel="stylesheet" href="/assets/desk.css"><script src="/assets/desk.js" defer></script></head>')
+    pages['index.html'] = (pages['index.html']
+        .replace('</head>', '<link rel="stylesheet" href="/assets/desk.css"><link rel="stylesheet" href="/assets/home-study.css"><script src="/assets/desk.js" defer></script><script src="/assets/home-study.js" defer></script></head>')
+        .replace('<body data-theme=', '<body data-home-study data-theme='))
     pages['index.html'] = pages['index.html'].replace('<script src="/assets/notebook.js"', '<script src="/assets/sand.js" defer></script><script src="/assets/notebook.js"')
     study_values = dict(home_values)
     study_values['desk'] = desk.replace('data-storage-prefix="desk."', 'data-storage-prefix="study.desk." data-item-storage="study.desk.items.v1"')

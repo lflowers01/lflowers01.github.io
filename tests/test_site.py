@@ -88,12 +88,21 @@ class SiteTests(unittest.TestCase):
         for direction in ('previous','next'):
             self.assertIn(f'href="https://ring.purduehackers.com/{direction}"',home)
 
+    def test_promoted_layout_keeps_single_hero_and_main_storage(self):
+        home = (ROOT / 'dist/index.html').read_text(encoding='utf-8')
+        for value in ('data-home-study', 'class="study-about"', 'class="study-project-list"', '/assets/home-study.css', '/assets/home-study.js', 'data-home="true"'):
+            self.assertIn(value, home)
+        for value in ('data-object-forms', '/assets/home-study-objects.js', 'study.desk.', 'study.lf.photos.', 'class="study-banner"', 'name="robots" content="noindex"'):
+            self.assertNotIn(value, home)
+        self.assertIn('Rotating ASCII torus', home)
+        self.assertIn('data-storage-prefix="desk."', home)
+
     def test_published_content_and_feed(self):
         home = (ROOT / "dist/index.html").read_text(encoding="utf-8")
         self.assertIn("John Martinson Honors College", home)
         self.assertNotIn("Pin a demo note", home)
         self.assertNotIn("project-template.html", home)
-        self.assertNotIn("archive.html", home)
+        self.assertIn('href="/projects/archive.html"', home)
         self.assertNotIn("<iframe", home)  # Remote audio connects only after explicit play.
         feed = ET.parse(ROOT / "dist/feed.xml")
         self.assertEqual(len(feed.findall("./channel/item")), len(load_posts(ROOT / "content/notes", "notes")))
