@@ -56,6 +56,10 @@ async def main():
               const f=fields.find(f=>f.footer),c=f.canvas.getBoundingClientRect(),r=document.getElementById('visit-count').getBoundingClientRect();
               return f.textOpacity(r.right-c.left-2,(r.top+r.bottom)/2-c.top)<.001;
             }''')
+            assert await page.evaluate('''()=>{
+              const f=fields.find(f=>f.footer),c=f.canvas.getBoundingClientRect(),r=document.querySelector('.visit-counter').getBoundingClientRect();
+              return f.textOpacity(r.right-c.left+100,(r.top+r.bottom)/2-c.top)===1;
+            }'''), 'Invisible counter status masked the artwork'
             await page.locator('.site-footer').screenshot(path=str(ROOT/f'.git/footer-fade-{width}.png'))
             await page.goto('http://127.0.0.1:49280/about.html',wait_until='networkidle')
             assert await page.evaluate('fields.find(f=>f.footer).textRegions.length>0')
