@@ -41,6 +41,16 @@ async def main():
               const f=fields.find(f=>f.footer),r=f.canvas.getBoundingClientRect();
               return f.pointer&&Math.abs(f.pointer.x-(x-r.left))<1&&Math.abs(f.pointer.y-(y-r.top))<1;
             }''', {'x':x,'y':y}), 'Footer row blocked the WALL-E pointer'
+            await page.evaluate('fields.find(f=>f.footer).events=[]')
+            await page.mouse.click(x, y)
+            assert await page.evaluate('''({x,y})=>{
+              const f=fields.find(f=>f.footer),r=f.canvas.getBoundingClientRect(),wave=f.events.at(-1);
+              return wave&&Math.abs(wave.x-(x-r.left))<1&&Math.abs(wave.y-(y-r.top))<1;
+            }''', {'x':x,'y':y}), 'Footer row blocked ripple click'
+            for selector in ['#site-badge', '.footer-bottom a']:
+                assert await page.locator(selector).first.evaluate('''e=>{
+                  const r=e.getBoundingClientRect();return e.contains(document.elementFromPoint(r.left+r.width/2,r.top+r.height/2));
+                }'''), 'Footer control lost pointer access'
             await page.locator('#visit-count').evaluate("e=>e.textContent='Unavailable'")
             await page.wait_for_function('''()=>{
               const f=fields.find(f=>f.footer),c=f.canvas.getBoundingClientRect(),r=document.getElementById('visit-count').getBoundingClientRect();
