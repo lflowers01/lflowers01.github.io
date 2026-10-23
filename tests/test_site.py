@@ -81,6 +81,53 @@ class SiteTests(unittest.TestCase):
                 if 'href="/Resume.pdf"' in a:
                     self.assertIn('target="_blank"', a, f"{path.name}: {a}")
 
+    def test_search_metadata_and_square_favicon(self):
+        import re
+        import struct
+        from urllib.robotparser import RobotFileParser
+        base = 'https://www.lucasflowers.net'
+        home = (ROOT / 'dist/index.html').read_text(encoding='utf-8')
+        self.assertIn('Purdue University · John Martinson Honors College', home)
+        self.assertIn(f'<link rel="canonical" href="{base}/">', home)
+        self.assertIn('sizes="96x96" href="/assets/favicon.png"', home)
+        self.assertTrue((ROOT / 'dist/favicon.ico').is_file())
+        raw = (ROOT / 'dist/assets/favicon.png').read_bytes()
+        self.assertEqual(raw[:8], b'\x89PNG\r\n\x1a\n')
+        self.assertEqual(struct.unpack('>II', raw[16:24]), (96, 96))
+        for path in ('index.html', 'about.html'):
+            html = (ROOT / 'dist' / path).read_text(encoding='utf-8')
+            data = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', html).group(1))
+            person = next(item for item in data['@graph'] if item['@type'] == 'Person')
+            self.assertEqual(person['name'], 'Lucas Flowers')
+            self.assertEqual(person['url'], base + '/')
+            self.assertIn('https://github.com/lflowers01', person['sameAs'])
+        for path in ('index.html', 'about.html', 'projects/index.html', 'colophon.html'):
+            html = (ROOT / 'dist' / path).read_text(encoding='utf-8')
+            self.assertIn('property="og:title"', html)
+            self.assertIn('property="og:description"', html)
+            self.assertNotIn('name="robots" content="noindex"', html)
+        sitemap = (ROOT / 'dist/sitemap.xml').read_text(encoding='utf-8')
+        self.assertNotIn('<loc>https://lucasflowers.net', sitemap)
+        for path in ('home-study.html', 'classic.html'):
+            self.assertNotIn(path, sitemap)
+            self.assertIn('name="robots" content="noindex"', (ROOT / 'dist' / path).read_text(encoding='utf-8'))
+        robots = RobotFileParser()
+        robots.parse((ROOT / 'dist/robots.txt').read_text(encoding='utf-8').splitlines())
+        for bot in ('Googlebot', 'Googlebot-Image', 'OAI-SearchBot', 'Claude-SearchBot'):
+            self.assertTrue(robots.can_fetch(bot, base + '/'))
+            self.assertTrue(robots.can_fetch(bot, base + '/assets/favicon.png'))
+
+    def test_minimal_404_has_only_return_home(self):
+        html = (ROOT / 'dist/404.html').read_text(encoding='utf-8')
+        self.assertIn('<h1 class="sr-only">404</h1>', html)
+        self.assertIn('id="error-art"', html)
+        self.assertIn('>Return home</a>', html)
+        self.assertIn('name="robots" content="noindex"', html)
+        self.assertNotIn('<header', html)
+        self.assertNotIn('<footer', html)
+        self.assertNotIn('<nav', html)
+        self.assertEqual(html.count('<a '), 1)
+
     def test_webring_links_follow_profile_links(self):
         home = (ROOT / "dist/index.html").read_text(encoding="utf-8")
         self.assertLess(home.index('class="profile-links"'), home.index('class="hero-webring"'))

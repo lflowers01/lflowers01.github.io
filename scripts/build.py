@@ -84,8 +84,29 @@ def build():
     def page(path, title, description, body, home=False):
         nav = next((f'href="/{p}"' for p in ('about.html', 'projects/', 'notes/') if path.startswith(p)), None)
         canonical = base + ("/" if path == "index.html" else "/" + path.replace("index.html", ""))
+        profile = ''
+        if path in ('index.html', 'about.html'):
+            person_id = base + '/#lucas-flowers'
+            profile = '<script type="application/ld+json">' + data_json({
+                '@context': 'https://schema.org',
+                '@graph': [
+                    {'@type': 'Person', '@id': person_id, 'name': site['name'], 'url': base + '/',
+                     'sameAs': ['https://github.com/lflowers01', 'https://linkedin.com/in/lucas-flowers-phx'],
+                     'affiliation': [{'@type': 'CollegeOrUniversity', 'name': 'Purdue University'},
+                                     {'@type': 'Organization', 'name': 'John Martinson Honors College'}]},
+                    {'@type': 'WebSite', '@id': base + '/#website', 'name': site['name'], 'url': base + '/',
+                     'publisher': {'@id': person_id}},
+                    {'@type': 'ProfilePage', '@id': canonical + '#page', 'url': canonical,
+                     'name': title, 'mainEntity': {'@id': person_id}, 'isPartOf': {'@id': base + '/#website'}}
+                ]
+            }) + '</script>'
+        metadata = (f'<meta name="author" content="{escape(site["name"], quote=True)}">'
+                    f'<meta property="og:type" content="website"><meta property="og:site_name" content="{escape(site["name"], quote=True)}">'
+                    f'<meta property="og:title" content="{escape(title, quote=True)}"><meta property="og:description" content="{escape(description, quote=True)}">'
+                    f'<meta property="og:url" content="{escape(canonical, quote=True)}"><meta name="twitter:card" content="summary">'
+                    f'<meta name="twitter:title" content="{escape(title, quote=True)}"><meta name="twitter:description" content="{escape(description, quote=True)}">')
         pages[path] = external_links(f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{escape(description, quote=True)}"><meta name="theme-color" content="#000000"><title>{escape(title)}</title><link rel="canonical" href="{escape(canonical)}"><link rel="icon" href="/assets/plan/flower-original.png"><link rel="alternate" type="application/rss+xml" title="Lucas Flowers — notebook" href="/feed.xml"><link rel="stylesheet" href="/assets/site.css"><script src="/assets/plan/demo-art.js" defer></script><script src="/assets/site.js" defer></script><script src="/assets/notebook.js" defer></script><script src="/assets/flower.js" defer></script>{'<script src="/assets/plan/demo-photo.js" defer></script><script src="/assets/music.js" defer></script><script src="/assets/photos.js" defer></script>' if home else ''}</head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{escape(description, quote=True)}"><meta name="theme-color" content="#000000"><title>{escape(title)}</title><link rel="canonical" href="{escape(canonical)}">{metadata}{profile}<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon.png"><link rel="shortcut icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="Lucas Flowers — notebook" href="/feed.xml"><link rel="stylesheet" href="/assets/site.css"><script src="/assets/plan/demo-art.js" defer></script><script src="/assets/site.js" defer></script><script src="/assets/notebook.js" defer></script><script src="/assets/flower.js" defer></script>{'<script src="/assets/plan/demo-photo.js" defer></script><script src="/assets/music.js" defer></script><script src="/assets/photos.js" defer></script>' if home else ''}</head>
 <body data-theme="oled" id="top" data-home="{str(home).lower()}" data-counter="{escape(site['counterEndpoint'],quote=True)}"><a class="skip" href="#main">Skip to content</a><canvas id="ambient-art" class="art-field ambient-art" aria-hidden="true"></canvas>{header.replace(nav, nav + ' aria-current="page"') if nav else header}{body}{footer}</body></html>''', urlsplit(base).hostname)
 
     def project_card(project):
@@ -109,7 +130,7 @@ def build():
     desk = fill(read('templates/desk.html'), {'notes': notes_html, 'music': music})
     home_values = {"ring-navigation": ring_navigation, "notes": notes_html, "photos": photo_html, "photo-data": data_json(photos), "note-list": "".join(f'<li><a href="/notes/{n["id"]}.html"><time>{n["date"]}</time><h3>{escape(n["title"])}</h3><p>{escape(n["excerpt"])}</p></a></li>' for n in site["notes"][:3]), "projects": "".join(map(project_card, site["projects"][:3])), "music": music}
     home_values['desk'] = desk
-    page('index.html', 'Lucas Flowers', 'Robotics Engineering Technology at Purdue. Projects, notes, photographs and music.', fill(read('templates/home.html'), home_values), True)
+    page('index.html', 'Lucas Flowers | Machine Learning & Electrical Engineering', 'Lucas Flowers is a Purdue University student in the John Martinson Honors College. Projects in robotics, machine learning, and electrical engineering.', fill(read('templates/home.html'), home_values), True)
     pages['index.html'] = (pages['index.html']
         .replace('</head>', '<link rel="stylesheet" href="/assets/desk.css"><link rel="stylesheet" href="/assets/home-study.css"><script src="/assets/desk.js" defer></script><script src="/assets/home-study.js" defer></script></head>')
         .replace('<body data-theme=', '<body data-home-study data-theme='))
@@ -155,7 +176,14 @@ def build():
 
     page("about.html", "About — Lucas Flowers", "Lucas Flowers, Robotics Engineering Technology student at Purdue University, minoring in AI and machine learning.", reading("Hi, I'm Lucas.", "Robotics Engineering Technology at Purdue University, minoring in AI and machine learning.", '''<figure class="about-portrait"><img src="/assets/plan/portrait-original.png" width="260" height="300" alt="Lucas Flowers"></figure><p>I'm a first-year Robotics Engineering Technology student at Purdue University, minoring in AI and machine learning, and a member of the John Martinson Honors College. I'm originally from Phoenix, Arizona.</p><p>My goal is to build intelligent physical systems: machines that bring robotics, embedded hardware, and AI together to solve practical problems. I learn best by building things, usually with a team.</p><h2>At Purdue</h2><p>I'm on Purdue Electric Racing's low-voltage systems team, learning PCB design in Altium. It's been my favorite thing to work on so far, and the team has been patient about teaching it. I'm also doing avionics PCB work in KiCad with Purdue Orbital, and I'm a Purdue Professional Ambassador.</p><p>Outside the teams, I'm training in TIG and MIG welding at the Bechtel Innovation Design Center, with jewelry casting and design next.</p><h2>Before Purdue</h2><p>I founded <a href="/projects/archive.html#team-epsilon">Team Epsilon</a>, a community FIRST Robotics Competition team with students from Maryvale to Scottsdale, and led it as president and lead programmer. I wrote the robot's vision-based auto-alignment, using AprilTag pose estimation to line it up on its own. We competed at the Arizona North and Utah Regionals and earned the Rookie All-Star Award in Utah in 2026. I'm staying on as a mentor.</p><p>In high school, I was also lead programmer on two other FRC teams, finished Harvard's CS50, and interned at Phoenix Forge doing woodworking, welding, laser cutting, and fabrication. Most of my code is Java and Python, from autonomous robot code to Raspberry Pi projects.</p><p>Outside engineering, I like backpacking, fitness, music, and making digital and physical art. I spent time in Japan on an exchange in 2025; a few photographs from that trip are on the homepage.</p><h2>Get in touch</h2><p>I'm looking for Purdue research opportunities and summer 2027 internships in robotics, embedded systems, manufacturing, or applied AI/ML, especially in Phoenix or San Diego. I'm always glad to hear from engineers, researchers, and students working on robotics and physical AI.</p><p><a href="mailto:lucas@lucasflowers.net">lucas@lucasflowers.net</a><br><a href="https://linkedin.com/in/lucas-flowers-phx" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/lflowers01" target="_blank" rel="noopener">GitHub</a> · <a href="/Resume.pdf">Résumé (PDF)</a></p><p>My résumé has the full details.</p>'''))
     page("colophon.html", "About this site — Lucas Flowers", "Technical overview of the site’s build, rendering, storage, and credits.", reading("About this site.", "Static HTML, CSS, JavaScript, and a Python build script.", read("templates/colophon.html")))
-    page("404.html", "Page not found — Lucas Flowers", "This page isn't here.", reading("Nothing here, yet.", "This link may have moved. The notebook and projects are good places to start.", '<p><a href="/">Home</a> · <a href="/notes/">Notebook</a> · <a href="/projects/">Projects</a></p>'))
+    page("404.html", "404 — Page not found", "Page not found.", '')
+    error_head = pages['404.html'].split('<body', 1)[0]
+    error_head = re.sub(r'<script src="[^"]+" defer></script>', '', error_head)
+    pages['404.html'] = error_head.replace('</head>', '<meta name="robots" content="noindex"><script src="/assets/plan/demo-art.js" defer></script></head>') + '''<body data-theme="oled" class="not-found"><main id="main"><h1 class="sr-only">404</h1><p class="sr-only">Page not found</p><canvas id="error-art" class="art-field" tabindex="0" role="img" aria-label="ASCII 404. Hover for X dithering. Click or press Enter for ripples."></canvas><a href="/">Return home</a><noscript><pre class="error-fallback" aria-hidden="true">#   #   ###   #   #
+#   #  #   #  #   #
+#####  #   #  #####
+    #  #   #      #
+    #   ###       #</pre></noscript></main></body></html>'''
 
     # Only replace this builder's dedicated output directory.
     assert OUT.resolve() == ROOT.resolve() / "dist"
@@ -172,6 +200,7 @@ def build():
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(asset, dest)
     shutil.copyfile(ROOT / "assets/plan/Resume.pdf", OUT / "Resume.pdf")
+    shutil.copyfile(ROOT / "assets/favicon.ico", OUT / "favicon.ico")
     (OUT / "CNAME").write_text(urlsplit(base).hostname + "\n", encoding="utf-8")
     (OUT / ".nojekyll").touch()
     feed = ET.Element("rss", version="2.0")

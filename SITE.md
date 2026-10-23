@@ -98,3 +98,23 @@ The approved desk is on `/`; `/desk-demo.html` redirects to it. `/classic.html` 
 Three separate pixel buttons immediately left of Clear select Draw, Sand and Game of Life. Life reuses the current pixels, runs Conway B3/S23 on the same 4px grid every 150ms, and uses dead boundaries. Drawing adds live cells. Life to Draw freezes the current cells; Life to Sand makes them fall. Life cells and selection persist, and stable patterns stop scheduling frames until edited. Ink converts to 4px sand grains; holding the drawing surface pours more. Grains collide and settle, and selecting Draw removes the floor to drain them. Mode/piles persist; snapshots are validated before restore. Fixed 120 Hz physics ticks normalize 30/60/144 Hz display rates. Gravity update order and independent grain movement prevent rigid row sheets. Surface vibration follows actual SoundCloud amplitude with a slow-envelope preference, not real bass/treble analysis, since the iframe does not supply PCM. Sand, ink and the icon all use the shared accent color. Clear empties ink/sand/Life without changing arrangements.
 
 The webring logo geometry is from the official `https://www.purduehackers.com/ph.svg`, retrieved October 19, 2026; only its fill follows the site palette.
+
+
+## Search metadata and favicon
+
+The shared `page()` function in `scripts/build.py` emits page titles, descriptions, canonical URLs, author metadata, Open Graph/Twitter sharing tags, and favicon links. Homepage and About pages also include factual Person, WebSite and ProfilePage JSON-LD, connecting Lucas's name, Purdue affiliation, GitHub and LinkedIn. Project/note titles and summaries come from their Markdown front matter. The preferred URL is `https://www.lucasflowers.net`, matching the live apex-to-www redirect; sitemap and RSS URLs use this origin too.
+
+`assets/favicon.png` is a square 96 × 96 nearest-neighbor version of the original flower, centered on a square white field. `assets/favicon.ico` contains 16, 32, 48 and 96px variants and is copied to `/favicon.ico` during the build. The original flower artwork remains unchanged. Keep the published favicon URLs stable. Google requires a square icon and recommends larger than 48px; eligibility does not guarantee display, and recrawling may take days or weeks.
+
+`robots.txt` allows crawling, including Googlebot, Googlebot-Image and AI search crawlers. This is crawl access, not instructions for generating an answer. Main content is static HTML, readable without JavaScript. Experiments retain noindex and stay outside the sitemap. The custom missing-page response returns HTTP 404 on Vercel. Its standalone page has a canvas-rendered ASCII 404, the shared hover/ripple renderer, and one Return home link. It has no navbar/footer, retains the selected theme, supports keyboard ripples, and has a static ASCII fallback without JavaScript.
+
+AI Overview wording cannot be set by a metadata field or robots file. Structured data must agree with visible facts. No hidden promotional claims or special AI instruction files were added. Google says ordinary SEO foundations apply to AI Overviews and no special schema or AI text file is required.
+
+Sources checked October 22, 2026:
+- [Google favicon requirements](https://developers.google.com/search/docs/appearance/favicon-in-search)
+- [Google AI features](https://developers.google.com/search/docs/appearance/ai-features)
+- [Google structured data guidelines](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
+- [Google hidden-text and spam policies](https://developers.google.com/search/docs/essentials/spam-policies)
+- [OpenAI search crawler controls](https://developers.openai.com/api/docs/bots)
+
+Search Console indexing/ownership, field Core Web Vitals, rankings and inclusion in AI answers were not verified by these technical checks. After deployment, use Search Console URL Inspection for the homepage and request indexing to help discovery; Google controls recrawl timing and search presentation.

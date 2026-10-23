@@ -61,7 +61,7 @@ async def main():
         page.on("pageerror", lambda error: errors.append(str(error)))
         await page.route("**/api/visits", lambda route: route.fulfill(json={"visits":123}))
         await page.goto(BASE + "/", wait_until="networkidle")
-        assert await page.title() == "Lucas Flowers"
+        assert await page.title() == "Lucas Flowers | Machine Learning & Electrical Engineering"
         assert await page.locator("#visit-count").inner_text() == "000123"
         assert await page.locator(".dap iframe").count() == 0
         # OLED's pointer glow must be visibly stronger than its resting texture.
@@ -142,7 +142,7 @@ async def main():
             await page.goto(BASE+path, wait_until="networkidle")
             assert await page.locator("h1").count() == 1, path
         response = await page.goto(BASE+"/missing-page", wait_until="networkidle")
-        assert response.status == 404 and "Nothing here" in await page.locator("h1").inner_text()
+        assert response.status == 404 and await page.locator("h1").inner_text() == "404"
 
         await page.goto(BASE+"/", wait_until="networkidle")
         await page.locator("#theme-toggle").click()

@@ -16,7 +16,7 @@ function tick(now) {
   const audioElapsed = Math.min(100, now - (audioFrameTime || now)); audioFrameTime = now;
   audioLevel += (audioTarget - audioLevel) * (1 - Math.exp(-audioElapsed / (audioTarget > audioLevel ? 160 : 450)));
   for (const field of fields) if (field.visible) field.draw(now);
-  if (fields.some(field => field.visible && (field.spins || field.ambient || field.header || (field.music && audioLevel > .002) || field.activeUntil > now))) wake();
+  if (fields.some(field => field.visible && (field.spins || field.error || field.ambient || field.header || (field.music && audioLevel > .002) || field.activeUntil > now))) wake();
 }
 function refreshFields() { for (const field of fields) { field.updateTextRegions(); field.activeUntil = performance.now() + 100; } wake(); }
 function cross(ctx, x, y, size) {
@@ -35,6 +35,7 @@ class ArtField {
     this.spinPhase = 0; this.lastSpinFrame = 0;
     this.navigationPointer = null;
     this.footer = canvas.id === 'footer-art'; this.pad = canvas.id === 'effect-art';
+    this.error = canvas.id === 'error-art';
     this.walleLines = this.footer ? document.querySelector('.walle-art').textContent.split('\n') : [];
     if (this.footer) new MutationObserver(() => {
       this.updateTextRegions(); this.activeUntil = performance.now()+100; wake();
@@ -73,7 +74,7 @@ class ArtField {
         canvas.setPointerCapture(event.pointerId); canvas.classList.add('dragging-object'); return;
       }
       this.pulse(point.x, point.y);
-      if (this.music) return;
+      if (this.music || this.error) return;
       if (event.pointerType === 'mouse' || this.pad) {
         this.down = true; this.previous = null; canvas.setPointerCapture(event.pointerId);
       }
@@ -134,10 +135,10 @@ class ArtField {
     wake();
   }
   updateTextRegions() {
-    if (!this.spins && !this.footer) return;
+    if (!this.spins && !this.footer && !this.error) return;
     const canvasRect = this.canvas.getBoundingClientRect();
     if (this.spins) this.copyBottom = document.querySelector('.hero-copy').getBoundingClientRect().bottom - canvasRect.top;
-    const selector = this.footer ? '.footer-content a,.footer-content p,.footer-bottom a,.visit-counter,#site-badge' : '.hero-copy h1,.hero-copy .location,.hero-copy .bio,.hero-copy .text-link,.profile-links a,.hero-webring a,.site-header nav a,.hero .art-hint';
+    const selector = this.error ? '.not-found a' : this.footer ? '.footer-content a,.footer-content p,.footer-bottom a,.visit-counter,#site-badge' : '.hero-copy h1,.hero-copy .location,.hero-copy .bio,.hero-copy .text-link,.profile-links a,.hero-webring a,.site-header nav a,.hero .art-hint';
     this.textRegions = [...document.querySelectorAll(selector)].flatMap(element => {
       const range = document.createRange(); range.selectNodeContents(element);
       return [...range.getClientRects()].filter(rect => rect.width && rect.height).map(rect => ({ left: rect.left - canvasRect.left, right: rect.right - canvasRect.left, top: rect.top - canvasRect.top, bottom: rect.bottom - canvasRect.top }));
@@ -177,6 +178,15 @@ class ArtField {
   objectField(now, cell) {
     const width = this.width, height = this.height, cols = Math.ceil(width / cell), rows = Math.ceil(height / cell);
     const light = new Float32Array(cols * rows), depth = new Float32Array(cols * rows).fill(-10);
+    if (this.error) {
+      const bitmap = ['10001  01110  10001', '10001  10001  10001', '10001  10001  10001', '11111  10001  11111', '00001  10001  00001', '00001  10001  00001', '00001  01110  00001'];
+      const scale = Math.max(1, Math.floor(Math.min(cols * .8 / bitmap[0].length, rows * .35 / bitmap.length)));
+      const left = Math.floor((cols - bitmap[0].length * scale) / 2), top = Math.floor(rows * .43 - bitmap.length * scale / 2);
+      for (let row = 0; row < rows; row++) for (let col = 0; col < cols; col++) {
+        if (bitmap[Math.floor((row - top) / scale)]?.[Math.floor((col - left) / scale)] === '1') light[row * cols + col] = .65 + .2 * Math.sin(col * .07 + row * .09);
+      }
+      return { light, cols, rows, cx: width / 2, cy: height * .43, size: 0 };
+    }
     const narrow = width <= 700 && !this.pad;
     const cx = this.pad ? width * .54 : narrow ? width * .55 : width / 2 + Math.min(width, 1500) * .25;
     const navigationHeight = this.spins ? document.querySelector('.site-header').offsetHeight : 0;
@@ -314,7 +324,7 @@ class ArtField {
       const random = morphZone ? Math.abs(Math.sin(col*12.9898+row*78.233+Math.floor(now/65)*37.719)*43758.5453)%1 : 0;
       const decode = morphZone && random < scramble*.84;
       if (decode) value = Math.max(value,.18+random*.65);
-      if (this.spins) value = Math.max(value, .11 + .025 * Math.sin(x * .012 + y * .009 + now / 4000));
+      if (this.spins || this.error) value = Math.max(value, .11 + .025 * Math.sin(x * .012 + y * .009 + now / 4000));
       let navigationFade = 1;
       if (y < navigationHeight) {
         const t = Math.max(0, Math.min(1, (y / navigationHeight - .08) / .72));
@@ -342,9 +352,9 @@ class ArtField {
       const lens = this.pointer && Math.hypot(x - this.pointer.x, y - this.pointer.y) < 105;
       const characters = decode || characterPart || renderMode === 'ascii' || (renderMode === 'hybrid' && !lens);
       ctx.fillStyle = characterPart ? '#ffffff' : ink; ctx.strokeStyle = ctx.fillStyle;
-      const quietBackground = this.spins && objectValue < .08 && value < .18;
+      const quietBackground = (this.spins || this.error) && objectValue < .08 && value < .18;
       ctx.globalAlpha = this.footer ? (characterPart ? .30 + .65 * reveal : .30) : quietBackground ? .055 : .88;
-      if (this.spins || this.footer) ctx.globalAlpha *= this.textOpacity(x + cell / 2, y + rowHeight / 2);
+      if (this.spins || this.footer || this.error) ctx.globalAlpha *= this.textOpacity(x + cell / 2, y + rowHeight / 2);
       const breathe = .035 * Math.sin(x * .013 + y * .017 + now / 1800);
       value += breathe * Math.min(1, value * 4);
       value *= 1 + audioLevel * (this.spins ? .08 : .05);
