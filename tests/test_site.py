@@ -94,6 +94,7 @@ class SiteTests(unittest.TestCase):
         raw = (ROOT / 'dist/assets/favicon.png').read_bytes()
         self.assertEqual(raw[:8], b'\x89PNG\r\n\x1a\n')
         self.assertEqual(struct.unpack('>II', raw[16:24]), (96, 96))
+        self.assertEqual(raw[25], 6)  # RGBA keeps the surrounding padding transparent.
         for path in ('index.html', 'about.html'):
             html = (ROOT / 'dist' / path).read_text(encoding='utf-8')
             data = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', html).group(1))
