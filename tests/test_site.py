@@ -154,7 +154,9 @@ class SiteTests(unittest.TestCase):
         self.assertNotIn("<iframe", home)  # Remote audio connects only after explicit play.
         feed = ET.parse(ROOT / "dist/feed.xml")
         self.assertEqual(len(feed.findall("./channel/item")), len(load_posts(ROOT / "content/notes", "notes")))
-        self.assertIn("More ideas soon", home)
+        for note in load_posts(ROOT / "content/notes", "notes"):
+            self.assertIn(f'/notes/{note["id"]}.html', home)
+            self.assertTrue((ROOT / 'dist/notes' / (note['id'] + '.html')).is_file())
         self.assertNotIn("/notes/a-place-to-leave-things.html", home)
         ET.parse(ROOT / "dist/sitemap.xml")
         self.assertEqual(markdown('<script>alert(1)</script>'), '<p>&lt;script&gt;alert(1)&lt;/script&gt;</p>')
